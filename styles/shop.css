@@ -1,0 +1,37 @@
+@tailwind components;
+
+@layer components {
+  .shop-container {
+    @apply grid-cols-5 gap-5 px-5 py-10 relative md:grid;
+  }
+  .shop-container .product-wrapper {
+    @apply col-span-4 grid-cols-4 gap-5 space-y-5 md:space-y-0 md:grid;
+  }
+
+  .fixed-sidemenu {
+    @apply fixed top-20 w-56 overflow-auto;
+  }
+  .side-menu-container {
+    @apply space-y-7;
+  }
+  .side-menu-container .item {
+    @apply border rounded p-5;
+  }
+  .side-menu-container .item h3 {
+    @apply text-lg border-b-2 pb-2 mb-4;
+  }
+
+  .filter-wrapper .show-range {
+    @apply flex justify-evenly space-x-4 mt-3;
+  }
+  .filter-wrapper .show-range p {
+    @apply border rounded px-4 py-2;
+  }
+
+  .shop-menu-icon {
+    @apply absolute top-2 left-3 md:hidden;
+  }
+  .shop-menu-icon svg {
+    @apply text-2xl;
+  }
+}

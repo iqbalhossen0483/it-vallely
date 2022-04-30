@@ -1,0 +1,182 @@
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-gradiant {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-violet-500;
+  }
+}
+
+@layer components {
+  .header-wrapper {
+    @apply relative;
+  }
+  .header-window-middle {
+    @apply hidden md:grid grid-cols-5 gap-4 items-center px-5 pt-3 bg-gray-100 
+    transition-[position] py-4;
+  }
+  .stricky-header {
+    @apply fixed top-0 w-full z-50 shadow-lg;
+  }
+
+  /* 
+   --------top header info----------
+  */
+  .top-info {
+    @apply flex justify-between items-center px-6 py-1 border-b border-gray-300;
+  }
+  .top-info > p {
+    @apply font-medium text-sm;
+  }
+  .top-info .right {
+    @apply flex items-center border-gray-300 border-l pl-7 gap-10;
+  }
+  .top-info .right svg {
+    @apply text-gray-500;
+  }
+
+  /* 
+   --------logo and name component start----------
+  */
+  .logo-and-name {
+    @apply flex md:space-x-3 justify-center items-center;
+  }
+  .logo {
+    @apply hidden md:block h-12 w-12;
+  }
+  .site-name {
+    @apply uppercase leading-4 text-gradiant cursor-pointer;
+  }
+  .site-name .name {
+    @apply text-2xl font-medium md:text-center tracking-wider;
+  }
+  .site-name .tag {
+    @apply text-sm md:text-base tracking-[0.35rem] text-transparent bg-clip-text 
+    bg-gradient-to-r from-pink-500 via-pink-800 to-primary;
+  }
+  /* 
+   --------logo and name component end----------
+  */
+
+  /* 
+   --------search bar component start----------
+  */
+
+  .search-bar-wrapper {
+    @apply md:col-span-2;
+  }
+  .search-input-wrapper {
+    @apply w-full relative py-2 md:py-0 md:w-3/4 md:ml-auto;
+  }
+  .search-input {
+    @apply w-full px-3 rounded-full py-2 md:py-1 border-primary_normal 
+    hover:border-primary_deef text-base md:text-xl md:w-[80%];
+  }
+  .search-input-wrapper svg {
+    @apply absolute px-6 top-6 text-primary_normal right-0 text-xl md:right-16 md:top-3;
+  }
+
+  /* 
+   --------search bar component end----------
+  */
+
+  .header-cart {
+    @apply flex gap-2 items-center relative;
+  }
+  .header-call {
+    @apply hidden md:flex gap-2 items-center;
+  }
+  .header-call svg,
+  .header-cart > div svg {
+    @apply text-4xl text-gray-800 cursor-pointer;
+  }
+  .header-call div .number,
+  .header-cart .amount {
+    @apply font-semibold;
+  }
+  .header-cart {
+    @apply md:border-l md:border-gray-300 md:pl-16;
+  }
+  .header-cart > .icon-wrapper {
+    @apply relative;
+  }
+  .header-cart > div .count {
+    @apply absolute -top-5 -right-3 bg-mui text-white font-semibold 
+    h-7 w-7 rounded-full flex justify-center items-center;
+  }
+  .cart-product-container {
+    @apply absolute top-full mt-2 left-0 bg-white shadow-lg px-4 py-5 w-full text-center;
+  }
+  .cart-product-container .nose {
+    @apply w-[14px] h-[14px] bg-white absolute -top-1.5 left-2/4 rotate-45;
+  }
+
+  /* 
+   --------main menus component start----------
+  */
+  .main-menus-wrapper .menus {
+    @apply flex bg-mui gap-7 px-16 py-1;
+  }
+  .main-menus-wrapper .menus button {
+    @apply text-[1rem] text-gray-100 relative;
+  }
+  /* 
+   --------main menus component end----------
+  */
+
+  /* 
+   --------phone component start----------
+  */
+  .phone-wrapper {
+    @apply md:hidden;
+  }
+  .phone-wrapper .middle {
+    @apply grid grid-cols-2 gap-4 px-3;
+  }
+  .phone-wrapper .content {
+    @apply flex justify-between items-center py-2 bg-secondary w-full px-5;
+  }
+  .phone-wrapper .content svg {
+    @apply text-2xl;
+  }
+  /* 
+   --------phone component end----------
+  */
+
+  .drawer {
+    @apply py-5;
+  }
+  .drawer button {
+    @apply block px-4 py-1 my-2 w-full text-left space-x-3;
+  }
+  .drawer button svg {
+    @apply text-lg;
+  }
+}
+
+/* custom css */
+.header-call svg {
+  transform: rotate(269deg);
+}
+.stricky-header {
+  animation: Stricky 25ms ease-in-out;
+}
+@keyframes Stricky {
+  0% {
+    top: -200px;
+  }
+  100% {
+    top: 0;
+  }
+}
+.cart-product-container {
+  animation: Cart 250ms linear;
+}
+@keyframes Cart {
+  0% {
+    top: 80%;
+  }
+  100% {
+    top: 100%;
+  }
+}

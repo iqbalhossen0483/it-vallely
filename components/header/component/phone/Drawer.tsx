@@ -1,0 +1,84 @@
+import { Button, Collapse, SwipeableDrawer } from "@mui/material";
+import { FC, useState } from "react";
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHome,
+  faInfoCircle,
+  faListDots,
+  faShoppingBag,
+} from "@fortawesome/free-solid-svg-icons";
+import { faContactBook } from "@fortawesome/free-regular-svg-icons";
+import { useRouter } from "next/router";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+
+interface Props {
+  open: boolean;
+  setDrawer: (prev: boolean) => void;
+}
+
+const Drawer: FC<Props> = ({ open, setDrawer }) => {
+  const [openSubMenu, setOpenSubMenu] = useState<boolean>(false);
+  const router = useRouter();
+
+  const menus = [
+    { name: "Home", icon: faHome, href: "/" },
+    { name: "Shop", icon: faShoppingBag, href: "/shop" },
+    {
+      name: "Categories",
+      icon: faListDots,
+      href: router.pathname,
+      subMeus: ["Laptop", "Dextop", "KeyBoard"],
+    },
+    { name: "About us", icon: faInfoCircle, href: "/about" },
+    { name: "Contact us", icon: faContactBook, href: "/contact" },
+  ];
+
+  function handleClose(menu: string) {
+    if (menu !== "Categories") {
+      setDrawer(false);
+    } else {
+      setOpenSubMenu(!openSubMenu);
+    }
+  }
+  return (
+    <SwipeableDrawer
+      open={open}
+      anchor='left'
+      onOpen={() => setDrawer(true)}
+      onClose={() => setDrawer(false)}
+    >
+      <div className='drawer'>
+        {menus.map((menu) => (
+          <>
+            <Button
+              key={menu.name}
+              onClick={() => handleClose(menu.name)}
+            >
+              <FontAwesomeIcon icon={menu.icon} />
+              <Link href={menu.href}>
+                <a>{menu.name}</a>
+              </Link>
+              {menu.subMeus && !openSubMenu && <ExpandMore />}
+              {menu.subMeus && openSubMenu && <ExpandLess />}
+            </Button>
+            {menu.subMeus && (
+              <Collapse in={openSubMenu} timeout='auto' unmountOnExit>
+                {menu.subMeus?.map((item) => (
+                  <Button
+                    key={item}
+                    onClick={() => handleClose(item)}
+                  >
+                    {item}
+                  </Button>
+                ))}
+              </Collapse>
+            )}
+          </>
+        ))}
+      </div>
+    </SwipeableDrawer>
+  );
+};
+
+export default Drawer;

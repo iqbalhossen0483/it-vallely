@@ -1,0 +1,26 @@
+@tailwind components;
+
+@layer components {
+  .product {
+    @apply border shadow-sm hover:shadow-lg pb-14 rounded relative;
+  }
+  .product .name {
+    @apply px-4 py-2 cursor-pointer hover:text-mui hover:underline border-t-4
+    border-gray-100;
+  }
+  .product .price {
+    @apply px-4 py-2 flex justify-between;
+  }
+  .product .price .curren {
+    @apply text-primary font-semibold;
+  }
+  .product .price .prev-price {
+    @apply text-gray-400 line-through;
+  }
+  .product .btn-group {
+    @apply space-x-1 px-2 py-3 absolute bottom-0 left-0;
+  }
+  .product .btn-group button {
+    @apply bg-mui px-3;
+  }
+}

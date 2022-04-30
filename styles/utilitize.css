@@ -1,0 +1,57 @@
+@tailwind components;
+
+@layer components {
+  /*------------------
+    scroll to top icon
+  -------------------*/
+  .scroll-top {
+    @apply text-2xl fixed bottom-10 right-6 bg-mui h-10 w-10 rounded-full 
+    justify-center items-center text-gray-100 shadow-lg;
+  }
+
+  /* -----
+    cart
+  -------*/
+  .cart {
+    @apply fixed h-10 w-10 justify-center items-center bottom-24 right-6;
+  }
+  .cart > div {
+    @apply relative;
+  }
+  .cart > div svg {
+    @apply text-4xl;
+  }
+  .cart > div .count {
+    @apply absolute -top-5 -right-3 bg-mui text-white font-semibold 
+    h-7 w-7 rounded-full flex justify-center items-center;
+  }
+}
+
+/*-----------------------------
+    scroll to top icon my own css
+  -----------------------------*/
+.scroll-top {
+  animation: ScrollTop 1s ease-in-out;
+}
+@keyframes ScrollTop {
+  0% {
+    bottom: -100%;
+  }
+  100% {
+    bottom: 2.5rem;
+  }
+}
+/*-----------------------------
+    cart icon my own css
+  -----------------------------*/
+.cart {
+  animation: Cart 1s ease-in-out;
+}
+@keyframes Cart {
+  0% {
+    right: -100%;
+  }
+  100% {
+    right: 1.5rem;
+  }
+}

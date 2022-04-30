@@ -1,0 +1,118 @@
+@tailwind components;
+
+@layer components {
+  /*------------------
+   banner section start 
+  -------------------*/
+  .banner-container {
+    @apply grid-cols-4 gap-3 py-7 px-5 bg-white md:grid;
+  }
+  .slider {
+    @apply col-span-3 overflow-hidden md:px-10;
+  }
+  .categories {
+    @apply hidden border px-5 space-y-3 pb-5 row-span-2 md:block;
+  }
+  .categories h3 {
+    @apply text-xl mt-4 mb-1 py-1 border-b-2;
+  }
+  .categories li {
+    @apply text-xl hover:text-mui cursor-pointer relative;
+  }
+  .banner {
+    @apply col-span-3 grid grid-cols-2 py-5 md:px-10;
+  }
+  .banner div {
+    @apply relative;
+  }
+  .banner .hightight-btn {
+    @apply absolute cursor-pointer left-0 bottom-0 font-semibold uppercase bg-white 
+    shadow-sm px-3 py-2 hover:text-mui md:px-8 md:py-5;
+  }
+  /*------------------
+   banner section end 
+  -------------------*/
+
+  /*------------------
+   product section start 
+  -------------------*/
+  .product-container {
+    @apply py-10 px-5 md:px-7;
+  }
+  .product-container h3 {
+    @apply text-center text-lg font-semibold bg-clip-text text-transparent 
+    bg-gradient-to-r from-mui to-primary_deef col-span-4;
+  }
+  .product-container .product-wrapper {
+    @apply grid-cols-5 gap-4 space-y-5 md:space-y-0 md:grid;
+  }
+  /*------------------
+   product section end 
+  -------------------*/
+}
+
+/*------------------
+   banner section start for my own css 
+  -------------------*/
+.categories li::after,
+.categories li::before {
+  content: "";
+  height: 2px;
+  width: 50%;
+  background-color: rgb(14 102 168 / var(--tw-text-opacity));
+  position: absolute;
+  bottom: 0;
+  opacity: 0;
+}
+.categories li::after {
+  left: 50%;
+}
+.categories li::before {
+  right: 50%;
+}
+.categories li:hover::after,
+.categories li:hover::before {
+  opacity: 1;
+  animation: underline 250ms linear;
+}
+
+@keyframes underline {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 50%;
+  }
+}
+
+.banner .hightight-btn::after,
+.banner .hightight-btn::before {
+  content: "";
+  height: 2px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.hightight-btn::after {
+  background-color: #0e65a87e;
+}
+.hightight-btn::before {
+  opacity: 0;
+  background-color: #0e65a8;
+}
+.hightight-btn:hover::before {
+  opacity: 1;
+  animation: hightbtnUnderline 250ms linear;
+}
+@keyframes hightbtnUnderline {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+/*------------------
+   banner section end for my own css 
+  -------------------*/
