@@ -18,10 +18,12 @@ const Home: NextPage = () => {
       const data = await fetchAPI<Product[]>(
         "https://cyclemart.herokuapp.com/products"
       );
-      if (!data.error.internal && !data.error.server) {
+      if (!data.error && !data.netProblem) {
         setProducts(data.data);
+      } else if (data.error) {
+        store?.State.setAlert(data.message);
       } else {
-        store?.State.setError(data.error);
+        store?.State.setError(data.netProblem);
       }
     })();
   }, [store?.State]);

@@ -1,0 +1,53 @@
+@tailwind components;
+@layer components {
+  .deshboard-container {
+    @apply grid-cols-5 gap-5 px-5 py-10 relative md:grid;
+  }
+  .deshboard-container main {
+    @apply col-span-4 flex justify-center items-center;
+  }
+  .deshboard-menus {
+    @apply cursor-pointer text-xl border-r-2 border-gray-100;
+  }
+  .deshboard-container button {
+    @apply font-semibold my-1 w-full hover:text-mui;
+  }
+
+  /*------------------- 
+  add-product-container
+  -------------------- */
+  .add-product-container {
+    @apply grid grid-cols-2 gap-5;
+  }
+}
+
+.deshboard-menus button::after,
+.deshboard-menus button::before {
+  content: "";
+  height: 2px;
+  width: 50%;
+  background-color: #0e66a8;
+  position: absolute;
+  bottom: 0;
+  opacity: 0;
+}
+.deshboard-menus button::after {
+  left: 50%;
+}
+.deshboard-menus button::before {
+  right: 50%;
+}
+.deshboard-menus button:hover::after,
+.deshboard-menus button:hover::before {
+  opacity: 1;
+  animation: DeshboardMenu 250ms linear;
+}
+
+@keyframes DeshboardMenu {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 50%;
+  }
+}

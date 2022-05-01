@@ -13,10 +13,12 @@ const BannerSlider = () => {
       const slider = await fetchAPI<SliderImg[]>(
         "https://cyclemart.herokuapp.com/sliders"
       );
-      if (!slider.error.internal && !slider.error.server) {
+      if (!slider.error && !slider.netProblem) {
         setImages(slider.data);
+      } else if (slider.error) {
+        store?.State.setAlert(slider.message);
       } else {
-        store?.State.setError(slider.error);
+        store?.State.setError(slider.netProblem);
       }
     })();
   }, [store?.State]);

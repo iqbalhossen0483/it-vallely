@@ -15,17 +15,9 @@ const ShopProducts: FC<Props> = ({ products }) => {
         quantity: store.Carts.cartProduct.quantity + 1,
         price: store.Carts.cartProduct.price + price,
       });
-      store?.State.setAlert({
-        internal: false,
-        server: true,
-        message: "Product successfully added",
-      });
+      store?.State.setAlert("Product successfully added");
     } else if (isAdded.message === "added") {
-      store?.State.setAlert({
-        internal: false,
-        server: true,
-        message: "Product already added",
-      });
+      store?.State.setAlert("Product already added");
     }
   }
   return (
@@ -63,7 +55,7 @@ const ShopProducts: FC<Props> = ({ products }) => {
               >
                 add to cart
               </Button>
-              <Button variant='contained'>buy now</Button>
+              <Button  variant='contained'>buy now</Button>
             </div>
           </div>
         ))}

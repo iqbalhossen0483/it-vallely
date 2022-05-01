@@ -3,8 +3,10 @@ type cartProduct = {
   price: number;
 };
 interface StatesReturnType {
-  alert: DefaultAlert;
-  setAlert: (prev: DefaultAlert) => void;
+  error: boolean;
+  setError: (prev: boolean) => void;
+  alert: string | null;
+  setAlert: (prev: string | null) => void;
 }
 interface CartReturnType {
   cartProduct: cartProduct;

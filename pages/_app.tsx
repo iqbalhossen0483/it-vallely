@@ -13,19 +13,44 @@ import "../styles/shop.css";
 import "../styles/product.css";
 import "../styles/utilitize.css";
 import "../styles/alert.css";
+import "../styles/deshboard.css";
 import Footer from "../components/footer/Footer";
 import StoreProvider from "../contex/providers/StoreProvider";
 import Alert from "../components/alert/Alert";
+import useStore from "../contex/hooks/useStore";
+import Error from "../components/error/Error";
+import { NextComponentType, NextPageContext } from "next";
+
+function Layout({
+  Component,
+  pageProps,
+}: {
+  Component: NextComponentType<NextPageContext, any, {}>;
+  pageProps: any;
+}) {
+  const store = useStore();
+  return (
+    <>
+      {store?.State.error ? (
+        <Error />
+      ) : (
+        <>
+          <Header />
+          <Component {...pageProps} />
+          <ScrollTop />
+          <Footer />
+          <Alert />
+        </>
+      )}
+    </>
+  );
+}
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <StoreProvider>
-        <Header />
-        <Component {...pageProps} />
-        <ScrollTop />
-        <Footer />
-        <Alert />
+        <Layout Component={Component} pageProps={pageProps} />
       </StoreProvider>
     </>
   );

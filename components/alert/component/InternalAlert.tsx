@@ -5,7 +5,7 @@ const InternalError = () => {
   const store = useStore();
   return (
     <div>
-      <p>{store?.State.alert.message}</p>
+      <p>{store?.State.error.message}</p>
     </div>
   );
 };

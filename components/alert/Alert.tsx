@@ -1,17 +1,19 @@
-import React from "react";
 import useStore from "../../contex/hooks/useStore";
-import InternalError from "./component/InternalAlert";
-import ServerError from "./component/ServerAlert";
 
 const Alert = () => {
   const store = useStore();
-  if (store?.State.alert.internal) {
-    return <InternalError />;
-  } else if (store?.State.alert.server) {
-    return <ServerError />;
-  } else {
+  setTimeout(() => {
+    store?.State.setAlert(null);
+  }, 6000);
+
+  if (!store?.State.alert) {
     return null;
   }
+  return (
+    <div className='alert-container'>
+      <p>{store?.State.alert}</p>
+    </div>
+  );
 };
 
 export default Alert;

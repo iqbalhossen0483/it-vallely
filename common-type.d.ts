@@ -9,7 +9,7 @@ interface Product {
   _id: string;
   name: string;
   price: string;
-  prevPrice: number;
+  prevPrice?: number;
   category: string;
   model: string;
   keyFeatures: string[];
@@ -21,8 +21,3 @@ interface Product {
 }
 
 type Cart = { productId: string; price: number };
-type DefaultAlert = {
-  server: boolean;
-  internal: boolean;
-  message: string;
-};
