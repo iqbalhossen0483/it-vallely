@@ -1,18 +1,18 @@
+import React from "react";
 import ProductInputForm from "../../shared/ProductInputForm";
 interface Props {
   value: number;
   index: number;
 }
-
-const AddProduct = ({ value, index }: Props) => {
+const UpdateProduct = ({ value, index }: Props) => {
   function handleSubmit(peyLoad: Product) {
     console.log(peyLoad);
   }
   return (
     <div hidden={value !== index}>
-      <ProductInputForm actionType='add' onSubmit={handleSubmit} />
+      <ProductInputForm actionType='update' onSubmit={handleSubmit} />
     </div>
   );
 };
 
-export default AddProduct;
+export default UpdateProduct;

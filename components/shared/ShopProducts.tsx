@@ -55,7 +55,7 @@ const ShopProducts: FC<Props> = ({ products }) => {
               >
                 add to cart
               </Button>
-              <Button  variant='contained'>buy now</Button>
+              <Button variant='contained'>buy now</Button>
             </div>
           </div>
         ))}

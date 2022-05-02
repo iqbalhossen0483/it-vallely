@@ -1,8 +1,9 @@
 import { Tab, Tabs } from "@mui/material";
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
-const Deshboard = dynamic(
-  () => import("../../components/deshboard/Deshboard")
+const Deshboard = dynamic(() => import("../../components/deshboard/Deshboard"));
+const UpdateProduct = dynamic(
+  () => import("../../components/deshboard/updateProduct/UpdateProduct")
 );
 const AddProduct = dynamic(
   () => import("../../components/deshboard/addProdust/AddProduct")
@@ -22,6 +23,7 @@ const DeshboardLayout = () => {
   const menus = [
     "Deshboard",
     "Add Product",
+    "Update Product",
     "Manage Products",
     "Manage Orders",
     "Manage Users",
@@ -29,6 +31,7 @@ const DeshboardLayout = () => {
   const components = [
     Deshboard,
     AddProduct,
+    UpdateProduct,
     ManageOrder,
     ManageProduct,
     ManageUser,
@@ -39,11 +42,7 @@ const DeshboardLayout = () => {
   return (
     <div className='deshboard-container'>
       <div className='deshboard-menus'>
-        <Tabs
-          value={value}
-          onChange={handleValue}
-          orientation='vertical'
-        >
+        <Tabs value={value} onChange={handleValue} orientation='vertical'>
           {menus.map((menu, index) => (
             <Tab key={index} label={menu} />
           ))}

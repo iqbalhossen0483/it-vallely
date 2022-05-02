@@ -14,10 +14,23 @@
   }
 
   /*------------------- 
-  add-product-container
+  product-input-form-container
   -------------------- */
-  .add-product-container {
+  .product-input-form-container {
     @apply grid grid-cols-2 gap-5;
+  }
+  .tag-and-feature {
+    @apply w-full flex flex-wrap gap-1;
+  }
+  .tag-and-feature span {
+    @apply bg-gray-200 px-2 py-1 rounded h-fit;
+  }
+  .product-input-form-container button {
+    @apply bg-mui hover:text-gray-100 w-fit mx-auto col-span-2;
+  }
+  .file {
+    @apply text-base py-3 border-mui file:bg-[#4a8cbe2b] file:border file:rounded-2xl
+    file:border-mui file:px-3 file:mr-3;
   }
 }
 
