@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Banner from "../components/home/Banner";
 import BannerSlider from "../components/home/BannerSlider";
 import Categories from "../components/home/Categories";
@@ -21,6 +22,11 @@ const Home = ({ data, sliderImg, netProblem, error }: Props) => {
   } else if (error) {
     store?.State.setAlert(error);
   }
+  useEffect(() => {
+    fetch("http://localhost:3000/api/product")
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }, []);
   return (
     <>
       <MetaTages />

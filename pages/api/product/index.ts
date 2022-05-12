@@ -20,7 +20,7 @@ export default async function handler(
 
   switch (req.method) {
     case "GET":
-      getProduct(req, res);
+      getProduct(req, res, products);
       break;
 
     case "POST":

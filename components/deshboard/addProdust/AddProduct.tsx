@@ -12,7 +12,7 @@ const AddProduct = ({ value, index }: Props) => {
     const formData = new FormData();
     for (const [key, value] of Object.entries(peyLoad)) {
       if (key !== "pImg" && key !== "gImg") {
-        formData.append(key, JSON.stringify(value));
+        formData.append(key, value);
       } else if (key === "pImg") {
         formData.append(key, value[0]);
       } else if (key === "gImg") {

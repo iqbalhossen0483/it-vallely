@@ -3,14 +3,19 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Collection } from "mongodb";
 import { imageUpload } from "../../cloudinary/shared/imageUpload";
 import { serverError } from "../../serverError";
+import { deleteImage } from "../../cloudinary/shared/deleteImage";
 
 export async function addProduct(
   req: NextApiRequest,
   res: NextApiResponse,
   products: Collection<Document>
 ) {
-  const { error, file, files } = await bodyPerse(req, res); //multer for body persing;
+  //multer for body persing;
+  const { error, file, files } = await bodyPerse(req, res);
   if (!error) {
+    req.body.keyFeatures = req.body.keyFeatures.split(",");
+    req.body.tags = req.body.tags.split(",");
+
     //main product img upload;
     const { error, result } = await imageUpload(
       file.path,
@@ -39,15 +44,20 @@ export async function addProduct(
             imgUrl: result.secure_url,
           }); //after successfull;
         } else {
+          await deleteImage(req.body.productImg.imgId);
           return serverError(res); //if error;
         }
       } //untill;
 
       //after all operation successfull, save data to database;
-      products.insertOne(req.body, (err, result) => {
+      products.insertOne(req.body, async (err, result) => {
         if (!err) {
           return res.status(200).send(result);
         } else {
+          await deleteImage(req.body.productImg.imgId);
+          req.body.productImgGallery.forEach(async (img: any) => {
+            await deleteImage(img.imgId);
+          });
           return serverError(res);
         }
       });
