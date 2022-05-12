@@ -11,10 +11,8 @@ interface Product {
   price: string;
   prevPrice?: number;
   category: string;
-  model: string;
   keyFeatures: string[];
   tags: string[];
-  brand: string;
   pImg: FileList;
   gImg: FileList;
   productImg: { imgId: string; imgUrl: string };

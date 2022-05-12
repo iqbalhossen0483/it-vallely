@@ -1,20 +1,21 @@
 import { Button } from "@mui/material";
-import React, { KeyboardEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Input from "./utilitize/Input";
 
-type TagAndFeature = { tags: string[] | []; features: string[] | [] };
-type Text = { tag: string; feature: string };
 type Props = { actionType: string; onSubmit: (peyLoad: Product) => void };
+type Specifications = ["keyFeatures"];
+type CMB = ["category", "tags"];
 
 const ProductInputForm = ({ actionType, onSubmit }: Props) => {
-  const [text, setText] = useState<Text>({ tag: "", feature: "" });
-  const { handleSubmit, register } = useForm<Product>();
+  const [specificationsInput, setSpecificationsInput] = useState<string>("");
+  const [showspecificationsInput, setShowSpecificationsInput] = useState(false);
   const [isRequired, setIsRequired] = useState<boolean>(true);
-  const [tagAndFeature, setTagAndFeature] = useState<TagAndFeature>({
-    tags: [],
-    features: [],
-  });
+  const { handleSubmit, register } = useForm<Product>();
+  const [cmb] = useState<CMB>(["category", "tags"]);
+  const [specifications, setSpecifications] = useState<Specifications>([
+    "keyFeatures",
+  ]);
 
   useEffect(() => {
     if (actionType === "add") {
@@ -24,44 +25,24 @@ const ProductInputForm = ({ actionType, onSubmit }: Props) => {
     }
   }, [actionType]);
 
-  // feature and tag input handler start....
-  function handleInput(value: string, action: string) {
-    if (action === "tag") {
-      setText({ tag: value, feature: text.feature });
-    } else if (action === "feature") {
-      setText({ tag: text.tag, feature: value });
-    }
-  }
-  function handleKeyboard(e: KeyboardEvent<HTMLDivElement>, action: string) {
-    if (e.key === "Enter") {
-      if (!text.feature && !text.tag) {
-        return;
-      } else if (action === "tag") {
-        setTagAndFeature({
-          tags: [...tagAndFeature.tags, text.tag],
-          features: [...tagAndFeature.features],
-        });
-        setText({ tag: "", feature: text.feature });
-      } else if (action === "feature") {
-        setTagAndFeature({
-          tags: [...tagAndFeature.tags],
-          features: [...tagAndFeature.features, text.feature],
-        });
-        setText({ tag: text.tag, feature: "" });
-      }
-    }
-  } // end;;;
-
   function Submit(data: Product) {
-    data.keyFeatures = tagAndFeature.features;
-    data.tags = tagAndFeature.tags;
     onSubmit(data);
   }
+
+  function handleSpecifications(key: string) {
+    if (key === "Enter") {
+      if (specificationsInput.length > 0) {
+        setShowSpecificationsInput(false);
+      }
+    }
+  }
+
   return (
     <form className='product-input-form-container'>
       <Input
         {...register("name", { required: isRequired })}
         label='Product name'
+        className='col-span-2'
         multiline
         fullWidth
         required={isRequired}
@@ -80,27 +61,16 @@ const ProductInputForm = ({ actionType, onSubmit }: Props) => {
         fullWidth
         type='number'
       />
-      <Input
-        {...register("category", { required: isRequired })}
-        label='Product category'
-        fullWidth
-        required={isRequired}
-        type='text'
-      />
-      <Input
-        {...register("model", { required: isRequired })}
-        label='Product model'
-        fullWidth
-        required={isRequired}
-        type='text'
-      />
-      <Input
-        {...register("brand", { required: isRequired })}
-        label='Brand'
-        required={isRequired}
-        fullWidth
-        type='text'
-      />
+      {cmb.map((item) => (
+        <Input
+          key={item}
+          {...register(item, { required: isRequired })}
+          label={item}
+          fullWidth
+          required={isRequired}
+          type='text'
+        />
+      ))}
       <input
         {...register("pImg", { required: isRequired })}
         className='file'
@@ -114,58 +84,57 @@ const ProductInputForm = ({ actionType, onSubmit }: Props) => {
         multiple
         accept='image/*'
       />
-      {tagAndFeature.features.length ? (
-        <div className='tag-and-feature'>
-          {tagAndFeature.features.map((item, index) => (
-            <span key={index}>{item}</span>
-          ))}
-        </div>
-      ) : tagAndFeature.tags.length ? (
-        <div></div>
-      ) : null}
-      {tagAndFeature.tags.length ? (
-        <div className='tag-and-feature'>
-          {tagAndFeature.tags.map((item, index) => (
-            <span key={index}>{item}</span>
-          ))}
-        </div>
-      ) : tagAndFeature.features.length ? (
-        <div></div>
-      ) : null}
+      {specifications.map((item) => (
+        <Input
+          key={item}
+          {...register(item, {
+            required: isRequired,
+          })}
+          className='col-span-2'
+          label={item}
+          fullWidth
+          required={isRequired}
+          type='text'
+          multiline
+        />
+      ))}
+
+      {/* input for adding specification start */}
+      <div
+        className={`specification-input ${
+          showspecificationsInput ? "block" : "hidden"
+        }`}
+      >
+        <Input
+          label='Heading'
+          required
+          fullWidth
+          value={specificationsInput}
+          onKeyDown={(e) => handleSpecifications(e.key)}
+          onChange={(e) => setSpecificationsInput(e.target.value)}
+        />
+      </div>
+      <Button
+        onClick={() => setShowSpecificationsInput(!showspecificationsInput)}
+        variant='outlined'
+      >
+        More
+      </Button>
+      {/* input for adding specification end */}
+
       <Input
-        {...register("keyFeatures", {
-          required: tagAndFeature.features.length < 1 && isRequired,
+        {...register("description", {
+          required: isRequired,
         })}
-        onChange={(e) => handleInput(e.target.value, "feature")}
-        onKeyDown={(e) => handleKeyboard(e, "feature")}
-        label='Key Features'
-        value={text.feature}
-        fullWidth
-        required={tagAndFeature.features.length < 1 && isRequired}
-        type='text'
-      />
-      <Input
-        {...register("tags", {
-          required: tagAndFeature.tags.length < 1 && isRequired,
-        })}
-        onChange={(e) => handleInput(e.target.value, "tag")}
-        onKeyDown={(e) => handleKeyboard(e, "tag")}
-        label='Tags'
-        value={text.tag}
-        required={tagAndFeature.tags.length < 1 && isRequired}
-        fullWidth
-        type='text'
-      />
-      <Input
         className='col-span-2'
-        {...register("description", { required: isRequired })}
-        label='Description'
-        multiline
+        label={"Description"}
         fullWidth
         required={isRequired}
         type='text'
+        multiline
       />
       <Button
+        className='submit-btn'
         disabled={!isRequired}
         onClick={handleSubmit(Submit)}
         variant='contained'

@@ -17,7 +17,7 @@
   product-input-form-container
   -------------------- */
   .product-input-form-container {
-    @apply md:grid grid-cols-2 gap-5 space-y-2 md:space-y-0;
+    @apply md:grid grid-cols-2 gap-5 space-y-2 md:space-y-0 relative;
   }
   .tag-and-feature {
     @apply w-full flex flex-wrap gap-1;
@@ -26,12 +26,17 @@
     @apply bg-gray-200 px-2 py-1 rounded h-fit;
   }
   .product-input-form-container button {
-    @apply bg-mui hover:text-gray-100 flex justify-self-center w-fit col-span-2 
-    mx-auto;
+    @apply flex justify-self-end w-fit col-span-2;
+  }
+  .product-input-form-container button.submit-btn {
+    @apply bg-mui hover:text-gray-100 justify-self-center;
   }
   .file {
     @apply text-base py-3 border-mui file:bg-[#4a8cbe2b] file:border file:rounded-2xl
     file:border-mui file:px-3 file:mr-3 w-full my-0;
+  }
+  .specification-input {
+    @apply absolute -right-8 bottom-44 bg-white shadow-md w-72;
   }
 }
 
@@ -63,5 +68,17 @@
   }
   100% {
     width: 50%;
+  }
+}
+
+.specification-input {
+  animation: specificationInput 250ms linear;
+}
+@keyframes specificationInput {
+  0% {
+    bottom: 10rem;
+  }
+  100% {
+    bottom: 11rem;
   }
 }
