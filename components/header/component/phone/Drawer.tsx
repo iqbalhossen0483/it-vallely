@@ -1,5 +1,5 @@
 import { Button, Collapse, SwipeableDrawer } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, Fragment, useState } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -50,11 +50,8 @@ const Drawer: FC<Props> = ({ open, setDrawer }) => {
     >
       <div className='drawer'>
         {menus.map((menu) => (
-          <>
-            <Button
-              key={menu.name}
-              onClick={() => handleClose(menu.name)}
-            >
+          <Fragment key={menu.name}>
+            <Button key={menu.name} onClick={() => handleClose(menu.name)}>
               <FontAwesomeIcon icon={menu.icon} />
               <Link href={menu.href}>
                 <a>{menu.name}</a>
@@ -65,16 +62,13 @@ const Drawer: FC<Props> = ({ open, setDrawer }) => {
             {menu.subMeus && (
               <Collapse in={openSubMenu} timeout='auto' unmountOnExit>
                 {menu.subMeus?.map((item) => (
-                  <Button
-                    key={item}
-                    onClick={() => handleClose(item)}
-                  >
+                  <Button key={item} onClick={() => handleClose(item)}>
                     {item}
                   </Button>
                 ))}
               </Collapse>
             )}
-          </>
+          </Fragment>
         ))}
       </div>
     </SwipeableDrawer>

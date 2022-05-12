@@ -7,9 +7,8 @@ export function getScrollHeight(height: number): boolean {
 }
 
 export async function fetchAPI<T>(url: string): Promise<{
-  error: boolean;
+  error: string | null;
   netProblem: boolean;
-  message: string | null;
   data: T | null;
 }> {
   try {
@@ -17,25 +16,22 @@ export async function fetchAPI<T>(url: string): Promise<{
     if (res.ok) {
       const data = await res.json();
       return {
-        error: false,
+        error: null,
         netProblem: false,
-        message: null,
         data,
       };
     } else {
       const msg = await res.json();
       return {
-        error: true,
+        error: msg || "There was an serverside error",
         netProblem: false,
-        message: msg || "There was an serverside error",
         data: null,
       };
     }
   } catch (err) {
     return {
-      error: false,
+      error: null,
       netProblem: true,
-      message: "connection problem",
       data: null,
     };
   }

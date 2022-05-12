@@ -15,6 +15,8 @@ interface Product {
   keyFeatures: string[];
   tags: string[];
   brand: string;
+  pImg: FileList;
+  gImg: FileList;
   productImg: { imgId: string; imgUrl: string };
   imgGallery: { imgUrl: string; imgId: string }[];
   description: string;

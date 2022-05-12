@@ -1,3 +1,4 @@
+import useStore from "../../../contex/hooks/useStore";
 import ProductInputForm from "../../shared/ProductInputForm";
 interface Props {
   value: number;
@@ -5,8 +6,33 @@ interface Props {
 }
 
 const AddProduct = ({ value, index }: Props) => {
-  function handleSubmit(peyLoad: Product) {
-    console.log(peyLoad);
+  const store = useStore();
+
+  async function handleSubmit(peyLoad: Product) {
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(peyLoad)) {
+      if (key !== "pImg" && key !== "gImg") {
+        formData.append(key, JSON.stringify(value));
+      } else if (key === "pImg") {
+        formData.append(key, value[0]);
+      } else if (key === "gImg") {
+        const gallery: File[] = Array.from(value);
+        gallery.forEach((img) => {
+          formData.append("gImg", img);
+        });
+      }
+    }
+
+    const res = await fetch("/api/product", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await res.json();
+    if (res.ok) {
+      console.log(data);
+    } else {
+      store?.State.setAlert(data.message);
+    }
   }
   return (
     <div hidden={value !== index}>

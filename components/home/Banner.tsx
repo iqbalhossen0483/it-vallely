@@ -16,14 +16,12 @@ const Banner = () => {
           <Image
             width={200}
             height={100}
+            priority={true}
             layout='responsive'
             src={banner.img}
             alt='banner image'
           />
-          <div
-            onClick={() => router.push("/shop")}
-            className='hightight-btn'
-          >
+          <div onClick={() => router.push("/shop")} className='hightight-btn'>
             <Link href='/shop'>
               <a>Shop Now</a>
             </Link>

@@ -3,6 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  button:disabled {
+    @apply cursor-not-allowed;
+  }
+}
 @layer components {
   input {
     @apply border rounded py-1 px-3 my-1 text-xl focus:outline-none;

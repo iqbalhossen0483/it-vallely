@@ -1,6 +1,6 @@
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MetaTages from "../../components/metaTags/MetaTages";
 import ShopProducts from "../../components/shared/ShopProducts";
 import Cart from "../../components/shared/utilitize/Cart";
@@ -9,33 +9,25 @@ import SideMenuInDrawer from "../../components/shop/SideMenuInDrawer";
 import useStore from "../../contex/hooks/useStore";
 import { fetchAPI } from "../../services/shared/sharedFunction";
 
-const Shop = () => {
-  const [products, setProducts] = useState<Product[] | null>(null);
+type Props = {
+  error: string | null;
+  netProblem: boolean;
+  data: Product[] | null;
+};
+
+const Shop = ({ data, error, netProblem }: Props) => {
   const [drawer, setDrawer] = useState<boolean>(false);
   const store = useStore();
-
-  useEffect(() => {
-    (async () => {
-      const data = await fetchAPI<Product[]>(
-        "https://cyclemart.herokuapp.com/products"
-      );
-      if (!data.error && !data.netProblem) {
-        setProducts(data.data);
-      } else if (data.error) {
-        store?.State.setAlert(data.message);
-      } else {
-        store?.State.setError(data.netProblem);
-      }
-    })();
-  }, [store?.State]);
+  if (netProblem) {
+    store?.State.setError(netProblem);
+  } else if (error) {
+    store?.State.setAlert(error);
+  }
   return (
     <>
       <MetaTages />
       <div className='shop-container'>
-        <div
-          onClick={() => setDrawer(!drawer)}
-          className='shop-menu-icon'
-        >
+        <div onClick={() => setDrawer(!drawer)} className='shop-menu-icon'>
           <FontAwesomeIcon icon={faBars} />
         </div>
 
@@ -43,7 +35,7 @@ const Shop = () => {
           <SideMenuBar />
         </div>
         <div className='product-wrapper'>
-          <ShopProducts products={products} />
+          <ShopProducts products={data} />
         </div>
       </div>
 
@@ -54,3 +46,16 @@ const Shop = () => {
 };
 
 export default Shop;
+
+export async function getStaticProps() {
+  const res = await fetchAPI<Product[]>(
+    "https://cyclemart.herokuapp.com/products"
+  );
+  return {
+    props: {
+      data: res.data,
+      error: res.error,
+      netProblem: res.netProblem,
+    },
+  };
+}

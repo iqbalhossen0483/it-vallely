@@ -18,7 +18,7 @@ const BrandMenu = () => {
       <h3>Brand</h3>
       {brands.map((brand) => (
         <FormControlLabel
-          className='block'
+          style={{ display: "block" }}
           key={brand}
           control={<Checkbox />}
           label={brand}

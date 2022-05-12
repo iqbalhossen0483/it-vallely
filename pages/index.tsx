@@ -1,5 +1,3 @@
-import type { NextPage } from "next";
-import { useEffect, useState } from "react";
 import Banner from "../components/home/Banner";
 import BannerSlider from "../components/home/BannerSlider";
 import Categories from "../components/home/Categories";
@@ -9,31 +7,27 @@ import Cart from "../components/shared/utilitize/Cart";
 import useStore from "../contex/hooks/useStore";
 import { fetchAPI } from "../services/shared/sharedFunction";
 
-const Home: NextPage = () => {
-  const [products, setProducts] = useState<Product[] | null>(null);
-  const store = useStore();
+type Props = {
+  error: string | null;
+  netProblem: boolean;
+  data: Product[] | null;
+  sliderImg: SliderImg[] | null;
+};
 
-  useEffect(() => {
-    (async () => {
-      const data = await fetchAPI<Product[]>(
-        "https://cyclemart.herokuapp.com/products"
-      );
-      if (!data.error && !data.netProblem) {
-        setProducts(data.data);
-      } else if (data.error) {
-        store?.State.setAlert(data.message);
-      } else {
-        store?.State.setError(data.netProblem);
-      }
-    })();
-  }, [store?.State]);
+const Home = ({ data, sliderImg, netProblem, error }: Props) => {
+  const store = useStore();
+  if (netProblem) {
+    store?.State.setError(netProblem);
+  } else if (error) {
+    store?.State.setAlert(error);
+  }
   return (
     <>
       <MetaTages />
       <main>
         <div className='banner-container'>
           <Categories />
-          <BannerSlider />
+          <BannerSlider images={sliderImg} />
           <Banner />
         </div>
         <div className='product-container'>
@@ -42,7 +36,7 @@ const Home: NextPage = () => {
             <p>Check & Get Your Desired Product !</p>
           </div>
           <div className='product-wrapper'>
-            <ShopProducts products={products} />
+            <ShopProducts products={data} />
           </div>
         </div>
         <Cart />
@@ -52,3 +46,48 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+type Data = {
+  props: {
+    error: string | null;
+    netProblem: boolean;
+    data: Product[] | null;
+    sliderImg: SliderImg[] | null;
+  };
+};
+export async function getStaticProps(): Promise<Data> {
+  const product = await fetchAPI<Product[]>(
+    "https://cyclemart.herokuapp.com/products"
+  );
+  const sliderImg = await fetchAPI<SliderImg[]>(
+    "https://cyclemart.herokuapp.com/sliders"
+  );
+  if (product.error || sliderImg.error) {
+    return {
+      props: {
+        error: product.error || sliderImg.error,
+        netProblem: false,
+        data: product.data,
+        sliderImg: sliderImg.data,
+      },
+    };
+  } else if (product.netProblem || sliderImg.netProblem) {
+    return {
+      props: {
+        error: product.error || sliderImg.error,
+        netProblem: true,
+        data: product.data,
+        sliderImg: sliderImg.data,
+      },
+    };
+  } else {
+    return {
+      props: {
+        error: null,
+        netProblem: false,
+        data: product.data,
+        sliderImg: sliderImg.data,
+      },
+    };
+  }
+}

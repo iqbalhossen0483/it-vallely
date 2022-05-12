@@ -1,12 +1,8 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faShoppingBag,
-  faShoppingCart,
-} from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@mui/material";
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Menus = () => {
+  const router = useRouter();
   const menus = [
     { menu_name: "Home", href: "/" },
     { menu_name: "Shop", href: "/shop" },
@@ -17,8 +13,8 @@ const Menus = () => {
     <>
       <div className='menus'>
         {menus.map((menu) => (
-          <Button key={menu.menu_name}>
-            <Link href={menu.href}>{menu.menu_name}</Link>
+          <Button onClick={() => router.push(menu.href)} key={menu.menu_name}>
+            {menu.menu_name}
           </Button>
         ))}
       </div>

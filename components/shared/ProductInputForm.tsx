@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import React, { KeyboardEvent, useState } from "react";
+import React, { KeyboardEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Input from "./utilitize/Input";
 
@@ -10,11 +10,19 @@ type Props = { actionType: string; onSubmit: (peyLoad: Product) => void };
 const ProductInputForm = ({ actionType, onSubmit }: Props) => {
   const [text, setText] = useState<Text>({ tag: "", feature: "" });
   const { handleSubmit, register } = useForm<Product>();
-  const [disable, setDisable] = useState<boolean>(true);
+  const [isRequired, setIsRequired] = useState<boolean>(true);
   const [tagAndFeature, setTagAndFeature] = useState<TagAndFeature>({
     tags: [],
     features: [],
   });
+
+  useEffect(() => {
+    if (actionType === "add") {
+      setIsRequired(true);
+    } else if (actionType === "update") {
+      setIsRequired(false);
+    }
+  }, [actionType]);
 
   // feature and tag input handler start....
   function handleInput(value: string, action: string) {
@@ -52,18 +60,18 @@ const ProductInputForm = ({ actionType, onSubmit }: Props) => {
   return (
     <form className='product-input-form-container'>
       <Input
-        {...register("name", { required: true })}
+        {...register("name", { required: isRequired })}
         label='Product name'
         multiline
         fullWidth
-        required
+        required={isRequired}
         type='text'
       />
       <Input
-        {...register("price", { required: true })}
+        {...register("price", { required: isRequired })}
         label='Product price'
         fullWidth
-        required
+        required={isRequired}
         type='number'
       />
       <Input
@@ -73,34 +81,34 @@ const ProductInputForm = ({ actionType, onSubmit }: Props) => {
         type='number'
       />
       <Input
-        {...register("category", { required: true })}
+        {...register("category", { required: isRequired })}
         label='Product category'
         fullWidth
-        required
+        required={isRequired}
         type='text'
       />
       <Input
-        {...register("model", { required: true })}
+        {...register("model", { required: isRequired })}
         label='Product model'
         fullWidth
-        required
+        required={isRequired}
         type='text'
       />
       <Input
-        {...register("brand", { required: true })}
+        {...register("brand", { required: isRequired })}
         label='Brand'
-        required
+        required={isRequired}
         fullWidth
         type='text'
       />
       <input
-        {...register("productImg", { required: true })}
+        {...register("pImg", { required: isRequired })}
         className='file'
         type='file'
         accept='image/*'
       />
       <input
-        {...register("imgGallery", { required: true })}
+        {...register("gImg", { required: isRequired })}
         type='file'
         className='file'
         multiple
@@ -126,38 +134,43 @@ const ProductInputForm = ({ actionType, onSubmit }: Props) => {
       ) : null}
       <Input
         {...register("keyFeatures", {
-          required: tagAndFeature.features.length < 1,
+          required: tagAndFeature.features.length < 1 && isRequired,
         })}
         onChange={(e) => handleInput(e.target.value, "feature")}
         onKeyDown={(e) => handleKeyboard(e, "feature")}
         label='Key Features'
         value={text.feature}
         fullWidth
-        required={tagAndFeature.features.length < 1}
+        required={tagAndFeature.features.length < 1 && isRequired}
         type='text'
       />
       <Input
-        {...register("tags", { required: tagAndFeature.tags.length < 1 })}
+        {...register("tags", {
+          required: tagAndFeature.tags.length < 1 && isRequired,
+        })}
         onChange={(e) => handleInput(e.target.value, "tag")}
         onKeyDown={(e) => handleKeyboard(e, "tag")}
         label='Tags'
         value={text.tag}
-        required={tagAndFeature.tags.length < 1}
+        required={tagAndFeature.tags.length < 1 && isRequired}
         fullWidth
         type='text'
       />
       <Input
         className='col-span-2'
-        {...register("description", { required: true })}
+        {...register("description", { required: isRequired })}
         label='Description'
-        fullWidth
-        required
-        type='text'
-        minRows={10}
         multiline
+        fullWidth
+        required={isRequired}
+        type='text'
       />
-      <Button onClick={handleSubmit(Submit)} variant='contained'>
-        add product
+      <Button
+        disabled={!isRequired}
+        onClick={handleSubmit(Submit)}
+        variant='contained'
+      >
+        {actionType} product
       </Button>
     </form>
   );

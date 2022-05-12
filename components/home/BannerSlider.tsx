@@ -1,28 +1,8 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Slider from "react-slick";
-import useStore from "../../contex/hooks/useStore";
-import { fetchAPI } from "../../services/shared/sharedFunction";
 
-const BannerSlider = () => {
-  const [images, setImages] = useState<SliderImg[] | null>(null);
-  const store = useStore();
-
-  useEffect(() => {
-    (async () => {
-      const slider = await fetchAPI<SliderImg[]>(
-        "https://cyclemart.herokuapp.com/sliders"
-      );
-      if (!slider.error && !slider.netProblem) {
-        setImages(slider.data);
-      } else if (slider.error) {
-        store?.State.setAlert(slider.message);
-      } else {
-        store?.State.setError(slider.netProblem);
-      }
-    })();
-  }, [store?.State]);
-
+const BannerSlider = ({ images }: { images: SliderImg[] | null }) => {
   const settings = {
     infinite: true,
     speed: 1000,

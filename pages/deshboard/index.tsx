@@ -1,6 +1,10 @@
-import { Tab, Tabs } from "@mui/material";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
+import MetaTages from "../../components/metaTags/MetaTages";
+import SideMenuInDrawer from "../../components/deshboard/SideMenuInDrawer";
+import SideMenus from "../../components/deshboard/SideMenus";
 const Deshboard = dynamic(() => import("../../components/deshboard/Deshboard"));
 const UpdateProduct = dynamic(
   () => import("../../components/deshboard/updateProduct/UpdateProduct")
@@ -19,15 +23,9 @@ const ManageUser = dynamic(
 );
 
 const DeshboardLayout = () => {
+  const [drawer, setDrawer] = useState<boolean>(false);
   const [value, setValue] = useState(0);
-  const menus = [
-    "Deshboard",
-    "Add Product",
-    "Update Product",
-    "Manage Products",
-    "Manage Orders",
-    "Manage Users",
-  ];
+
   const components = [
     Deshboard,
     AddProduct,
@@ -36,24 +34,30 @@ const DeshboardLayout = () => {
     ManageProduct,
     ManageUser,
   ];
-  function handleValue(e: React.SyntheticEvent, value: number) {
-    setValue(value);
-  }
+
   return (
-    <div className='deshboard-container'>
-      <div className='deshboard-menus'>
-        <Tabs value={value} onChange={handleValue} orientation='vertical'>
-          {menus.map((menu, index) => (
-            <Tab key={index} label={menu} />
+    <>
+      <MetaTages />
+      <div className='deshboard-container'>
+        <div onClick={() => setDrawer(!drawer)} className='shop-menu-icon'>
+          <FontAwesomeIcon icon={faBars} />
+        </div>
+        <div className='deshboard-menus'>
+          <SideMenus value={value} setValue={setValue} />
+        </div>
+        <main>
+          {components.map((Component, index) => (
+            <Component key={index} index={index} value={value} />
           ))}
-        </Tabs>
+        </main>
+        <SideMenuInDrawer
+          open={drawer}
+          setDrawer={setDrawer}
+          value={value}
+          setValue={setValue}
+        />
       </div>
-      <main>
-        {components.map((Component, index) => (
-          <Component key={index} index={index} value={value} />
-        ))}
-      </main>
-    </div>
+    </>
   );
 };
 

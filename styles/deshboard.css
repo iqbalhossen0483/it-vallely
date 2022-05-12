@@ -4,10 +4,10 @@
     @apply grid-cols-5 gap-5 px-5 py-10 relative md:grid;
   }
   .deshboard-container main {
-    @apply col-span-4 flex justify-center items-center;
+    @apply col-span-4 flex justify-center items-center mt-4 md:mt-0;
   }
   .deshboard-menus {
-    @apply cursor-pointer text-xl border-r-2 border-gray-100;
+    @apply cursor-pointer text-xl border-r-2 border-gray-100 hidden md:block;
   }
   .deshboard-container button {
     @apply font-semibold my-1 w-full hover:text-mui;
@@ -17,7 +17,7 @@
   product-input-form-container
   -------------------- */
   .product-input-form-container {
-    @apply grid grid-cols-2 gap-5;
+    @apply md:grid grid-cols-2 gap-5 space-y-2 md:space-y-0;
   }
   .tag-and-feature {
     @apply w-full flex flex-wrap gap-1;
@@ -26,11 +26,12 @@
     @apply bg-gray-200 px-2 py-1 rounded h-fit;
   }
   .product-input-form-container button {
-    @apply bg-mui hover:text-gray-100 w-fit mx-auto col-span-2;
+    @apply bg-mui hover:text-gray-100 flex justify-self-center w-fit col-span-2 
+    mx-auto;
   }
   .file {
     @apply text-base py-3 border-mui file:bg-[#4a8cbe2b] file:border file:rounded-2xl
-    file:border-mui file:px-3 file:mr-3;
+    file:border-mui file:px-3 file:mr-3 w-full my-0;
   }
 }
 
