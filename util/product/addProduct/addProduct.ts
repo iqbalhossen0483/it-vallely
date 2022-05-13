@@ -13,8 +13,9 @@ export async function addProduct(
   //multer for body persing;
   const { error, file, files } = await bodyPerse(req, res);
   if (!error) {
-    req.body.keyFeatures = req.body.keyFeatures.split(",");
-    req.body.tags = req.body.tags.split(",");
+    req.body.keyFeatures = req.body.keyFeatures.split(" | ");
+    req.body.tags = req.body.tags.split(" | ");
+    req.body.specifications = JSON.parse(req.body.specifications);
 
     //main product img upload;
     const { error, result } = await imageUpload(
@@ -28,6 +29,7 @@ export async function addProduct(
         imgId: result.public_id,
         imgUrl: result.secure_url,
       }; //after upload successful
+      delete req.body.pImg;
 
       //gallery img upload one by one;
       req.body.productImgGallery = [];
@@ -48,6 +50,8 @@ export async function addProduct(
           return serverError(res); //if error;
         }
       } //untill;
+      delete req.body.gImg;
+      console.log(req.body);
 
       //after all operation successfull, save data to database;
       products.insertOne(req.body, async (err, result) => {

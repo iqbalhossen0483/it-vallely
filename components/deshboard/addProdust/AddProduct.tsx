@@ -11,8 +11,10 @@ const AddProduct = ({ value, index }: Props) => {
   async function handleSubmit(peyLoad: Product) {
     const formData = new FormData();
     for (const [key, value] of Object.entries(peyLoad)) {
-      if (key !== "pImg" && key !== "gImg") {
+      if (key !== "pImg" && key !== "gImg" && key !== "specifications") {
         formData.append(key, value);
+      } else if (key === "specifications") {
+        formData.append("specifications", JSON.stringify(value));
       } else if (key === "pImg") {
         formData.append(key, value[0]);
       } else if (key === "gImg") {
@@ -29,7 +31,8 @@ const AddProduct = ({ value, index }: Props) => {
     });
     const data = await res.json();
     if (res.ok) {
-      console.log(data);
+      store?.State.setAlert("Product added successfully");
+      window.location.reload();
     } else {
       store?.State.setAlert(data.message);
     }

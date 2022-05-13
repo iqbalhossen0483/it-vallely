@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/product/index.ts", "util/product/addProduct/addProduct.ts", "util/cloudinary/shared/imageUpload.js", "util/cloudinary/cloudinary.confiq.js", "components/shared/ProductInputForm.jsx", "util/product/getProduct/getProduct.js", "util/cloudinary/shared/deleteImage.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/product/index.ts", "util/product/addProduct/addProduct.ts", "util/cloudinary/shared/imageUpload.js", "util/cloudinary/cloudinary.confiq.js", "components/shared/ProductInputForm.js", "components/shared/ProductInputForm.jsx", "util/product/getProduct/getProduct.js", "util/cloudinary/shared/deleteImage.js"],
   "exclude": ["node_modules"]
 }

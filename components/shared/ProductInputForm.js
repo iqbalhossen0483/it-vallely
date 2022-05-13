@@ -3,19 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Input from "./utilitize/Input";
 
-type Props = { actionType: string; onSubmit: (peyLoad: Product) => void };
-type Specifications = ["keyFeatures"];
-type CMB = ["category", "tags"];
-
-const ProductInputForm = ({ actionType, onSubmit }: Props) => {
-  const [specificationsInput, setSpecificationsInput] = useState<string>("");
+const ProductInputForm = ({ actionType, onSubmit }) => {
   const [showspecificationsInput, setShowSpecificationsInput] = useState(false);
-  const [isRequired, setIsRequired] = useState<boolean>(true);
-  const { handleSubmit, register } = useForm<Product>();
-  const [cmb] = useState<CMB>(["category", "tags"]);
-  const [specifications, setSpecifications] = useState<Specifications>([
-    "keyFeatures",
-  ]);
+  const [specificationsInput, setSpecificationsInput] = useState("");
+  const [disable, setDisable] = useState(false);
+  const [isRequired, setIsRequired] = useState(true);
+  const { handleSubmit, register } = useForm();
+  const [ct] = useState(["category", "tags"]);
+  const [specifications, setSpecifications] = useState([]);
 
   useEffect(() => {
     if (actionType === "add") {
@@ -25,13 +20,31 @@ const ProductInputForm = ({ actionType, onSubmit }: Props) => {
     }
   }, [actionType]);
 
-  function Submit(data: Product) {
-    onSubmit(data);
+  async function Submit(data) {
+    setDisable(true);
+    if (specifications.length) {
+      data.specifications = [];
+      for (const item of specifications) {
+        const itemArray = data[item].replaceAll(" | ", ": ").split(": ");
+        let obj = { header: item };
+        let i = 0;
+        while (i < itemArray.length) {
+          obj[itemArray[i]] = itemArray[i + 1];
+          i += 2;
+        }
+        data.specifications.push(obj);
+        delete data[item];
+      }
+    }
+    await onSubmit(data);
+    setDisable(false);
   }
 
-  function handleSpecifications(key: string) {
+  function handleSpecifications(key) {
     if (key === "Enter") {
       if (specificationsInput.length > 0) {
+        setSpecifications([...specifications, specificationsInput]);
+        setSpecificationsInput("");
         setShowSpecificationsInput(false);
       }
     }
@@ -61,7 +74,7 @@ const ProductInputForm = ({ actionType, onSubmit }: Props) => {
         fullWidth
         type='number'
       />
-      {cmb.map((item) => (
+      {ct.map((item) => (
         <Input
           key={item}
           {...register(item, { required: isRequired })}
@@ -84,14 +97,25 @@ const ProductInputForm = ({ actionType, onSubmit }: Props) => {
         multiple
         accept='image/*'
       />
-      {specifications.map((item) => (
+      <Input
+        {...register("keyFeatures", {
+          required: isRequired,
+        })}
+        className='col-span-2'
+        label='keyFeatures give input like key | key | key'
+        fullWidth
+        required={isRequired}
+        type='text'
+        multiline
+      />
+      {specifications.map((item, index) => (
         <Input
-          key={item}
+          key={index}
           {...register(item, {
             required: isRequired,
           })}
           className='col-span-2'
-          label={item}
+          label={`${item} give input like key: value | key:value`}
           fullWidth
           required={isRequired}
           type='text'
@@ -135,7 +159,7 @@ const ProductInputForm = ({ actionType, onSubmit }: Props) => {
       />
       <Button
         className='submit-btn'
-        disabled={!isRequired}
+        disabled={disable}
         onClick={handleSubmit(Submit)}
         variant='contained'
       >
