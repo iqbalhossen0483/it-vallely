@@ -68,7 +68,7 @@
     @apply bg-white rounded p-5 my-5 shadow-sm;
   }
   .product-details-des-part .specification h3 {
-    @apply font-semibold text-xl;
+    @apply font-semibold text-xl mb-6;
   }
   .product-details-des-part .specification h4 {
     @apply font-semibold px-5 py-2 mt-3 rounded bg-[#0e65a81b];

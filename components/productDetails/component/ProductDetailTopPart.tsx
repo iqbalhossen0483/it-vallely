@@ -3,10 +3,14 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import useStore from "../../../contex/hooks/useStore";
 
 const ProductDetailTopPart = ({ data }: { data: Product }) => {
   const [productImg, setProductImg] = useState<string>(data.productImg.imgUrl);
   const [quantity, setQuantity] = useState<number>(1);
+  const router = useRouter();
+  const store = useStore();
 
   const priceTable = [
     { heading: "Price", value: `${data.price}৳` },
@@ -73,7 +77,14 @@ const ProductDetailTopPart = ({ data }: { data: Product }) => {
               <AddIcon />
             </button>
           </div>
-          <Button variant='contained' className='bg-mui'>
+          <Button
+            onClick={() => {
+              store?.State.setQuantity(quantity);
+              router.push("/order");
+            }}
+            variant='contained'
+            className='bg-mui'
+          >
             buy now
           </Button>
         </div>

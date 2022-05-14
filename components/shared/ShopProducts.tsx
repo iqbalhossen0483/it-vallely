@@ -45,7 +45,11 @@ const ShopProducts: FC<Props> = ({ products }) => {
                 {product.price} <span>৳</span>
               </p>
               <p className='prev-price'>
-                {product.prevPrice} <span>৳</span>
+                {product.prevPrice ? (
+                  <>
+                    {product.prevPrice} <span>৳</span>
+                  </>
+                ) : null}
               </p>
             </div>
             <div className='btn-group'>

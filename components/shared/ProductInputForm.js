@@ -67,10 +67,12 @@ const ProductInputForm = ({ actionType, onSubmit }) => {
       {pricesAndStock.map((item) => (
         <Input
           key={item}
-          {...register(item, { required: isRequired })}
+          {...register(item, {
+            required: item === "prevPrice" ? false : isRequired,
+          })}
           label={item}
           fullWidth
-          required={isRequired}
+          required={item === "prevPrice" ? false : isRequired}
           type='number'
         />
       ))}

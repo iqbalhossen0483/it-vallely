@@ -4,12 +4,14 @@ type cartProduct = {
 };
 interface StatesReturnType {
   error: boolean;
-  setError: (prev: boolean) => void;
+  setError: (error: boolean) => void;
   alert: string | null;
-  setAlert: (prev: string | null) => void;
+  setAlert: (text: string | null) => void;
+  quantity: number;
+  setQuantity: (quantity: number) => void;
 }
 interface CartReturnType {
   cartProduct: cartProduct;
-  setCartProduct: (prev: cartProduct) => void;
+  setCartProduct: (cart: cartProduct) => void;
   Add(productId: string, price: number): CartFnReturn;
 }
