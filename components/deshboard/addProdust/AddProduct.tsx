@@ -32,9 +32,8 @@ const AddProduct = ({ value, index }: Props) => {
     const data = await res.json();
     if (res.ok) {
       store?.State.setAlert("Product added successfully");
-      window.location.reload();
     } else {
-      store?.State.setAlert(data.message);
+      store?.State.setAlert(data.message || "Ops! There was an error");
     }
   }
   return (

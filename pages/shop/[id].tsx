@@ -1,31 +1,25 @@
-import Image from "next/image";
-import React from "react";
 import useStore from "../../contex/hooks/useStore";
 import { fetchAPI } from "../../services/shared/sharedFunction";
+import ProductDeatails from "../../components/productDetails/ProductDeatails";
 
 type Props = { data: Product; error: string | null; netProblem: boolean };
-const ProductDetails = ({ data, error, netProblem }: Props) => {
+const ProductDetailsLeyout = ({ data, error, netProblem }: Props) => {
   const store = useStore();
+
   if (netProblem) {
     store?.State.setError(netProblem);
   } else if (error) {
     store?.State.setAlert(error);
   }
-  return (
-    <div>
-      <p>ProductDetails</p>
-      <Image width={400} height={300} src={data.productImg.imgUrl} alt='' />
-      <p>{data.name}</p>
-    </div>
-  );
+
+  return <ProductDeatails data={data} />;
 };
 
-export default ProductDetails;
+export default ProductDetailsLeyout;
 
+//next js functions;;;;;
 export async function getStaticPaths() {
-  const res = await fetchAPI<Product[]>(
-    `https://cyclemart.herokuapp.com/products`
-  );
+  const res = await fetchAPI<Product[]>(`http://localhost:3000/api/product`);
   if (!res.error || !res.netProblem) {
     const paths = res.data?.map((item) => {
       return {
@@ -45,7 +39,7 @@ type Context = { params: { id: string } };
 export async function getStaticProps(contex: Context) {
   const { params } = contex;
   const res = await fetchAPI<Product>(
-    `https://cyclemart.herokuapp.com/products/${params.id}`
+    `http://localhost:3000/api/product?id=${params.id}`
   );
   return {
     props: {

@@ -51,7 +51,6 @@ export async function addProduct(
         }
       } //untill;
       delete req.body.gImg;
-      console.log(req.body);
 
       //after all operation successfull, save data to database;
       products.insertOne(req.body, async (err, result) => {

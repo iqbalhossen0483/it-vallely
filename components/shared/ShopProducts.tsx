@@ -35,16 +35,17 @@ const ShopProducts: FC<Props> = ({ products }) => {
               src={product.productImg.imgUrl}
               alt=''
             />
-            <Link href={`/shop/${product._id}`}>
-              <a className='name'>{product.name}</a>
-            </Link>
+            <div className='name'>
+              <Link href={`/shop/${product._id}`}>
+                <a>{product.name}</a>
+              </Link>
+            </div>
             <div className='price'>
               <p className='curren'>
                 {product.price} <span>৳</span>
               </p>
               <p className='prev-price'>
-                {parseInt(product.price) + parseInt(product.price) * 0.06}{" "}
-                <span>৳</span>
+                {product.prevPrice} <span>৳</span>
               </p>
             </div>
             <div className='btn-group'>

@@ -8,8 +8,9 @@ const ProductInputForm = ({ actionType, onSubmit }) => {
   const [specificationsInput, setSpecificationsInput] = useState("");
   const [disable, setDisable] = useState(false);
   const [isRequired, setIsRequired] = useState(true);
-  const { handleSubmit, register } = useForm();
-  const [ct] = useState(["category", "tags"]);
+  const { handleSubmit, register, reset } = useForm();
+  const [pricesAndStock] = useState(["price", "prevPrice", "stock"]);
+  const [ccb] = useState(["category", "productCode", "brand"]);
   const [specifications, setSpecifications] = useState([]);
 
   useEffect(() => {
@@ -37,6 +38,8 @@ const ProductInputForm = ({ actionType, onSubmit }) => {
       }
     }
     await onSubmit(data);
+    reset();
+    setSpecifications([]);
     setDisable(false);
   }
 
@@ -61,20 +64,17 @@ const ProductInputForm = ({ actionType, onSubmit }) => {
         required={isRequired}
         type='text'
       />
-      <Input
-        {...register("price", { required: isRequired })}
-        label='Product price'
-        fullWidth
-        required={isRequired}
-        type='number'
-      />
-      <Input
-        {...register("prevPrice")}
-        label='Previous price'
-        fullWidth
-        type='number'
-      />
-      {ct.map((item) => (
+      {pricesAndStock.map((item) => (
+        <Input
+          key={item}
+          {...register(item, { required: isRequired })}
+          label={item}
+          fullWidth
+          required={isRequired}
+          type='number'
+        />
+      ))}
+      {ccb.map((item) => (
         <Input
           key={item}
           {...register(item, { required: isRequired })}
@@ -98,11 +98,19 @@ const ProductInputForm = ({ actionType, onSubmit }) => {
         accept='image/*'
       />
       <Input
+        {...register("tags", { required: isRequired })}
+        className='col-span-2'
+        label='tags, give input like tag | tag | tag'
+        fullWidth
+        required={isRequired}
+        type='text'
+      />
+      <Input
         {...register("keyFeatures", {
           required: isRequired,
         })}
         className='col-span-2'
-        label='keyFeatures give input like key | key | key'
+        label='keyFeatures, give input like key | key | key'
         fullWidth
         required={isRequired}
         type='text'
@@ -115,7 +123,7 @@ const ProductInputForm = ({ actionType, onSubmit }) => {
             required: isRequired,
           })}
           className='col-span-2'
-          label={`${item} give input like key: value | key:value`}
+          label={`${item}, give input like key: value | key:value`}
           fullWidth
           required={isRequired}
           type='text'

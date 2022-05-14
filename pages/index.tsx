@@ -22,11 +22,6 @@ const Home = ({ data, sliderImg, netProblem, error }: Props) => {
   } else if (error) {
     store?.State.setAlert(error);
   }
-  useEffect(() => {
-    fetch("http://localhost:3000/api/product")
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  }, []);
   return (
     <>
       <MetaTages />
@@ -63,7 +58,7 @@ type Data = {
 };
 export async function getStaticProps(): Promise<Data> {
   const product = await fetchAPI<Product[]>(
-    "https://cyclemart.herokuapp.com/products"
+    "http://localhost:3000/api/product"
   );
   const sliderImg = await fetchAPI<SliderImg[]>(
     "https://cyclemart.herokuapp.com/sliders"

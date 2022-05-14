@@ -5,7 +5,7 @@
     @apply border shadow-sm hover:shadow-lg pb-14 rounded relative;
   }
   .product .name {
-    @apply px-4 py-2 cursor-pointer hover:text-mui hover:underline border-t-4
+    @apply px-4 my-2 py-2 text-justify cursor-pointer hover:text-mui hover:underline border-t-4
     border-gray-100;
   }
   .product .price {
@@ -22,5 +22,81 @@
   }
   .product .btn-group button {
     @apply bg-mui px-3;
+  }
+
+  /* ----------------
+  product details part 
+  -------------------*/
+  .product-details-top-part {
+    @apply grid grid-cols-5 gap-5 py-10 px-5 bg-white shadow;
+  }
+  .product-details-top-part .images {
+    @apply col-span-2;
+  }
+  .product-details-top-part .images .gallery {
+    @apply flex justify-center items-center gap-2;
+  }
+  .product-details-top-part .images .gallery div {
+    @apply border rounded cursor-pointer;
+  }
+  .product-details-top-part .naming {
+    @apply border-l-2 px-5 col-span-3;
+  }
+  .product-details-top-part .naming h3 {
+    @apply text-2xl text-mui;
+  }
+  .product-details-top-part .naming .price-table {
+    @apply flex gap-3 mt-3 mb-8;
+  }
+  .product-details-top-part .naming .price-table p {
+    @apply w-fit border rounded-2xl px-4 py-1 text-sm bg-slate-100;
+  }
+  .product-details-top-part .naming .counter button {
+    @apply border rounded text-xl font-thin px-2 py-1;
+  }
+  .product-details-top-part .naming .counter button:nth-child(2) {
+    @apply px-6;
+  }
+
+  .product-details-des-part {
+    @apply py-7 px-5 grid grid-cols-4 gap-6;
+  }
+  .product-details-des-part .btn-group {
+    @apply space-x-3 mx-10;
+  }
+  .product-details-des-part .specification {
+    @apply bg-white rounded p-5 my-5 shadow-sm;
+  }
+  .product-details-des-part .specification h3 {
+    @apply font-semibold text-xl;
+  }
+  .product-details-des-part .specification h4 {
+    @apply font-semibold px-5 py-2 mt-3 rounded bg-[#0e65a81b];
+  }
+  .product-details-des-part .specification .features {
+    @apply grid grid-cols-4 gap-5 px-5 py-2 border-b hover:bg-gray-50;
+  }
+
+  .product-details-des-part #description {
+    @apply bg-white p-5 rounded text-justify scroll-mt-16 shadow-sm;
+  }
+  .product-details-des-part #description h3 {
+    @apply text-xl font-semibold mb-3;
+  }
+
+  .product-details-des-part .related-product-container {
+    @apply bg-white p-5 rounded h-fit shadow-sm;
+  }
+  .product-details-des-part .related-product-container h3 {
+    @apply text-lg font-semibold text-center border-b-2 pb-3;
+  }
+  .related-product {
+    @apply grid grid-cols-3 gap-3 my-5;
+  }
+  .related-product .name {
+    @apply hover:underline hover:text-mui cursor-pointer;
+  }
+  .related-product .price {
+    @apply text-primary font-semibold;
   }
 }

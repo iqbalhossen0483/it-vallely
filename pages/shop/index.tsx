@@ -48,9 +48,7 @@ const Shop = ({ data, error, netProblem }: Props) => {
 export default Shop;
 
 export async function getStaticProps() {
-  const res = await fetchAPI<Product[]>(
-    "https://cyclemart.herokuapp.com/products"
-  );
+  const res = await fetchAPI<Product[]>("http://localhost:3000/api/product");
   return {
     props: {
       data: res.data,

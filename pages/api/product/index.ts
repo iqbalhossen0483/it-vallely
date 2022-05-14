@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { connectToDb } from "../../../util/mongodb/mongodb";
 import { addProduct } from "../../../util/product/addProduct/addProduct";
 import { getProduct } from "../../../util/product/getProduct/getProduct";
-import { notFound } from "../../../util/shared/notFound";
 
 const client = connectToDb();
 export const config = {
@@ -28,7 +27,7 @@ export default async function handler(
       break;
 
     default:
-      notFound(req, res);
+      res.status(404).send({ message: "not found" });
       break;
   }
 }

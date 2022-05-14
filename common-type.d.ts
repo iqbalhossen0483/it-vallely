@@ -15,9 +15,12 @@ interface Product {
   tags: string[];
   pImg: FileList;
   specifications: {}[];
+  stock: number;
+  productCode: string;
+  brand: string;
   gImg: FileList;
   productImg: { imgId: string; imgUrl: string };
-  imgGallery: { imgUrl: string; imgId: string }[];
+  productImgGallery: { imgUrl: string; imgId: string }[];
   description: string;
 }
 
