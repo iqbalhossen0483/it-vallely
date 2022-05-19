@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Banner from "../components/home/Banner";
 import BannerSlider from "../components/home/BannerSlider";
 import Categories from "../components/home/Categories";
@@ -58,11 +57,12 @@ type Data = {
 };
 export async function getStaticProps(): Promise<Data> {
   const product = await fetchAPI<Product[]>(
-    "http://localhost:3000/api/product"
+    "http://localhost:3000//api/product"
   );
   const sliderImg = await fetchAPI<SliderImg[]>(
     "https://cyclemart.herokuapp.com/sliders"
   );
+
   if (product.error || sliderImg.error) {
     return {
       props: {

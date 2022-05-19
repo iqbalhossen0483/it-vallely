@@ -18,10 +18,27 @@ interface Product {
   stock: number;
   productCode: string;
   brand: string;
+  quantity?: number;
   gImg: FileList;
   productImg: { imgId: string; imgUrl: string };
   productImgGallery: { imgUrl: string; imgId: string }[];
   description: string;
 }
 
-type Cart = { productId: string; price: number };
+type Cart = { productId: string; price: number; quantity: string };
+
+type OrderInfo = {
+  fname: string;
+  lname: string;
+  address: string;
+  mobile: string;
+  email: string;
+  comment: string;
+  delivaryMethod: string;
+  paymentMethod: string;
+  products: Product[] | null;
+  delivaryCost: number;
+  subTotal: number;
+  discount: number;
+  total: number;
+};

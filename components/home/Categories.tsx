@@ -1,22 +1,30 @@
 import { ListItem } from "@mui/material";
+import { useRouter } from "next/router";
 import React from "react";
 
 const Categories = () => {
+  const router = useRouter();
+
   const datas = [
-    { name: "Laptop" },
-    { name: "Destop" },
-    { name: "Monitor" },
-    { name: "Keyboard" },
-    { name: "Mouse" },
-    { name: "Watch" },
-    { name: "Hard Disk (HHD, SSD)" },
-    { name: "Mobile Phone" },
+    "Laptop",
+    "Destop",
+    "Monitor",
+    "Keyboard",
+    "Mouse",
+    "Watch",
+    "Hard Disk (HHD, SSD)",
+    "Mobile Phone",
   ];
   return (
     <div className='categories'>
       <h3>Popular Categories</h3>
       {datas.map((category) => (
-        <ListItem key={category.name}>{category.name}</ListItem>
+        <ListItem
+          onClick={() => router.push(`/shop/category/${category}`)}
+          key={category}
+        >
+          {category}
+        </ListItem>
       ))}
     </div>
   );

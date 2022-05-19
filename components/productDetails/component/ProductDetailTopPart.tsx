@@ -80,7 +80,7 @@ const ProductDetailTopPart = ({ data }: { data: Product }) => {
           <Button
             onClick={() => {
               store?.State.setQuantity(quantity);
-              router.push("/order");
+              router.push(`/checkout?productId=${data._id}&q=${quantity}`);
             }}
             variant='contained'
             className='bg-mui'

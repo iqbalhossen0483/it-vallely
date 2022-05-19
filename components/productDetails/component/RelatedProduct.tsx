@@ -13,7 +13,7 @@ const RelatedProduct = ({ category, setData }: Props) => {
   useEffect(() => {
     (async function () {
       const products = await fetchAPI<Product[]>(
-        `http://localhost:3000/api/product?category=${category}&random=true`
+        `/api/product?category=${category}&random=true`
       );
       if (products.data) {
         setProducts(products.data);
@@ -22,9 +22,7 @@ const RelatedProduct = ({ category, setData }: Props) => {
   }, [category]);
 
   async function handleRandomProduct(id: string) {
-    const product = await fetchAPI<Product>(
-      `http://localhost:3000/api/product?id=${id}`
-    );
+    const product = await fetchAPI<Product>(`/api/product?id=${id}`);
     if (product.data) {
       setData(product.data);
     }

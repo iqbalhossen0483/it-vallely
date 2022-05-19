@@ -25,6 +25,11 @@
     @apply absolute -top-5 -right-3 bg-mui text-white font-semibold 
     h-7 w-7 rounded-full flex justify-center items-center;
   }
+
+  /* spinner */
+  .spinner-container {
+    @apply flex justify-center items-center h-[50vh];
+  }
 }
 
 /*-----------------------------

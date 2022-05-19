@@ -1,4 +1,5 @@
-import { Button } from "@mui/material";
+import { Button, ListItem } from "@mui/material";
+import CircleIcon from "@mui/icons-material/Circle";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -14,9 +15,12 @@ const ShopProducts: FC<Props> = ({ products }) => {
   function handlecartProduct(id: string, price: number) {
     const isAdded = store?.Carts.Add(id, price);
     if (isAdded.message === "success") {
-      store?.Carts.setCartProduct({
-        quantity: store.Carts.cartProduct.quantity + 1,
-        price: store.Carts.cartProduct.price + price,
+      store?.Carts.setCartProduct((prev) => {
+        return {
+          quantity: store.Carts.cartProduct.quantity + 1,
+          price: store.Carts.cartProduct.price + price,
+          products: prev.products,
+        };
       });
       store?.State.setAlert("Product successfully added");
     } else if (isAdded.message === "added") {
@@ -52,6 +56,16 @@ const ShopProducts: FC<Props> = ({ products }) => {
                 ) : null}
               </p>
             </div>
+            {router.pathname !== "/" && (
+              <div className='key-features'>
+                {product.keyFeatures.slice(0, 4).map((item, index) => (
+                  <ListItem className='text-sm py-1' key={index}>
+                    <CircleIcon />
+                    {item}
+                  </ListItem>
+                ))}
+              </div>
+            )}
             <div className='btn-group'>
               <Button
                 onClick={() =>
@@ -61,7 +75,10 @@ const ShopProducts: FC<Props> = ({ products }) => {
               >
                 add to cart
               </Button>
-              <Button onClick={() => router.push("/order")} variant='contained'>
+              <Button
+                onClick={() => router.push(`/checkout?productId=${product._id}`)}
+                variant='contained'
+              >
                 buy now
               </Button>
             </div>

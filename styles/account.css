@@ -1,0 +1,56 @@
+@tailwind components;
+
+@layer components {
+  .viewcart-container {
+    @apply bg-white py-5 px-3 rounded;
+  }
+  .viewcart-container h3 {
+    @apply text-xl font-semibold mb-5;
+  }
+  .viewcart-container .price-table {
+    @apply flex flex-col items-end;
+  }
+
+  .checkout-container {
+    @apply bg-gray-100 py-7 px-5 grid grid-cols-3 gap-6;
+  }
+  .checkout-container > h3 {
+    @apply text-xl col-span-3;
+  }
+  .customer-info h3,
+  .payment-info h3,
+  .delivary-info h3,
+  .order-overview h3 {
+    @apply font-semibold pb-3 border-b-2;
+  }
+  .customer-info,
+  .payment-info,
+  .delivary-info,
+  .order-overview,
+  .voucher-and-copon {
+    @apply bg-white rounded py-5 px-4;
+  }
+  .customer-info {
+    @apply row-span-3;
+  }
+  .customer-info form {
+    @apply grid grid-cols-1 gap-3 mt-5;
+  }
+  .payment-info p,
+  .delivary-info p {
+    @apply text-[16px] my-2;
+  }
+  .voucher-and-copon {
+    @apply col-span-2 flex justify-center items-center gap-14;
+  }
+  .voucher-and-copon form {
+    @apply flex gap-4 items-center;
+  }
+  .voucher-and-copon div input {
+    @apply py-3;
+  }
+
+  .order-overview {
+    @apply col-span-2;
+  }
+}

@@ -11,6 +11,12 @@
   .product .price {
     @apply px-4 py-2 flex justify-between;
   }
+  .product .key-features li {
+    @apply flex gap-1 items-start text-gray-500;
+  }
+  .product .key-features svg {
+    @apply text-[8px] mt-1;
+  }
   .product .price .curren {
     @apply text-primary font-semibold;
   }

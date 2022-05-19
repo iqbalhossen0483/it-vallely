@@ -17,7 +17,7 @@ const ProductDetailsLeyout = ({ data, error, netProblem }: Props) => {
 
 export default ProductDetailsLeyout;
 
-//next js functions;;;;;
+//next js functions;
 export async function getStaticPaths() {
   const res = await fetchAPI<Product[]>(`http://localhost:3000/api/product`);
   if (!res.error || !res.netProblem) {

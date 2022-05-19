@@ -20,20 +20,14 @@ const CallCart = () => {
       </div>
       <div className='header-cart'>
         <div className='icon-wrapper'>
-          <ShoppingCartOutlinedIcon
-            onClick={() => setShowCart(!showCart)}
-          />
-          <span className='count'>
-            {store?.Carts.cartProduct.quantity}
-          </span>
+          <ShoppingCartOutlinedIcon onMouseEnter={() => setShowCart(true)} />
+          <span className='count'>{store?.Carts.cartProduct.quantity}</span>
         </div>
         <div>
           <p>Shopping Cart:</p>
-          <p className='amount'>
-            ৳{price === 0 ? `${price}.00` : price}
-          </p>
+          <p className='amount'>৳{price === 0 ? `${price}.00` : price}</p>
         </div>
-        {showCart && <CartProduct />}
+        {showCart && <CartProduct setShowCart={setShowCart} />}
       </div>
     </>
   );

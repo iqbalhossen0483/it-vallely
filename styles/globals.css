@@ -12,6 +12,9 @@
   input {
     @apply border rounded py-1 px-3 my-1 text-xl focus:outline-none;
   }
+  .error-input {
+    @apply border-2 border-red-500 bg-red-100;
+  }
 }
 * {
   font-family: "Roboto", sans-serif;
