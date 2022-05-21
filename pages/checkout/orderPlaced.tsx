@@ -7,10 +7,6 @@ import useStore from "../../contex/hooks/useStore";
 const OrderPlaced = () => {
   const store = useStore();
   const router = useRouter();
-  if (store?.State.orderInfo === null) {
-    router.push("/");
-    return null;
-  }
   return (
     <div className='bg-gray-100 py-10'>
       <div className='order-placed-container'>

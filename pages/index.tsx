@@ -4,30 +4,23 @@ import Categories from "../components/home/Categories";
 import MetaTages from "../components/metaTags/MetaTages";
 import ShopProducts from "../components/shared/ShopProducts";
 import Cart from "../components/shared/utilitize/Cart";
-import useStore from "../contex/hooks/useStore";
-import { fetchAPI } from "../services/shared/sharedFunction";
+import { dbConnection } from "../util/services/dbConnection";
 
 type Props = {
-  error: string | null;
-  netProblem: boolean;
-  data: Product[] | null;
-  sliderImg: SliderImg[] | null;
+  products: any;
+  sliderImg: any;
 };
 
-const Home = ({ data, sliderImg, netProblem, error }: Props) => {
-  const store = useStore();
-  if (netProblem) {
-    store?.State.setError(netProblem);
-  } else if (error) {
-    store?.State.setAlert(error);
-  }
+const Home = ({ products, sliderImg }: Props) => {
+  const parsedProducts = JSON.parse(products);
+  const parsedSliderImg = JSON.parse(sliderImg);
   return (
     <>
       <MetaTages />
       <main>
         <div className='banner-container'>
           <Categories />
-          <BannerSlider images={sliderImg} />
+          <BannerSlider images={parsedSliderImg} />
           <Banner />
         </div>
         <div className='product-container'>
@@ -36,7 +29,7 @@ const Home = ({ data, sliderImg, netProblem, error }: Props) => {
             <p>Check & Get Your Desired Product !</p>
           </div>
           <div className='product-wrapper'>
-            <ShopProducts products={data} />
+            <ShopProducts products={parsedProducts} />
           </div>
         </div>
         <Cart />
@@ -47,48 +40,19 @@ const Home = ({ data, sliderImg, netProblem, error }: Props) => {
 
 export default Home;
 
-type Data = {
-  props: {
-    error: string | null;
-    netProblem: boolean;
-    data: Product[] | null;
-    sliderImg: SliderImg[] | null;
-  };
-};
-export async function getStaticProps(): Promise<Data> {
-  const product = await fetchAPI<Product[]>(
-    "http://localhost:3000/api/product"
-  );
-  const sliderImg = await fetchAPI<SliderImg[]>(
-    "https://cyclemart.herokuapp.com/sliders"
-  );
+export async function getStaticProps() {
+  const db = await dbConnection();
+  const productsCollection = db.collection("products");
+  const sliderImgCollection = db.collection("sliderImg");
+  const products: any = await productsCollection.find().toArray();
+  const sliderImg: any = await sliderImgCollection.find().toArray();
+  const parsedProducts = JSON.stringify(products);
+  const parsedSliderImg = JSON.stringify(sliderImg);
 
-  if (product.error || sliderImg.error) {
-    return {
-      props: {
-        error: product.error || sliderImg.error,
-        netProblem: false,
-        data: product.data,
-        sliderImg: sliderImg.data,
-      },
-    };
-  } else if (product.netProblem || sliderImg.netProblem) {
-    return {
-      props: {
-        error: product.error || sliderImg.error,
-        netProblem: true,
-        data: product.data,
-        sliderImg: sliderImg.data,
-      },
-    };
-  } else {
-    return {
-      props: {
-        error: null,
-        netProblem: false,
-        data: product.data,
-        sliderImg: sliderImg.data,
-      },
-    };
-  }
+  return {
+    props: {
+      products: parsedProducts,
+      sliderImg: parsedSliderImg,
+    },
+  };
 }

@@ -8,21 +8,16 @@ import SideMenuBar from "../../components/shop/SideMenuBar";
 import SideMenuInDrawer from "../../components/shop/SideMenuInDrawer";
 import useStore from "../../contex/hooks/useStore";
 import { fetchAPI } from "../../services/shared/sharedFunction";
+import { dbConnection } from "../../util/services/dbConnection";
 
 type Props = {
-  error: string | null;
-  netProblem: boolean;
-  data: Product[] | null;
+  products: any;
 };
 
-const Shop = ({ data, error, netProblem }: Props) => {
+const Shop = ({ products }: Props) => {
   const [drawer, setDrawer] = useState<boolean>(false);
-  const store = useStore();
-  if (netProblem) {
-    store?.State.setError(netProblem);
-  } else if (error) {
-    store?.State.setAlert(error);
-  }
+  const parsedProducts = JSON.parse(products);
+
   return (
     <>
       <MetaTages />
@@ -35,7 +30,7 @@ const Shop = ({ data, error, netProblem }: Props) => {
           <SideMenuBar />
         </div>
         <div className='product-wrapper'>
-          <ShopProducts products={data} />
+          <ShopProducts products={parsedProducts} />
         </div>
       </div>
 
@@ -48,12 +43,14 @@ const Shop = ({ data, error, netProblem }: Props) => {
 export default Shop;
 
 export async function getStaticProps() {
-  const res = await fetchAPI<Product[]>("/api/product");
+  const db = await dbConnection();
+  const productsCollection = db.collection("products");
+  const products: any = await productsCollection.find().toArray();
+  const parsedProducts = JSON.stringify(products);
+
   return {
     props: {
-      data: res.data,
-      error: res.error,
-      netProblem: res.netProblem,
+      products: parsedProducts,
     },
   };
 }
