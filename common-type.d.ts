@@ -28,6 +28,7 @@ interface Product {
 type Cart = { productId: string; price: number; quantity: string };
 
 type OrderInfo = {
+  id?: string;
   fname: string;
   lname: string;
   address: string;

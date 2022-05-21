@@ -183,6 +183,7 @@ const OverViewProducts = ({
         <div className='w-72 ml-auto flex justify-center mt-5'>
           <Button
             onClick={action}
+            disabled={store?.State.loading}
             variant='contained'
             className='bg-mui mx-auto'
           >

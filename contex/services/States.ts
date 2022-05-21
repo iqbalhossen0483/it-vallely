@@ -3,10 +3,11 @@ import { StatesReturnType } from "../contex-type";
 
 function States(): StatesReturnType {
   //all state start
+  const [orderInfo, setOrderInfo] = useState<OrderInfo | null>(null);
   const [alert, setAlert] = useState<string | null>(null);
-  const [error, setError] = useState<boolean>(false);
-  const [quantity, setQuantity] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
+  const [quantity, setQuantity] = useState<number>(1);
+  const [error, setError] = useState<boolean>(false);
   //all state end
 
   return {
@@ -18,6 +19,8 @@ function States(): StatesReturnType {
     setQuantity,
     loading,
     setLoading,
+    orderInfo,
+    setOrderInfo,
   };
 }
 

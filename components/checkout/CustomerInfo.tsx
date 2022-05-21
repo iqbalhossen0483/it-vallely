@@ -24,6 +24,13 @@ const CustomerInfo = ({
   const router = useRouter();
 
   function onSubmit(peyload: OrderInfo) {
+    store?.State.setLoading(true);
+
+    if (peyload.mobile.length < 11 || peyload.mobile.length > 11) {
+      store?.State.setAlert("Phone number is invalid");
+      store?.State.setLoading(false);
+      return;
+    }
     const delivaryCost = delivary === "home" ? 100 : 0;
     let subTotal = 0;
     for (const product of products!) {
@@ -47,8 +54,10 @@ const CustomerInfo = ({
     if (paymentMethods === "cash") {
       postOrder(peyload);
     } else {
-      
+      store?.State.setOrderInfo(peyload);
+      router.push(`/checkout/payment`);
     }
+    store?.State.setLoading(false);
   }
 
   async function postOrder(peyload: OrderInfo) {
@@ -59,17 +68,23 @@ const CustomerInfo = ({
       },
       body: JSON.stringify(peyload),
     });
+    const data = await res.json();
     if (res.ok) {
-      store?.State.setAlert("Order placed successfully");
-      if (router.query.multiple) {
-        localStorage.removeItem("cart");
-        store?.Carts.setCartProduct((prev) => {
-          return { price: 0, products: null, quantity: 0 };
-        });
+      if (data.insertedId) {
+        store?.State.setAlert("Order placed successfully");
+        peyload.id = data.insertedId;
+        store?.State.setOrderInfo(peyload);
+        if (router.query.multiple) {
+          localStorage.removeItem("cart");
+          store?.Carts.setCartProduct((prev) => {
+            return { price: 0, products: null, quantity: 0 };
+          });
+        }
+        router.push("/checkout/orderPlaced");
+      } else {
+        store?.State.setAlert("Something went wrong");
       }
-      router.push("/");
     } else {
-      const data = await res.json();
       store?.State.setAlert(data.message);
     }
   }
@@ -100,8 +115,13 @@ const CustomerInfo = ({
           {...register("mobile", { required: true })}
           required
           label='Mobile'
+          type={"number"}
         />
-        <Input {...register("email", { required: true })} label='Email' />
+        <Input
+          {...register("email", { required: true })}
+          label='Email'
+          type={"email"}
+        />
         <Input {...register("comment")} multiline minRows={5} label='Comment' />
         <button ref={customerInfoForm} hidden>
           submit

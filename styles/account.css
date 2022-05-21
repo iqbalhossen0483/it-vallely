@@ -53,4 +53,62 @@
   .order-overview {
     @apply col-span-2;
   }
+
+  /*-----------------------
+   order successfully placed
+   ------------------------- */
+  .order-placed-container {
+    @apply bg-white w-2/5 mx-auto rounded px-5 py-7 text-center;
+  }
+  .order-placed-container > h3 {
+    @apply text-xl mb-1;
+  }
+  .order-placed-container > p {
+    @apply text-sm mx-10;
+  }
+  .order-summery {
+    @apply grid grid-cols-2 text-sm gap-5 text-left px-5 py-3 bg-slate-200 rounded my-5;
+  }
+  .order-summery div > h3 {
+    @apply font-semibold text-center mb-2;
+  }
+  .order-summery .summery .table,
+  .order-summery .summery .table .due,
+  .payment-methods-container .payment-summery .table {
+    @apply grid grid-cols-2 gap-x-3;
+  }
+  .order-summery .summery .table .due {
+    @apply border-t-2 pt-1 mt-1 border-white col-span-2;
+  }
+  .order-summery .summery .table .due p:nth-child(2) {
+    @apply text-primary;
+  }
+
+  /*------
+   payment
+  -------- */
+  .payment-container {
+    @apply bg-gray-200 p-5;
+  }
+  .payment-methods-container {
+    @apply grid grid-cols-4 gap-5;
+  }
+  .payment-methods-container .payment-methods {
+    @apply col-span-3 grid grid-cols-4 gap-5;
+  }
+  .payment-methods-container .payment-methods .item {
+    @apply h-24 flex flex-col justify-center items-center bg-white rounded cursor-pointer;
+  }
+  .payment-methods-container .payment-summery {
+    @apply bg-white p-3 my-0 rounded;
+  }
+  .payment-methods-container .payment-summery h3 {
+    @apply font-semibold pb-1 mb-1 border-b-2;
+  }
+  .payment-container .payment-wrapper {
+    @apply bg-white text-xl min-w-[24rem] max-w-fit p-5 rounded-md mx-auto mt-10;
+  }
+  .payment-container .payment-wrapper h3 {
+    @apply text-base mb-5 text-center;
+  }
 }

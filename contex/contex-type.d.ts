@@ -14,6 +14,8 @@ interface StatesReturnType {
   setQuantity: (quantity: number) => void;
   loading: boolean;
   setLoading: (loading: boolean) => void;
+  orderInfo: OrderInfo | null;
+  setOrderInfo: Dispatch<SetStateAction<OrderInfo | null>>;
 }
 interface CartReturnType {
   cartProduct: cartProduct;

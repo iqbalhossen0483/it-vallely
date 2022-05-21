@@ -57,7 +57,7 @@ type Data = {
 };
 export async function getStaticProps(): Promise<Data> {
   const product = await fetchAPI<Product[]>(
-    "http://localhost:3000//api/product"
+    "http://localhost:3000/api/product"
   );
   const sliderImg = await fetchAPI<SliderImg[]>(
     "https://cyclemart.herokuapp.com/sliders"
