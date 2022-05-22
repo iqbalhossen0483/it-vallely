@@ -1,12 +1,12 @@
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
-import MetaTages from "../../components/metaTags/MetaTages";
-import ShopProducts from "../../components/shared/ShopProducts";
-import Cart from "../../components/shared/utilitize/Cart";
-import SideMenuBar from "../../components/shop/SideMenuBar";
 import SideMenuInDrawer from "../../components/shop/SideMenuInDrawer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { dbConnection } from "../../util/services/dbConnection";
+import ShopProducts from "../../components/shared/ShopProducts";
+import MetaTages from "../../components/metaTags/MetaTages";
+import SideMenuBar from "../../components/shop/SideMenuBar";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import Cart from "../../components/shared/utilitize/Cart";
+import { useEffect, useState } from "react";
 
 type Props = {
   data: Product[];
@@ -14,12 +14,20 @@ type Props = {
 
 const Shop = ({ data }: Props) => {
   const [minMaxValue, setMinMaxValue] = useState<number[]>([0, 500]);
-  const [products, setProducts] = useState<Product[] | null>(null);
+  const [products, setProducts] = useState<Product[] | []>([]);
+  const [brands, setBrands] = useState<string[]>([]);
   const [drawer, setDrawer] = useState<boolean>(false);
   const [value, setValue] = useState([0, 500]);
 
   useEffect(() => {
     setProducts(data);
+    const brands: string[] = [];
+    for (const product of data) {
+      if (!brands.includes(product.brand)) {
+        brands.push(product.brand);
+      }
+    }
+    setBrands(brands);
   }, [data]);
 
   useEffect(() => {
@@ -37,14 +45,36 @@ const Shop = ({ data }: Props) => {
   }, [data]);
 
   function filterProducts() {
-    const filterd = data?.filter(
+    const filtered = data?.filter(
       (item) =>
         parseInt(item.price) >= value[0] && parseInt(item.price) <= value[1]
     );
-    if (filterd) {
-      setProducts(filterd);
+    if (filtered) {
+      setProducts(filtered);
     } else {
-      setProducts(null);
+      setProducts([]);
+    }
+  }
+
+  function filterBrandProducts(brands: string[]) {
+    if (brands.length) {
+      const filteredProducts: Product[] = [];
+      data.forEach((product) => {
+        if (brands.includes(product.brand)) {
+          filteredProducts.push(product);
+        }
+      });
+      const filtered = filteredProducts.filter(
+        (item) =>
+          parseInt(item.price) >= value[0] && parseInt(item.price) <= value[1]
+      );
+      setProducts(filtered);
+    } else {
+      const filtered = data.filter(
+        (item) =>
+          parseInt(item.price) >= value[0] && parseInt(item.price) <= value[1]
+      );
+      setProducts(filtered);
     }
   }
 
@@ -62,6 +92,8 @@ const Shop = ({ data }: Props) => {
             value={value}
             setValue={setValue}
             filterProducts={filterProducts}
+            filterBrandProducts={filterBrandProducts}
+            brands={brands}
           />
         </div>
         <div className='product-wrapper'>
@@ -75,7 +107,14 @@ const Shop = ({ data }: Props) => {
         </div>
       </div>
 
-      <SideMenuInDrawer open={drawer} setDrawer={setDrawer} />
+      <SideMenuInDrawer
+        open={drawer}
+        setDrawer={setDrawer}
+        minMaxValue={minMaxValue}
+        value={value}
+        setValue={setValue}
+        filterProducts={filterProducts}
+      />
       <Cart />
     </>
   );

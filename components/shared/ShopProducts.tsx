@@ -30,6 +30,7 @@ const ShopProducts: FC<Props> = ({ products }) => {
   return (
     <>
       {products &&
+        products.length &&
         products.map((product) => (
           <div className='product' key={product._id}>
             <Image
@@ -76,7 +77,9 @@ const ShopProducts: FC<Props> = ({ products }) => {
                 add to cart
               </Button>
               <Button
-                onClick={() => router.push(`/checkout?productId=${product._id}`)}
+                onClick={() =>
+                  router.push(`/checkout?productId=${product._id}`)
+                }
                 variant='contained'
               >
                 buy now

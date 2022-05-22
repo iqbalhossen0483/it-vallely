@@ -1,5 +1,5 @@
-import { Slider } from "@mui/material";
 import React, { Dispatch, SetStateAction } from "react";
+import { Slider } from "@mui/material";
 
 type Props = {
   minMaxValue: number[];

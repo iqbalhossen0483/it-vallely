@@ -1,12 +1,14 @@
 import { Dispatch, SetStateAction } from "react";
-import BrandMenu from "./BrandMenu";
 import FilterProduct from "./FilterProduct";
+import BrandMenu from "./BrandMenu";
 
 type Props = {
   minMaxValue: number[];
   value: number[];
   setValue: Dispatch<SetStateAction<number[]>>;
   filterProducts(): void;
+  filterBrandProducts(brands: string[]): void;
+  brands: string[];
 };
 
 const SideMenuBar = ({
@@ -14,6 +16,8 @@ const SideMenuBar = ({
   value,
   setValue,
   filterProducts,
+  filterBrandProducts,
+  brands,
 }: Props) => {
   return (
     <>
@@ -23,7 +27,7 @@ const SideMenuBar = ({
         setValue={setValue}
         filterProducts={filterProducts}
       />
-      <BrandMenu />
+      <BrandMenu filterBrandProducts={filterBrandProducts} brands={brands} />
     </>
   );
 };
