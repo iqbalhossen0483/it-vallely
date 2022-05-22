@@ -1,8 +1,8 @@
-import { Button } from "@mui/material";
-import { useRouter } from "next/router";
-import React from "react";
 import OrderSummeryTable from "../../components/shared/utilitize/OrderSummeryTable";
 import useStore from "../../contex/hooks/useStore";
+import { useRouter } from "next/router";
+import { Button } from "@mui/material";
+import React from "react";
 
 const OrderPlaced = () => {
   const store = useStore();
@@ -23,7 +23,6 @@ const OrderPlaced = () => {
               {store?.State.orderInfo?.fname} {store?.State.orderInfo?.lname}
             </p>
             <p>{store?.State.orderInfo?.address}</p>
-            <p>{store?.State.orderInfo?.email}</p>
             <p>{store?.State.orderInfo?.mobile}</p>
           </div>
           <div className='summery'>

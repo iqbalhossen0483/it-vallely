@@ -66,6 +66,7 @@ const OverViewProducts = ({
     setUpdate(!update);
   }
   const delivaryCost = delivary && delivary === "home" ? 100 : 0.0;
+
   return (
     <>
       <Table>
@@ -109,13 +110,13 @@ const OverViewProducts = ({
                         onChange={(e) =>
                           updateTotal(parseInt(e.target.value), item._id)
                         }
-                        className='w-14 text-center'
                         onBlur={(e) => {
                           if (!e.target.value) {
                             e.target.value = "1";
                             store?.Carts.updateCart(item._id, "1");
                           }
                         }}
+                        style={{ width: "3.5rem", textAlign: "center" }}
                         defaultValue={item.quantity || 1}
                         type='text'
                       />
@@ -136,12 +137,12 @@ const OverViewProducts = ({
         </TableBody>
       </Table>
       <div className='price-table'>
-        <Table className='w-72 ml-auto'>
+        <Table sx={{ width: "18rem", marginLeft: "auto" }}>
           <TableBody>
             {router.pathname === "/account/viewcart" ? (
               <TableRow hover>
                 <TableCell>Total:</TableCell>
-                <TableCell className='font-semibold text-primary'>
+                <TableCell sx={{ fontWeight: 600, color: "#e8080a" }}>
                   {total}৳
                 </TableCell>
               </TableRow>
@@ -149,27 +150,27 @@ const OverViewProducts = ({
               <>
                 <TableRow hover>
                   <TableCell>Sub-Total:</TableCell>
-                  <TableCell className='font-semibold text-primary'>
+                  <TableCell sx={{ fontWeight: 600, color: "#e8080a" }}>
                     {total}৳
                   </TableCell>
                 </TableRow>
                 <TableRow hover>
                   <TableCell>Delivary Cost:</TableCell>
-                  <TableCell className='font-semibold text-primary'>
+                  <TableCell sx={{ fontWeight: 600, color: "#e8080a" }}>
                     {delivaryCost}৳
                   </TableCell>
                 </TableRow>
                 {discount && (
                   <TableRow hover>
                     <TableCell>Discount:</TableCell>
-                    <TableCell className='font-semibold text-primary'>
+                    <TableCell sx={{ fontWeight: 600, color: "#e8080a" }}>
                       {discount}৳
                     </TableCell>
                   </TableRow>
                 )}
                 <TableRow hover>
                   <TableCell>Total:</TableCell>
-                  <TableCell className='font-semibold text-primary'>
+                  <TableCell sx={{ fontWeight: 600, color: "#e8080a" }}>
                     {discount
                       ? total + delivaryCost - discount
                       : total + delivaryCost}
@@ -180,12 +181,16 @@ const OverViewProducts = ({
             )}
           </TableBody>
         </Table>
-        <div className='w-72 ml-auto flex justify-center mt-5'>
+        <div className='btn-wrapper'>
           <Button
             onClick={action}
             disabled={store?.State.loading}
             variant='contained'
-            className='bg-mui mx-auto'
+            style={{
+              backgroundColor: "#0e66a8",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
           >
             Confirm order
           </Button>

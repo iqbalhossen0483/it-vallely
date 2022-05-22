@@ -58,19 +58,19 @@
    order successfully placed
    ------------------------- */
   .order-placed-container {
-    @apply bg-white w-2/5 mx-auto rounded px-5 py-7 text-center;
+    @apply bg-white w-2/4 mx-auto rounded px-5 py-7 text-center;
   }
   .order-placed-container > h3 {
-    @apply text-xl mb-1;
+    @apply text-3xl mb-1;
   }
   .order-placed-container > p {
-    @apply text-sm mx-10;
+    @apply mx-10;
   }
   .order-summery {
-    @apply grid grid-cols-2 text-sm gap-5 text-left px-5 py-3 bg-slate-200 rounded my-5;
+    @apply grid grid-cols-2 text-lg gap-5 text-left px-5 py-3 bg-slate-200 rounded my-5;
   }
   .order-summery div > h3 {
-    @apply font-semibold text-center mb-2;
+    @apply font-semibold text-lg text-center mb-2;
   }
   .order-summery .summery .table,
   .order-summery .summery .table .due,
