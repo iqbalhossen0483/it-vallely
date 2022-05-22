@@ -5,11 +5,18 @@ type Props = {
   minMaxValue: number[];
   value: number[];
   setValue: Dispatch<SetStateAction<number[]>>;
+  filterProducts(): void;
 };
 
-const FilterProduct = ({ minMaxValue, value, setValue }: Props) => {
+const FilterProduct = ({
+  minMaxValue,
+  value,
+  setValue,
+  filterProducts,
+}: Props) => {
   const updateFilter = (event: Event, value: number | number[]) => {
     setValue(value as number[]);
+    filterProducts();
   };
 
   return (

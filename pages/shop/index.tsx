@@ -9,19 +9,23 @@ import SideMenuInDrawer from "../../components/shop/SideMenuInDrawer";
 import { dbConnection } from "../../util/services/dbConnection";
 
 type Props = {
-  products: Product[];
+  data: Product[];
 };
 
-const Shop = ({ products }: Props) => {
+const Shop = ({ data }: Props) => {
   const [minMaxValue, setMinMaxValue] = useState<number[]>([0, 500]);
-
+  const [products, setProducts] = useState<Product[] | null>(null);
   const [drawer, setDrawer] = useState<boolean>(false);
   const [value, setValue] = useState([0, 500]);
 
   useEffect(() => {
-    let minPrice = parseInt(products[0].price);
+    setProducts(data);
+  }, [data]);
+
+  useEffect(() => {
+    let minPrice = parseInt(data[0].price);
     let maxPrice = 0;
-    products.forEach((item) => {
+    data.forEach((item) => {
       if (parseInt(item.price) > maxPrice) {
         maxPrice = parseInt(item.price);
       } else if (parseInt(item.price) < minPrice) {
@@ -30,7 +34,19 @@ const Shop = ({ products }: Props) => {
     });
     setMinMaxValue([minPrice, maxPrice]);
     setValue([minPrice, maxPrice]);
-  }, [products]);
+  }, [data]);
+
+  function filterProducts() {
+    const filterd = data?.filter(
+      (item) =>
+        parseInt(item.price) >= value[0] && parseInt(item.price) <= value[1]
+    );
+    if (filterd) {
+      setProducts(filterd);
+    } else {
+      setProducts(null);
+    }
+  }
 
   return (
     <>
@@ -45,10 +61,17 @@ const Shop = ({ products }: Props) => {
             minMaxValue={minMaxValue}
             value={value}
             setValue={setValue}
+            filterProducts={filterProducts}
           />
         </div>
         <div className='product-wrapper'>
-          <ShopProducts products={products} />
+          {products?.length ? (
+            <ShopProducts products={products} />
+          ) : (
+            <div className='no-product'>
+              <p>There is no product</p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -68,7 +91,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      products: parsedProducts,
+      data: parsedProducts,
     },
   };
 }
