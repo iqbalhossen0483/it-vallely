@@ -13,8 +13,10 @@ type Props = {
 };
 
 const Shop = ({ products }: Props) => {
+  const [minMaxValue, setMinMaxValue] = useState<number[]>([0, 500]);
+
   const [drawer, setDrawer] = useState<boolean>(false);
-  const [filterPrice, setFilterPrice] = useState<number[] | null>(null);
+  const [value, setValue] = useState([0, 500]);
 
   useEffect(() => {
     let minPrice = parseInt(products[0].price);
@@ -26,7 +28,8 @@ const Shop = ({ products }: Props) => {
         minPrice = parseInt(item.price);
       }
     });
-    setFilterPrice([minPrice, maxPrice]);
+    setMinMaxValue([minPrice, maxPrice]);
+    setValue([minPrice, maxPrice]);
   }, [products]);
 
   return (
@@ -39,8 +42,9 @@ const Shop = ({ products }: Props) => {
 
         <div className='side-menu-container hidden md:block'>
           <SideMenuBar
-            filterPrice={filterPrice}
-            setFilterPrice={setFilterPrice}
+            minMaxValue={minMaxValue}
+            value={value}
+            setValue={setValue}
           />
         </div>
         <div className='product-wrapper'>

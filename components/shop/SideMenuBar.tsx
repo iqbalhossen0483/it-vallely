@@ -3,16 +3,18 @@ import BrandMenu from "./BrandMenu";
 import FilterProduct from "./FilterProduct";
 
 type Props = {
-  filterPrice: number[] | null;
-  setFilterPrice: Dispatch<SetStateAction<number[] | null>>;
+  minMaxValue: number[];
+  value: number[];
+  setValue: Dispatch<SetStateAction<number[]>>;
 };
 
-const SideMenuBar = ({ filterPrice, setFilterPrice }: Props) => {
+const SideMenuBar = ({ minMaxValue, value, setValue }: Props) => {
   return (
     <>
       <FilterProduct
-        filterPrice={filterPrice}
-        setFilterPrice={setFilterPrice}
+        minMaxValue={minMaxValue}
+        value={value}
+        setValue={setValue}
       />
       <BrandMenu />
     </>
