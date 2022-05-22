@@ -1,22 +1,33 @@
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MetaTages from "../../components/metaTags/MetaTages";
 import ShopProducts from "../../components/shared/ShopProducts";
 import Cart from "../../components/shared/utilitize/Cart";
 import SideMenuBar from "../../components/shop/SideMenuBar";
 import SideMenuInDrawer from "../../components/shop/SideMenuInDrawer";
-import useStore from "../../contex/hooks/useStore";
-import { fetchAPI } from "../../services/shared/sharedFunction";
 import { dbConnection } from "../../util/services/dbConnection";
 
 type Props = {
-  products: any;
+  products: Product[];
 };
 
 const Shop = ({ products }: Props) => {
   const [drawer, setDrawer] = useState<boolean>(false);
-  const parsedProducts = JSON.parse(products);
+  const [filterPrice, setFilterPrice] = useState<number[] | null>(null);
+
+  useEffect(() => {
+    let minPrice = parseInt(products[0].price);
+    let maxPrice = 0;
+    products.forEach((item) => {
+      if (parseInt(item.price) > maxPrice) {
+        maxPrice = parseInt(item.price);
+      } else if (parseInt(item.price) < minPrice) {
+        minPrice = parseInt(item.price);
+      }
+    });
+    setFilterPrice([minPrice, maxPrice]);
+  }, [products]);
 
   return (
     <>
@@ -27,10 +38,13 @@ const Shop = ({ products }: Props) => {
         </div>
 
         <div className='side-menu-container hidden md:block'>
-          <SideMenuBar />
+          <SideMenuBar
+            filterPrice={filterPrice}
+            setFilterPrice={setFilterPrice}
+          />
         </div>
         <div className='product-wrapper'>
-          <ShopProducts products={parsedProducts} />
+          <ShopProducts products={products} />
         </div>
       </div>
 
@@ -46,7 +60,7 @@ export async function getStaticProps() {
   const db = await dbConnection();
   const productsCollection = db.collection("products");
   const products: any = await productsCollection.find().toArray();
-  const parsedProducts = JSON.stringify(products);
+  const parsedProducts = JSON.parse(JSON.stringify(products));
 
   return {
     props: {

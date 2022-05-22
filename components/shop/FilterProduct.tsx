@@ -1,29 +1,34 @@
 import { Slider } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 
-const FilterProduct = () => {
-  const [value, setValue] = useState<number[]>([1000, 5000]);
+type Props = {
+  filterPrice: number[] | null;
+  setFilterPrice: React.Dispatch<React.SetStateAction<number[] | null>>;
+};
 
-  const handleChange = (
-    event: Event,
-    newValue: number | number[]
-  ) => {
-    setValue(newValue as number[]);
+const FilterProduct = ({ filterPrice, setFilterPrice }: Props) => {
+  const handleChange = (event: Event, newValue: number | number[]) => {
+    setFilterPrice(newValue as number[]);
   };
+
   return (
     <div className='item filter-wrapper'>
       <h3>Price Range</h3>
-      <Slider
-        value={value}
-        onChange={handleChange}
-        valueLabelDisplay='auto'
-        min={1000}
-        max={5000}
-      />
-      <div className='show-range'>
-        <p>{value[0]}</p>
-        <p>{value[1]}</p>
-      </div>
+      {filterPrice && (
+        <>
+          <Slider
+            value={filterPrice}
+            onChange={handleChange}
+            step={100}
+            valueLabelDisplay='auto'
+            max={filterPrice[1]}
+          />
+          <div className='show-range'>
+            <p>{filterPrice[0]}</p>
+            <p>{filterPrice[1]}</p>
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import React, { useState } from "react";
+import CashOnDelivary from "../../components/checkout/CashOnDelivary";
 import PaymentMethods from "../../components/checkout/PaymentMethods";
 import OrderSummeryTable from "../../components/shared/utilitize/OrderSummeryTable";
 
@@ -32,16 +33,8 @@ const Payment = () => {
       </div>
 
       {/* payment-wrapper */}
-      {methods.showCashOn && (
-        <div className='payment-wrapper'>
-          <h3>You can payment us when you will get the product</h3>
-          <div className='flex justify-center mt-3'>
-            <Button variant='contained' className='bg-mui'>
-              Confirm order
-            </Button>
-          </div>
-        </div>
-      )}
+      {methods.showCashOn && <CashOnDelivary />}
+
       {methods.showBkash && (
         <div className='payment-wrapper'>
           <h3>Bkash payment</h3>

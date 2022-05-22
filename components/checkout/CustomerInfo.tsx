@@ -55,7 +55,9 @@ const CustomerInfo = ({
       postOrder(peyload);
     } else {
       store?.State.setOrderInfo(peyload);
-      router.push(`/checkout/payment`);
+      router.push(
+        `/checkout/payment${router.query.multiple && "?multiple=true"}`
+      );
     }
     store?.State.setLoading(false);
   }

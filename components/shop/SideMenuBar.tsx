@@ -1,10 +1,19 @@
+import { Dispatch, SetStateAction } from "react";
 import BrandMenu from "./BrandMenu";
 import FilterProduct from "./FilterProduct";
 
-const SideMenuBar = () => {
+type Props = {
+  filterPrice: number[] | null;
+  setFilterPrice: Dispatch<SetStateAction<number[] | null>>;
+};
+
+const SideMenuBar = ({ filterPrice, setFilterPrice }: Props) => {
   return (
     <>
-      <FilterProduct />
+      <FilterProduct
+        filterPrice={filterPrice}
+        setFilterPrice={setFilterPrice}
+      />
       <BrandMenu />
     </>
   );
