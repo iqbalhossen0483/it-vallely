@@ -24,7 +24,8 @@
     @apply text-gray-400 line-through;
   }
   .product .btn-group {
-    @apply space-x-1 px-2 py-3 absolute bottom-0 left-0;
+    @apply space-x-4 md:space-x-1 px-2 py-3 absolute bottom-0 left-0 flex 
+    justify-center w-full;
   }
   .product .btn-group button {
     @apply bg-mui px-3;

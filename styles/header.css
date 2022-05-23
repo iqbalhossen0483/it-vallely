@@ -105,8 +105,8 @@
     h-7 w-7 rounded-full flex justify-center items-center;
   }
   .cart-product-container {
-    @apply absolute top-full mt-2 -left-3 z-50 bg-white shadow-lg px-4 py-5 w-[107%] 
-    text-center;
+    @apply absolute top-full mt-2 -left-7 md:-left-3 z-50 bg-white shadow-lg px-4 py-5
+    w-[120%] md:w-[107%] text-center;
   }
   .cart-product-container .product-wrapper {
     @apply flex gap-3 py-2 border-b;

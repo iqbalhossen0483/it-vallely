@@ -9,6 +9,8 @@ interface Props {
   value: number[];
   setValue: Dispatch<SetStateAction<number[]>>;
   filterProducts(): void;
+  filterBrandProducts(brands: string[]): void;
+  brands: string[];
 }
 
 const SideMenuInDrawer: FC<Props> = ({
@@ -18,6 +20,8 @@ const SideMenuInDrawer: FC<Props> = ({
   value,
   setValue,
   filterProducts,
+  brands,
+  filterBrandProducts,
 }) => {
   return (
     <SwipeableDrawer
@@ -32,6 +36,8 @@ const SideMenuInDrawer: FC<Props> = ({
           value={value}
           setValue={setValue}
           filterProducts={filterProducts}
+          filterBrandProducts={filterBrandProducts}
+          brands={brands}
         />
       </div>
     </SwipeableDrawer>

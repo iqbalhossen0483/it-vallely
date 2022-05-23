@@ -114,6 +114,8 @@ const Shop = ({ data }: Props) => {
         value={value}
         setValue={setValue}
         filterProducts={filterProducts}
+        filterBrandProducts={filterBrandProducts}
+        brands={brands}
       />
       <Cart />
     </>

@@ -18,6 +18,9 @@
   .btn-wrapper {
     @apply w-72 ml-auto flex justify-center mt-5;
   }
+  .hideOnPhone {
+    @apply hidden md:block;
+  }
 }
 * {
   font-family: "Roboto", sans-serif;

@@ -22,11 +22,16 @@ const Payment = () => {
   return (
     <div className='payment-container'>
       <div className='payment-methods-container'>
+        {/* payment-summery */}
+        <div className='payment-summery col-span-4 md:hidden'>
+          <h3>Order Summery</h3>
+          <OrderSummeryTable />
+        </div>
         {/* payment-methods */}
         <PaymentMethods methods={methods} setmethods={setMethods} />
 
         {/* payment-summery */}
-        <div className='payment-summery'>
+        <div className='payment-summery hidden md:block'>
           <h3>Order Summery</h3>
           <OrderSummeryTable />
         </div>
@@ -47,7 +52,7 @@ const Payment = () => {
       )}
       {methods.showCredit && (
         <div className='payment-wrapper'>
-          <h3>credit card</h3>
+          <h3>Credit card</h3>
         </div>
       )}
     </div>

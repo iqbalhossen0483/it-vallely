@@ -69,7 +69,7 @@ const OverViewProducts = ({
 
   return (
     <>
-      <Table>
+      <Table sx={{ width: "100%" }}>
         <TableHead>
           <TableRow className='bg-slate-200'>
             {thead.map((item, index) =>
@@ -80,7 +80,15 @@ const OverViewProducts = ({
                   ) : null
                 ) : null
               ) : (
-                <TableCell key={index}>{item}</TableCell>
+                <TableCell
+                  className={`${
+                    (item === "Product Code" || item === "Image") &&
+                    "hideOnPhone"
+                  }`}
+                  key={index}
+                >
+                  {item}
+                </TableCell>
               )
             )}
           </TableRow>
@@ -91,7 +99,7 @@ const OverViewProducts = ({
               return (
                 <TableRow hover key={item._id}>
                   {router.pathname === "/account/viewcart" && (
-                    <TableCell>
+                    <TableCell className='hideOnPhone'>
                       <Image
                         height={80}
                         width={80}
@@ -102,7 +110,9 @@ const OverViewProducts = ({
                   )}
                   <TableCell>{item.name}</TableCell>
                   {router.pathname === "/account/viewcart" && (
-                    <TableCell>{item.productCode}</TableCell>
+                    <TableCell className='hideOnPhone'>
+                      {item.productCode}
+                    </TableCell>
                   )}
                   <TableCell>
                     {router.pathname === "/account/viewcart" ? (
@@ -137,7 +147,11 @@ const OverViewProducts = ({
         </TableBody>
       </Table>
       <div className='price-table'>
-        <Table sx={{ width: "18rem", marginLeft: "auto" }}>
+        <Table
+          className={`${
+            router.pathname === "/account/viewcart" ? "w-40" : "w-52"
+          } ml-auto md:w-64`}
+        >
           <TableBody>
             {router.pathname === "/account/viewcart" ? (
               <TableRow hover>

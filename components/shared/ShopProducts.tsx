@@ -34,8 +34,8 @@ const ShopProducts: FC<Props> = ({ products }) => {
         products.map((product) => (
           <div className='product' key={product._id}>
             <Image
-              width={275}
-              height={200}
+              width={375}
+              height={250}
               priority={true}
               src={product.productImg.imgUrl}
               alt=''

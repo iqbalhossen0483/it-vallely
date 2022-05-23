@@ -2,13 +2,13 @@ import CustomerInfo from "../../components/checkout/CustomerInfo";
 import DelivaryInfo from "../../components/checkout/DelivaryInfo";
 import PaymentInfo from "../../components/checkout/PaymentInfo";
 import { fetchAPI } from "../../services/shared/sharedFunction";
+import OrderReview from "../../components/checkout/OrderReview";
+import Input from "../../components/shared/utilitize/Input";
 import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../contex/hooks/useStore";
-import { Button } from "@mui/material";
-import { useRouter } from "next/router";
-import Input from "../../components/shared/utilitize/Input";
-import OrderReview from "../../components/checkout/OrderReview";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { Button } from "@mui/material";
 
 const Order = () => {
   const [paymentMethods, setPaymentMethods] = useState<string>("cash");
@@ -72,7 +72,7 @@ const Order = () => {
         <form>
           <Input label='Gift Voucher' />
           <Button sx={{ padding: "10px 12px" }} variant='outlined'>
-            apply voucher
+            apply <span className='hideOnPhone'>voucher</span>
           </Button>
         </form>
 
@@ -89,7 +89,7 @@ const Order = () => {
             sx={{ padding: "10px 12px" }}
             variant='outlined'
           >
-            apply copon
+            apply <span className='hideOnPhone'>copon</span>
           </Button>
         </form>
       </div>

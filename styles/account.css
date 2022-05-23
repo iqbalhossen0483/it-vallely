@@ -5,14 +5,14 @@
     @apply bg-white py-5 px-3 rounded;
   }
   .viewcart-container h3 {
-    @apply text-xl font-semibold mb-5;
+    @apply text-lg md:text-xl font-semibold mb-5;
   }
   .viewcart-container .price-table {
     @apply flex flex-col items-end;
   }
 
   .checkout-container {
-    @apply bg-gray-100 py-7 px-5 grid grid-cols-3 gap-6;
+    @apply bg-gray-100 py-7 px-5 space-y-5 md:space-y-0  md:grid grid-cols-3 gap-6;
   }
   .checkout-container > h3 {
     @apply text-xl col-span-3;
@@ -41,7 +41,7 @@
     @apply text-[16px] my-2;
   }
   .voucher-and-copon {
-    @apply col-span-2 flex justify-center items-center gap-14;
+    @apply col-span-2 space-y-4 md:space-y-0 md:flex justify-center items-center gap-14;
   }
   .voucher-and-copon form {
     @apply flex gap-4 items-center;
@@ -58,16 +58,17 @@
    order successfully placed
    ------------------------- */
   .order-placed-container {
-    @apply bg-white w-2/4 mx-auto rounded px-5 py-7 text-center;
+    @apply bg-white mx-3 md:w-2/4 md:mx-auto rounded px-5 py-7 text-center;
   }
   .order-placed-container > h3 {
-    @apply text-3xl mb-1;
+    @apply text-2xl md:text-3xl mb-1;
   }
   .order-placed-container > p {
-    @apply mx-10;
+    @apply mx-10 text-sm md:text-base;
   }
   .order-summery {
-    @apply grid grid-cols-2 text-lg gap-5 text-left px-5 py-3 bg-slate-200 rounded my-5;
+    @apply md:grid grid-cols-2 text-lg gap-5 text-left px-5 py-3
+    bg-slate-200 rounded my-5 space-y-3 md:space-y-0;
   }
   .order-summery div > h3 {
     @apply font-semibold text-lg text-center mb-2;
@@ -94,7 +95,7 @@
     @apply grid grid-cols-4 gap-5;
   }
   .payment-methods-container .payment-methods {
-    @apply col-span-3 grid grid-cols-4 gap-5;
+    @apply col-span-4 md:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-5;
   }
   .payment-methods-container .payment-methods .item {
     @apply h-24 flex flex-col justify-center items-center bg-white rounded cursor-pointer;
@@ -106,7 +107,7 @@
     @apply font-semibold pb-1 mb-1 border-b-2;
   }
   .payment-container .payment-wrapper {
-    @apply bg-white text-xl min-w-[24rem] max-w-fit p-5 rounded-md mx-auto mt-10;
+    @apply bg-white text-xl min-w-full md:min-w-[24rem] md:max-w-fit py-5 px-3 md:p-5 rounded-md mx-auto mt-10;
   }
   .payment-container .payment-wrapper h3 {
     @apply text-base mb-5 text-center;
