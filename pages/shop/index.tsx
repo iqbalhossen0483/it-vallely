@@ -80,7 +80,6 @@ const Shop = ({ data }: Props) => {
 
   return (
     <>
-      <MetaTages />
       <div className='shop-container'>
         <div onClick={() => setDrawer(!drawer)} className='shop-menu-icon'>
           <FontAwesomeIcon icon={faBars} />

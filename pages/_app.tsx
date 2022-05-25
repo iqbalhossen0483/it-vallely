@@ -1,6 +1,7 @@
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
+import "../styles/customization.css";
 import "../styles/loginRegister.css";
 import "../styles/utilitize.css";
 import "../styles/deshboard.css";
@@ -21,6 +22,7 @@ import useStore from "../contex/hooks/useStore";
 import Alert from "../components/alert/Alert";
 import Error from "../components/error/Error";
 import type { AppProps } from "next/app";
+import MetaTages from "../components/metaTags/MetaTages";
 
 function Layout({
   Component,
@@ -36,6 +38,7 @@ function Layout({
         <Error />
       ) : (
         <>
+          <MetaTages />
           <Header />
           <Component {...pageProps} />
           <ScrollTop />

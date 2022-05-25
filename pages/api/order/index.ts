@@ -1,16 +1,13 @@
 import { Collection, Db } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import { connectToDb } from "../../../util/mongodb/mongodb";
 import { postOrder } from "../../../util/order/postOrder";
-
-const client = connectToDb();
+import { dbConnection } from "../../../util/services/dbConnection";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
-  (await client).connect();
-  const database: Db = (await client).db("it-vallely");
+  const database: Db = await dbConnection();
   const orders: Collection<Document> = database.collection("orders");
 
   switch (req.method) {

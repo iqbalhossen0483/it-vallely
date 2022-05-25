@@ -8,7 +8,6 @@ function LoginRegister({ title }: { title: string }): JSX.Element {
   const router = useRouter();
   return (
     <>
-      <MetaTages />
       <div className='login-register'>
         <h3>Please {title}</h3>
         <form>
@@ -32,9 +31,7 @@ function LoginRegister({ title }: { title: string }): JSX.Element {
         </form>
         <div className='other-option'>
           <div className='title'>
-            <p className='font-medium'>
-              ------------- Or -------------
-            </p>
+            <p className='font-medium'>------------- Or -------------</p>
             <p>{title} with</p>
           </div>
           <div className='options'>
@@ -53,9 +50,7 @@ function LoginRegister({ title }: { title: string }): JSX.Element {
               : "New user? Please "}
             <span
               onClick={() =>
-                router.push(
-                  `${title === "register" ? "login" : "register"}`
-                )
+                router.push(`${title === "register" ? "login" : "register"}`)
               }
             >
               {title === "register" ? "login" : "register"}

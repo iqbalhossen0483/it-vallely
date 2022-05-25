@@ -8,7 +8,7 @@
     @apply grid-cols-4 gap-3 py-7 px-5 bg-white md:grid;
   }
   .slider {
-    @apply col-span-3 overflow-hidden md:px-10;
+    @apply col-span-3 overflow-hidden md:px-1;
   }
   .categories {
     @apply hidden border px-5 space-y-3 pb-5 row-span-2 md:block;

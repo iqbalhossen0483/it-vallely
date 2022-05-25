@@ -1,7 +1,8 @@
-import { Collection, Db } from "mongodb";
+import { Collection } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import { addProduct } from "../../../util/product/addProduct/addProduct";
-import { getProduct } from "../../../util/product/getProduct/getProduct";
+import { getBannerImg } from "../../../util/banner/getBannerImg";
+import { postBannerImg } from "../../../util/banner/postBanner";
+import { deleteBannerImg } from "../../../util/banner/deleteBanner";
 import { dbConnection } from "../../../util/services/dbConnection";
 
 export const config = {
@@ -13,15 +14,18 @@ export default async function handler(
   res: NextApiResponse
 ): Promise<void> {
   const database = await dbConnection();
-  const products: Collection<Document> = database.collection("products");
-
+  const banner: Collection<Document> = database.collection("bannerImg");
   switch (req.method) {
     case "GET":
-      getProduct(req, res, products);
+      getBannerImg(req, res, banner);
       break;
 
     case "POST":
-      addProduct(req, res, products);
+      postBannerImg(req, res, banner);
+      break;
+
+    case "DELETE":
+      deleteBannerImg(req, res, banner);
       break;
 
     default:

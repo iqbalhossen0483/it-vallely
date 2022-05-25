@@ -1,6 +1,15 @@
 interface SliderImg {
   _id: string;
-  url: string;
+  link: string;
+  file: FileList;
+  imgUrl: string;
+  imgId: string;
+}
+
+interface BannerImg {
+  _id: string;
+  link: string;
+  file: FileList;
   imgUrl: string;
   imgId: string;
 }

@@ -1,26 +1,16 @@
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import dynamic from "next/dynamic";
-import React, { useState } from "react";
-import MetaTages from "../../components/metaTags/MetaTages";
+import Customization from "../../components/deshboard/customizations/Customization";
+import UpdateProduct from "../../components/deshboard/updateProduct/UpdateProduct";
+import ManageProduct from "../../components/deshboard/manageProduct/ManageProduct";
+import ManageOrder from "../../components/deshboard/manageOrder/ManageOrder";
 import SideMenuInDrawer from "../../components/deshboard/SideMenuInDrawer";
+import AddProduct from "../../components/deshboard/addProdust/AddProduct";
+import ManageUser from "../../components/deshboard/manageUser/ManageUser";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SideMenus from "../../components/deshboard/SideMenus";
-const Deshboard = dynamic(() => import("../../components/deshboard/Deshboard"));
-const UpdateProduct = dynamic(
-  () => import("../../components/deshboard/updateProduct/UpdateProduct")
-);
-const AddProduct = dynamic(
-  () => import("../../components/deshboard/addProdust/AddProduct")
-);
-const ManageOrder = dynamic(
-  import("../../components/deshboard/manageOrder/ManageOrder")
-);
-const ManageProduct = dynamic(
-  import("../../components/deshboard/manageProduct/ManageProduct")
-);
-const ManageUser = dynamic(
-  import("../../components/deshboard/manageUser/ManageUser")
-);
+import Deshboard from "../../components/deshboard/Deshboard";
+import MetaTages from "../../components/metaTags/MetaTages";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import React, { useState } from "react";
 
 const DeshboardLayout = () => {
   const [drawer, setDrawer] = useState<boolean>(false);
@@ -33,11 +23,11 @@ const DeshboardLayout = () => {
     ManageOrder,
     ManageProduct,
     ManageUser,
+    Customization,
   ];
 
   return (
     <>
-      <MetaTages />
       <div className='deshboard-container'>
         <div onClick={() => setDrawer(!drawer)} className='shop-menu-icon'>
           <FontAwesomeIcon icon={faBars} />

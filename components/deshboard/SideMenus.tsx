@@ -11,6 +11,7 @@ const SideMenus = ({ value, setValue }: Props) => {
     "Manage Products",
     "Manage Orders",
     "Manage Users",
+    "Customization",
   ];
   function handleValue(e: React.SyntheticEvent, value: number) {
     setValue(value);

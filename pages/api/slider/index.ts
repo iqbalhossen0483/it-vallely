@@ -1,8 +1,9 @@
-import { Collection, Db } from "mongodb";
+import { Collection } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import { addProduct } from "../../../util/product/addProduct/addProduct";
-import { getProduct } from "../../../util/product/getProduct/getProduct";
 import { dbConnection } from "../../../util/services/dbConnection";
+import { deleteSlider } from "../../../util/slider/deleteSlider";
+import { getSlider } from "../../../util/slider/getSlider";
+import { postSliderImg } from "../../../util/slider/postSliderImg";
 
 export const config = {
   api: { bodyParser: false },
@@ -13,15 +14,18 @@ export default async function handler(
   res: NextApiResponse
 ): Promise<void> {
   const database = await dbConnection();
-  const products: Collection<Document> = database.collection("products");
-
+  const slider: Collection<Document> = database.collection("sliderImg");
   switch (req.method) {
     case "GET":
-      getProduct(req, res, products);
+      getSlider(req, res, slider);
       break;
 
     case "POST":
-      addProduct(req, res, products);
+      postSliderImg(req, res, slider);
+      break;
+
+    case "DELETE":
+      deleteSlider(req, res, slider);
       break;
 
     default:
