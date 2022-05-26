@@ -9,6 +9,8 @@ type Props = {
   filterProducts(): void;
   filterBrandProducts(brands: string[]): void;
   brands: string[];
+  filterBrand: string[];
+  setFilterBrand: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 const SideMenuBar = ({
@@ -18,6 +20,8 @@ const SideMenuBar = ({
   filterProducts,
   filterBrandProducts,
   brands,
+  filterBrand,
+  setFilterBrand,
 }: Props) => {
   return (
     <>
@@ -27,7 +31,12 @@ const SideMenuBar = ({
         setValue={setValue}
         filterProducts={filterProducts}
       />
-      <BrandMenu filterBrandProducts={filterBrandProducts} brands={brands} />
+      <BrandMenu
+        filterBrandProducts={filterBrandProducts}
+        brands={brands}
+        filterBrand={filterBrand}
+        setFilterBrand={setFilterBrand}
+      />
     </>
   );
 };

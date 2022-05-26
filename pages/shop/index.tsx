@@ -12,11 +12,12 @@ type Props = {
 };
 
 const Shop = ({ data }: Props) => {
-  const [minMaxValue, setMinMaxValue] = useState<number[]>([0, 500]);
+  const [minMaxValue, setMinMaxValue] = useState<number[]>([0, 0]);
+  const [filterBrand, setFilterBrand] = useState<string[]>([]);
   const [products, setProducts] = useState<Product[] | []>([]);
   const [brands, setBrands] = useState<string[]>([]);
   const [drawer, setDrawer] = useState<boolean>(false);
-  const [value, setValue] = useState([0, 500]);
+  const [value, setValue] = useState([0, 0]);
 
   useEffect(() => {
     setProducts(data);
@@ -27,9 +28,7 @@ const Shop = ({ data }: Props) => {
       }
     }
     setBrands(brands);
-  }, [data]);
 
-  useEffect(() => {
     let minPrice = parseInt(data[0].price);
     let maxPrice = 0;
     data.forEach((item) => {
@@ -49,7 +48,17 @@ const Shop = ({ data }: Props) => {
         parseInt(item.price) >= value[0] && parseInt(item.price) <= value[1]
     );
     if (filtered) {
-      setProducts(filtered);
+      if (filterBrand.length) {
+        const filteredProducts: Product[] = [];
+        filtered.forEach((product) => {
+          if (filterBrand.includes(product.brand)) {
+            filteredProducts.push(product);
+          }
+        });
+        setProducts(filteredProducts);
+      } else {
+        setProducts(filtered);
+      }
     } else {
       setProducts([]);
     }
@@ -83,7 +92,6 @@ const Shop = ({ data }: Props) => {
         <div onClick={() => setDrawer(!drawer)} className='shop-menu-icon'>
           <FontAwesomeIcon icon={faBars} />
         </div>
-
         <div className='side-menu-container hidden md:block'>
           <SideMenuBar
             minMaxValue={minMaxValue}
@@ -92,6 +100,8 @@ const Shop = ({ data }: Props) => {
             filterProducts={filterProducts}
             filterBrandProducts={filterBrandProducts}
             brands={brands}
+            filterBrand={filterBrand}
+            setFilterBrand={setFilterBrand}
           />
         </div>
         <div className='product-wrapper'>
@@ -114,6 +124,8 @@ const Shop = ({ data }: Props) => {
         filterProducts={filterProducts}
         filterBrandProducts={filterBrandProducts}
         brands={brands}
+        filterBrand={filterBrand}
+        setFilterBrand={setFilterBrand}
       />
       <Cart />
     </>

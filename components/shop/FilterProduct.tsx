@@ -26,6 +26,7 @@ const FilterProduct = ({
         value={value}
         valueLabelDisplay='auto'
         onChange={(e, value) => updateFilter(e, value)}
+        step={100}
         min={minMaxValue[0]}
         max={minMaxValue[1]}
       />

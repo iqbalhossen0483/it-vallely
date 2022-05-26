@@ -11,6 +11,8 @@ interface Props {
   filterProducts(): void;
   filterBrandProducts(brands: string[]): void;
   brands: string[];
+  filterBrand: string[];
+  setFilterBrand: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const SideMenuInDrawer: FC<Props> = ({
@@ -22,6 +24,8 @@ const SideMenuInDrawer: FC<Props> = ({
   filterProducts,
   brands,
   filterBrandProducts,
+  filterBrand,
+  setFilterBrand,
 }) => {
   return (
     <SwipeableDrawer
@@ -38,6 +42,8 @@ const SideMenuInDrawer: FC<Props> = ({
           filterProducts={filterProducts}
           filterBrandProducts={filterBrandProducts}
           brands={brands}
+          filterBrand={filterBrand}
+          setFilterBrand={setFilterBrand}
         />
       </div>
     </SwipeableDrawer>
