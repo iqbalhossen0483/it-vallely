@@ -16,22 +16,22 @@ import "../styles/account.css";
 import ScrollTop from "../components/shared/utilitize/ScrollTop";
 import StoreProvider from "../contex/providers/StoreProvider";
 import { NextComponentType, NextPageContext } from "next";
+import MetaTages from "../components/metaTags/MetaTages";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import useStore from "../contex/hooks/useStore";
 import Alert from "../components/alert/Alert";
 import Error from "../components/error/Error";
 import type { AppProps } from "next/app";
-import MetaTages from "../components/metaTags/MetaTages";
 
-function Layout({
-  Component,
-  pageProps,
-}: {
+type Props = {
   Component: NextComponentType<NextPageContext, any, {}>;
   pageProps: any;
-}) {
+};
+
+function Layout({ Component, pageProps }: Props) {
   const store = useStore();
+
   return (
     <>
       {store?.State.error ? (

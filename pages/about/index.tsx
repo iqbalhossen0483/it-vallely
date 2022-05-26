@@ -4,7 +4,7 @@ const About = () => {
   return (
     <div>
       <h3 className='py-20 text-center'>
-        we will edit this page later
+        We will edit this page later.. about
       </h3>
     </div>
   );

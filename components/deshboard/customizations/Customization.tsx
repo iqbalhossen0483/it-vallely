@@ -8,7 +8,9 @@ interface Props {
 
 const Customization = ({ value, index }: Props) => {
   return (
-    <div hidden={value !== index} className='customization-container'>
+    <div
+      className={`${value !== index ? "hidden" : "customization-container"}`}
+    >
       <SliderCustomize />
       <BannerCustomization />
       <div>another</div>

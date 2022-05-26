@@ -2,7 +2,6 @@ import SideMenuInDrawer from "../../components/shop/SideMenuInDrawer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { dbConnection } from "../../util/services/dbConnection";
 import ShopProducts from "../../components/shared/ShopProducts";
-import MetaTages from "../../components/metaTags/MetaTages";
 import SideMenuBar from "../../components/shop/SideMenuBar";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import Cart from "../../components/shared/utilitize/Cart";

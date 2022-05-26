@@ -1,5 +1,5 @@
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
-import React, { ReactNode, useRef, useState } from "react";
 import useStore from "../../../contex/hooks/useStore";
 import AddIcon from "@mui/icons-material/Add";
 import { useForm } from "react-hook-form";
@@ -9,20 +9,37 @@ import Image from "next/image";
 
 type T = SliderImg | BannerImg;
 type Props = {
-  sliderImages: T[];
+  data: T[];
   children: ReactNode;
+  submitFn: (slider: T) => Promise<void>;
+  deleteFn: (db_id: string, img_id: string) => Promise<void>;
 };
 
-const Banner_Slider = ({ sliderImages, children }: Props) => {
+const Banner_Slider = ({ data, children, submitFn, deleteFn }: Props) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState(-1);
   const sliderForm = useRef<HTMLFormElement>(null);
   const [showForm, setShowForm] = useState(false);
-  const { handleSubmit, register } = useForm<T>();
+  const { handleSubmit, register, reset } = useForm<T>();
   const store = useStore();
 
-  function onSubmit(data: T) {}
+  async function onSubmit(data: T) {
+    await submitFn(data);
+    reset();
+    setShowForm(false);
+  }
 
-  function deleteImage(db_id: string, img_id: string) {}
+  function deleteImage(db_id: string, img_id: string) {
+    deleteFn(db_id, img_id);
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", (e) => {
+      const isForm = sliderForm.current?.contains(e.target as Node);
+      if (!isForm) {
+        setShowForm(false);
+      }
+    });
+  }, []);
 
   return (
     <div className='slider-customize-container'>
@@ -60,7 +77,7 @@ const Banner_Slider = ({ sliderImages, children }: Props) => {
         </form>
       </div>
 
-      {sliderImages.map((slide, index) => (
+      {data.map((slide, index) => (
         <div
           key={slide._id}
           onClick={() => setShowDeleteBtn(-1)}
