@@ -35,7 +35,7 @@ const ShopProducts: FC<Props> = ({ products }) => {
           <div className='product' key={product._id}>
             <Image
               width={375}
-              height={250}
+              height={350}
               priority={true}
               src={product.productImg.imgUrl}
               alt=''

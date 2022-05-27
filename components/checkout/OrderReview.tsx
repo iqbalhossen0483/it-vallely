@@ -1,12 +1,12 @@
-import React from "react";
 import OverViewProducts from "../shared/OverViewProducts";
+import React from "react";
 
 type Props = {
-  product: Product[] | null;
-  customerInfoForm: React.RefObject<HTMLButtonElement>;
-  delivary: string;
-  discount: number | null;
   setTotalAmount: React.Dispatch<React.SetStateAction<number>>;
+  customerInfoForm: React.RefObject<HTMLButtonElement>;
+  product: OrderedProducts[] | null;
+  discount: number | null;
+  delivary: string;
 };
 
 const OrderReview = ({

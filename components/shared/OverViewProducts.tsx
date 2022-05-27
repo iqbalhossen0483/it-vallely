@@ -21,7 +21,7 @@ export const thead = [
   "Total",
 ];
 type Props = {
-  product: Product[] | null;
+  product: OrderedProducts[] | null;
   action: () => void;
   delivary?: string;
   discount?: number | null;
@@ -95,7 +95,7 @@ const OverViewProducts = ({
         </TableHead>
         <TableBody>
           {product &&
-            product.map((item: Product) => {
+            product.map((item: OrderedProducts) => {
               return (
                 <TableRow hover key={item._id}>
                   {router.pathname === "/account/viewcart" && (

@@ -34,6 +34,7 @@ function Cart(): CartReturnType {
             `/api/product?id=${productId}&multipleId=true`
           );
           if (res.data) {
+            const products: OrderedProducts[] = [];
             for (const item of res.data) {
               for (const cart of cartProducts) {
                 if (cart.productId === item._id) {
@@ -41,11 +42,20 @@ function Cart(): CartReturnType {
                 }
               }
               price += parseInt(item.price);
+              const product: OrderedProducts = {
+                _id: item._id,
+                quantity: 1,
+                productImg: { imgUrl: item.productImg.imgUrl },
+                name: item.name,
+                price: item.price,
+                productCode: item.productCode,
+              };
+              products.push(product);
             }
             setCartProduct(() => {
               return {
                 quantity: cartProducts.length,
-                products: res.data,
+                products,
                 price,
               };
             });

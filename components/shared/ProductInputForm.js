@@ -37,9 +37,11 @@ const ProductInputForm = ({ actionType, onSubmit }) => {
         delete data[item];
       }
     }
-    await onSubmit(data);
-    reset();
-    setSpecifications([]);
+    const { error } = await onSubmit(data);
+    if (!error) {
+      reset();
+      setSpecifications([]);
+    }
     setDisable(false);
   }
 

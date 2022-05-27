@@ -20,8 +20,8 @@ const DeshboardLayout = () => {
     Deshboard,
     AddProduct,
     UpdateProduct,
-    ManageOrder,
     ManageProduct,
+    ManageOrder,
     ManageUser,
     Customization,
   ];

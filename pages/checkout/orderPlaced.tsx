@@ -12,7 +12,7 @@ const OrderPlaced = () => {
       <div className='order-placed-container'>
         <h3>Your order has been placed</h3>
         <p>
-          Your order {"#" + store?.State.orderInfo?.id} has been placed
+          Your order {"#" + store?.State.orderInfo?._id} has been placed
           successfully. Do you have any questions about your order, feel free to
           call us on 01846770635 (10am to 5pm)
         </p>

@@ -13,7 +13,7 @@ const AddProduct = ({ value, index }: Props) => {
     for (const [key, value] of Object.entries(peyLoad)) {
       if (key !== "pImg" && key !== "gImg" && key !== "specifications") {
         formData.append(key, value);
-      } else if (key === "specifications") {
+      } else if (key === "specifications" && key.length) {
         formData.append("specifications", JSON.stringify(value));
       } else if (key === "pImg") {
         formData.append(key, value[0]);
@@ -32,8 +32,10 @@ const AddProduct = ({ value, index }: Props) => {
     const data = await res.json();
     if (res.ok) {
       store?.State.setAlert("Product added successfully");
+      return { error: false };
     } else {
       store?.State.setAlert(data.message || "Ops! There was an error");
+      return { error: true };
     }
   }
   return (

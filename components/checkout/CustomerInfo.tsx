@@ -8,7 +8,7 @@ type Props = {
   customerInfoForm: RefObject<HTMLButtonElement>;
   delivary: string;
   paymentMethods: string;
-  products: Product[] | null;
+  products: OrderedProducts[] | null;
   discount: number | null;
 };
 
@@ -39,11 +39,12 @@ const CustomerInfo = ({
         : parseInt(product.price);
       subTotal += price;
     }
-    peyload.delivaryMethod = delivary;
     peyload.paymentMethod = paymentMethods;
+    peyload.delivaryCost = delivaryCost;
+    peyload.delivaryMethod = delivary;
     peyload.products = products;
     peyload.subTotal = subTotal;
-    peyload.delivaryCost = delivaryCost;
+    peyload.status = "Pending";
     if (discount) {
       peyload.discount = discount;
     }
@@ -52,18 +53,22 @@ const CustomerInfo = ({
       : subTotal + delivaryCost;
 
     if (paymentMethods === "cash") {
-      postOrder(peyload);
+      if (router.query.productId) {
+        postOrder(peyload, `/api/order?id=${router.query.productId}`);
+      } else {
+        postOrder(peyload, `/api/order?multiple=true`);
+      }
     } else {
       store?.State.setOrderInfo(peyload);
       router.push(
-        `/checkout/payment${router.query.multiple && "?multiple=true"}`
+        `/checkout/payment${router.query?.multiple ? "?multiple=true" : ""}`
       );
     }
     store?.State.setLoading(false);
   }
 
-  async function postOrder(peyload: OrderInfo) {
-    const res = await fetch("/api/order", {
+  async function postOrder(peyload: OrderInfo, url: string) {
+    const res = await fetch(url, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -74,7 +79,7 @@ const CustomerInfo = ({
     if (res.ok) {
       if (data.insertedId) {
         store?.State.setAlert("Order placed successfully");
-        peyload.id = data.insertedId;
+        peyload._id = data.insertedId;
         store?.State.setOrderInfo(peyload);
         if (router.query.multiple) {
           localStorage.removeItem("cart");
@@ -97,12 +102,12 @@ const CustomerInfo = ({
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='grid grid-cols-2 gap-3'>
           <Input
-            {...register("lname", { required: true })}
+            {...register("fname", { required: true })}
             required
             label='First Name'
           />
           <Input
-            {...register("fname", { required: true })}
+            {...register("lname", { required: true })}
             required
             label='Last Name'
           />

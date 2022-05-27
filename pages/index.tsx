@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Banner from "../components/home/Banner";
 import BannerSlider from "../components/home/BannerSlider";
 import Categories from "../components/home/Categories";
@@ -12,11 +13,22 @@ type Props = {
 };
 
 const Home = ({ products, sliderImg, bannerImg }: Props) => {
+  const [categories, setCategories] = useState<string[]>([]);
+  useEffect(() => {
+    const categories: string[] = [];
+    products.forEach((single) => {
+      if (!categories.includes(single.category)) {
+        categories.push(single.category);
+      }
+    });
+    setCategories(categories);
+  }, [products]);
+
   return (
     <>
       <main>
         <div className='banner-container'>
-          <Categories />
+          <Categories categories={categories} />
           <BannerSlider images={sliderImg} />
           <Banner images={bannerImg} />
         </div>

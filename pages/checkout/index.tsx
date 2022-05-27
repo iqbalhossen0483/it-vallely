@@ -11,13 +11,13 @@ import { useRouter } from "next/router";
 import { Button } from "@mui/material";
 
 const Order = () => {
-  const [paymentMethods, setPaymentMethods] = useState<string>("cash");
   const { register, handleSubmit, reset } = useForm<{ copon: string }>();
-  const [products, setProducts] = useState<Product[] | null>(null);
+  const [paymentMethods, setPaymentMethods] = useState<string>("cash");
+  const [products, setProducts] = useState<OrderedProducts[] | null>(null);
   const [discount, setDiscount] = useState<number | null>(null);
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [delivary, setDelivary] = useState<string>("home");
   const customerInfoForm = useRef<HTMLButtonElement>(null);
+  const [delivary, setDelivary] = useState<string>("home");
+  const [totalAmount, setTotalAmount] = useState(0);
   const router = useRouter();
   const store = useStore();
 
@@ -29,10 +29,15 @@ const Order = () => {
       (async function () {
         const res = await fetchAPI<Product>(`/api/product?id=${productId}`);
         if (res.data) {
-          if (q) {
-            res.data.quantity = parseInt(q as string);
-          }
-          setProducts([res.data]);
+          const product: OrderedProducts = {
+            _id: res.data._id,
+            quantity: parseInt(q as string) || 1,
+            productImg: { imgUrl: res.data.productImg.imgUrl },
+            name: res.data.name,
+            price: res.data.price,
+            productCode: res.data.productCode,
+          };
+          setProducts([product]);
         }
       })();
     } else if (multiple) {

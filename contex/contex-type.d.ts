@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 
 type cartProduct = {
   quantity: number;
-  products: Product[] | null;
+  products: OrderedProducts[] | null;
   price: number;
 };
 interface StatesReturnType {

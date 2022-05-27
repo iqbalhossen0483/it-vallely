@@ -2,6 +2,7 @@ import { Collection, Db } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { addProduct } from "../../../util/product/addProduct/addProduct";
 import { getProduct } from "../../../util/product/getProduct/getProduct";
+import { updateProdut } from "../../../util/product/updateProduct/updateProduct";
 import { dbConnection } from "../../../util/services/dbConnection";
 
 export const config = {
@@ -22,6 +23,10 @@ export default async function handler(
 
     case "POST":
       addProduct(req, res, products);
+      break;
+
+    case "PUT":
+      updateProdut(req, res, products);
       break;
 
     default:

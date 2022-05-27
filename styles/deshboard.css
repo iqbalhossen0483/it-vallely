@@ -4,7 +4,7 @@
     @apply grid-cols-5 gap-5 px-5 py-10 relative md:grid;
   }
   .deshboard-container main {
-    @apply col-span-4 flex justify-center items-center mt-4 md:mt-0;
+    @apply col-span-4 flex justify-center mt-4 md:mt-0;
   }
   .deshboard-menus {
     @apply cursor-pointer text-xl border-r-2 border-gray-100 hidden md:block;

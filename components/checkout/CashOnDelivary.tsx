@@ -8,7 +8,10 @@ const CashOnDelivary = () => {
   const router = useRouter();
 
   const orderInfo = store?.State.orderInfo;
-
+  if (orderInfo) {
+    orderInfo.paymentMethod = "cash";
+    orderInfo.status = "Pending";
+  }
   async function postOrder(peyload: OrderInfo) {
     store?.State.setLoading(true);
     const res = await fetch("/api/order", {
@@ -22,7 +25,7 @@ const CashOnDelivary = () => {
     if (res.ok) {
       if (data.insertedId) {
         store?.State.setAlert("Order placed successfully");
-        peyload.id = data.insertedId;
+        peyload._id = data.insertedId;
         store?.State.setOrderInfo(peyload);
         if (router.query.multiple) {
           localStorage.removeItem("cart");

@@ -4,7 +4,9 @@ interface Props {
   index: number;
 }
 const Deshboard = ({ value, index }: Props) => {
-  return <div hidden={value !== index}>deshboard</div>;
+  return (
+    <div className={`${value !== index ? "hidden" : "block"}`}>deshboard</div>
+  );
 };
 
 export default Deshboard;

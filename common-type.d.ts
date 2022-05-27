@@ -19,6 +19,7 @@ interface Product {
   name: string;
   price: string;
   prevPrice?: number;
+  orderPending: string;
   category: string;
   keyFeatures: string[];
   tags: string[];
@@ -36,8 +37,17 @@ interface Product {
 
 type Cart = { productId: string; price: number; quantity: string };
 
+type OrderedProducts = {
+  _id: string;
+  productCode: string;
+  productImg: { imgUrl: string };
+  name: string;
+  price: string;
+  quantity: number;
+};
+
 type OrderInfo = {
-  id?: string;
+  _id: string;
   fname: string;
   lname: string;
   address: string;
@@ -46,9 +56,10 @@ type OrderInfo = {
   comment: string;
   delivaryMethod: string;
   paymentMethod: string;
-  products: Product[] | null;
+  products: OrderedProducts[] | null;
   delivaryCost: number;
   subTotal: number;
   discount: number;
   total: number;
+  status: string;
 };

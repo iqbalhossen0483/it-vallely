@@ -4,7 +4,7 @@ interface Props {
   index: number;
 }
 const ManageProduct = ({ value, index }: Props) => {
-  return <div hidden={value !== index}>ManageProduct</div>;
+  return <div hidden={value !== index}>ManageProduct shala</div>;
 };
 
 export default ManageProduct;

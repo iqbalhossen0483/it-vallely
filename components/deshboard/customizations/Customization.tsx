@@ -13,7 +13,7 @@ const Customization = ({ value, index }: Props) => {
     >
       <SliderCustomize />
       <BannerCustomization />
-      <div>another</div>
+      <div></div>
     </div>
   );
 };

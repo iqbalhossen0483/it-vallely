@@ -30,7 +30,7 @@ const ProductDetailTopPart = ({ data }: { data: Product }) => {
   return (
     <div className='product-details-top-part'>
       <div className='images'>
-        <Image width={400} height={300} src={productImg} alt='' />
+        <Image width={400} height={350} src={productImg} alt='' />
         <div className='gallery'>
           {data.productImgGallery.map((img, index) => (
             <div key={index} onClick={() => setProductImg(img.imgUrl)}>
