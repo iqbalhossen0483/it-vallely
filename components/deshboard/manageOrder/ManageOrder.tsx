@@ -1,9 +1,6 @@
 import { fetchAPI } from "../../../services/shared/sharedFunction";
 import useStore from "../../../contex/hooks/useStore";
-import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useEffect, useState } from "react";
-import Input from "../../shared/utilitize/Input";
-import EditIcon from "@mui/icons-material/Edit";
 import {
   Button,
   MenuItem,
@@ -99,7 +96,7 @@ const ManageOrder = ({ value, index }: Props) => {
             ))}
             <TableCell>
               <TextField
-                className='flex justify-self-center'
+                sx={{ width: "100%", textAlign: "center" }}
                 id='standard-select-currency'
                 helperText='filter order'
                 value={filterOrder}
@@ -168,10 +165,11 @@ const ManageOrder = ({ value, index }: Props) => {
                     </>
                   )}
                 </TableCell>
-                <TableCell className='grid grid-cols-4 items-center border-none'>
+                <TableCell>
                   <TextField
                     className='col-span-3'
                     id='standard-select-currency'
+                    sx={{ width: "100%", textAlign: "center" }}
                     helperText='Change Status'
                     value={order.status}
                     disabled={store?.State.loading}
@@ -187,8 +185,11 @@ const ManageOrder = ({ value, index }: Props) => {
                       </MenuItem>
                     ))}
                   </TextField>
-                  <Button onClick={() => deleteOrder(order._id)}>
-                    <DeleteIcon />
+                  <Button
+                    variant='outlined'
+                    onClick={() => deleteOrder(order._id)}
+                  >
+                    Delete
                   </Button>
                 </TableCell>
               </TableRow>

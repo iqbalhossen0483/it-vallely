@@ -8,13 +8,14 @@ import ManageUser from "../../components/deshboard/manageUser/ManageUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SideMenus from "../../components/deshboard/SideMenus";
 import Deshboard from "../../components/deshboard/Deshboard";
-import MetaTages from "../../components/metaTags/MetaTages";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const DeshboardLayout = () => {
   const [drawer, setDrawer] = useState<boolean>(false);
   const [value, setValue] = useState(0);
+  const router = useRouter();
 
   const components = [
     Deshboard,
@@ -25,6 +26,14 @@ const DeshboardLayout = () => {
     ManageUser,
     Customization,
   ];
+
+  useEffect(() => {
+    if (value !== 2) {
+      if (router.query.id) {
+        router.push("/deshboard");
+      }
+    }
+  }, [router, value]);
 
   return (
     <>
@@ -37,7 +46,12 @@ const DeshboardLayout = () => {
         </div>
         <main>
           {components.map((Component, index) => (
-            <Component key={index} index={index} value={value} />
+            <Component
+              setValue={setValue}
+              key={index}
+              index={index}
+              value={value}
+            />
           ))}
         </main>
         <SideMenuInDrawer
