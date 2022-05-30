@@ -73,7 +73,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {products?.map((product, index) => (
+          {products?.map((product) => (
             <TableRow
               onClick={() => router.push(`/shop/${product._id}`)}
               sx={{ cursor: "pointer" }}
@@ -98,7 +98,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
                   onClick={(e) => {
                     e.stopPropagation();
                     router.push(`/deshboard?id=${product._id}`);
-                    setValue(2);
+                    setValue(6);
                   }}
                   variant='outlined'
                 >

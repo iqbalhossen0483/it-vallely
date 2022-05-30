@@ -9,7 +9,8 @@
   }
 }
 @layer components {
-  input {
+  input,
+  textarea {
     @apply border rounded py-1 px-3 my-1 text-xl focus:outline-none;
   }
   .error-input {

@@ -1,46 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { Button } from "@mui/material";
+import { makeInputDataForAddProduct } from "../../services/updateProduct/makeInputData";
+import React, { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { Button, Box } from "@mui/material";
 import Input from "./utilitize/Input";
-import { useRouter } from "next/router";
 
 type Props = {
-  actionType: string;
   onSubmit: (data: any) => Promise<{ error: boolean }>;
-  product: Product | null;
+};
+type Specification = {
+  showInput: boolean;
+  inputValue: string;
+  arr: any[];
 };
 
-const ProductInputForm = ({ actionType, onSubmit, product }: Props) => {
-  const [showspecificationsInput, setShowSpecificationsInput] = useState(false);
-  const [specificationsInput, setSpecificationsInput] = useState<string>("");
-  const [specifications, setSpecifications] = useState<any[]>([]);
-  const { handleSubmit, register, reset } = useForm<any>();
-  const [isRequired, setIsRequired] = useState(true);
+const ProductInputForm = ({ onSubmit }: Props) => {
+  const { handleSubmit, register, reset, control } = useForm<any>();
   const [disable, setDisable] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (actionType === "add") {
-      setIsRequired(true);
-    } else if (actionType === "update") {
-      setIsRequired(false);
-    }
-  }, [actionType]);
-  useEffect(() => {
-    if (router.query.id) {
-      const specification: any = [];
-      product?.specifications.forEach((item: any) => {
-        specification.push(item.header);
-      });
-      setSpecifications(specification);
-    }
-  }, [router.query, product]);
+  const inputItem = makeInputDataForAddProduct();
+  const [specifications, setSpecifications] = useState<Specification>({
+    showInput: false,
+    inputValue: "",
+    arr: [],
+  });
 
   async function Submit(data: any) {
     setDisable(true);
-    if (specifications.length) {
+    if (specifications.arr.length) {
       data.specifications = [];
-      for (const item of specifications) {
+      for (const item of specifications.arr) {
         const itemArray: any = data[item].replaceAll(" | ", ": ").split(": ");
         let obj: any = { header: item };
         let i = 0;
@@ -55,185 +42,177 @@ const ProductInputForm = ({ actionType, onSubmit, product }: Props) => {
     const { error } = await onSubmit(data);
     if (!error) {
       reset();
-      setSpecifications([]);
+      setSpecifications(() => {
+        return {
+          showInput: false,
+          inputValue: "",
+          arr: [],
+        };
+      });
     }
     setDisable(false);
   }
 
-  function handleSpecifications(key: string) {
-    if (key === "Enter") {
-      if (specificationsInput.length > 0) {
-        setSpecifications([...specifications, specificationsInput]);
-        setSpecificationsInput("");
-        setShowSpecificationsInput(false);
+  function handleSpecifications(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (specifications.inputValue.length > 0) {
+        setSpecifications((prev) => {
+          return {
+            showInput: false,
+            inputValue: "",
+            arr: [...prev.arr, prev.inputValue],
+          };
+        });
       }
     }
   }
 
   return (
-    <form className='product-input-form-container'>
-      <Input
-        {...register("name", { required: isRequired })}
-        className='col-span-2'
-        label='Product name'
-        multiline
-        fullWidth
-        focused={product ? true : false}
-        defaultValue={product?.name || ""}
-        required={isRequired}
-      />
-      <Input
-        {...register("price", {
-          required: isRequired,
-        })}
-        label='price'
-        defaultValue={product?.price || ""}
-        focused={product ? true : false}
-        required={isRequired}
-        fullWidth
-        type='number'
-      />
-      <Input
-        {...register("prevPrice", {
-          required: isRequired,
-        })}
-        label='prev price'
-        fullWidth
-        defaultValue={product?.prevPrice || ""}
-        focused={product ? true : false}
-        required={isRequired}
-        type='number'
-      />
-      <Input
-        {...register("stock", {
-          required: isRequired,
-        })}
-        label='stock'
-        defaultValue={product?.stock || ""}
-        focused={product ? true : false}
-        required={isRequired}
-        fullWidth
-        type='number'
-      />
-      <Input
-        {...register("category", { required: isRequired })}
-        label='category'
-        focused={product ? true : false}
-        defaultValue={product?.category || ""}
-        required={isRequired}
-        fullWidth
-      />
-      <Input
-        {...register("productCode", { required: isRequired })}
-        label='product code'
-        focused={product ? true : false}
-        defaultValue={product?.productCode || ""}
-        required={isRequired}
-        fullWidth
-      />
-      <Input
-        {...register("brand", { required: isRequired })}
-        label='brand'
-        focused={product ? true : false}
-        defaultValue={product?.brand || ""}
-        required={isRequired}
-        fullWidth
-      />
-      <input
-        {...register("pImg", { required: isRequired })}
-        className='file'
-        type='file'
-        accept='image/*'
-      />
-      <input
-        {...register("gImg", { required: isRequired })}
-        type='file'
-        className='file'
-        multiple
-        accept='image/*'
-      />
-      <Input
-        {...register("tags", { required: isRequired })}
-        className='col-span-2'
-        label='tags, give input like tag | tag | tag'
-        focused={product ? true : false}
-        defaultValue={`${product?.tags?.join(" | ") || ""}`}
-        required={isRequired}
-        multiline
-        fullWidth
-      />
-      <Input
-        {...register("keyFeatures", {
-          required: isRequired,
-        })}
-        className='col-span-2'
-        label='keyFeatures, give input like key | key | key'
-        focused={product ? true : false}
-        required={isRequired}
-        defaultValue={`${product?.keyFeatures?.join(" | ") || ""}`}
-        multiline
-        fullWidth
-      />
-      {specifications.map((item, index) => (
-        <Input
+    <Box
+      component={"form"}
+      onClick={handleSubmit(Submit)}
+      className='product-input-form-container'
+    >
+      {inputItem.map((item, index) => (
+        <Controller
+          name={item.label}
           key={index}
-          {...register(item, {
-            required: isRequired,
-          })}
-          className='col-span-2'
-          label={`${item}, give input like key: value | key:value`}
-          focused={product ? true : false}
-          required={isRequired}
-          defaultValue='default'
-          fullWidth
-          multiline
+          control={control}
+          rules={{ required: `Please give the ${item.label}` }}
+          render={({ field }) => (
+            <Input
+              {...field}
+              className={`${
+                (item.label === "name" ||
+                  item.label === "tags" ||
+                  item.label === "keyFeatures") &&
+                "col-span-2"
+              }`}
+              type={item.type}
+              label={item.label}
+              multiline
+              fullWidth
+              maxRows={5}
+              required={true}
+            />
+          )}
+        />
+      ))}
+
+      <Controller
+        name='pImg'
+        control={control}
+        rules={{ required: "Please give an image" }}
+        render={({ field }) => (
+          <input {...field} className='file' accept='image/*' type='file' />
+        )}
+      />
+      <Controller
+        name='gImg'
+        control={control}
+        rules={{ required: "Please give at least one image" }}
+        render={({ field }) => (
+          <input
+            {...field}
+            type='file'
+            className='file'
+            accept='image/*'
+            multiple
+            max={3}
+          />
+        )}
+      />
+      {specifications.arr.map((item, index) => (
+        <Controller
+          key={index}
+          name={item}
+          control={control}
+          rules={{ required: "It is required" }}
+          render={() => (
+            <Input
+              className='col-span-2'
+              label={`${item}, give input like key: value | key:value`}
+              required={true}
+              fullWidth
+              multiline
+              maxRows={7}
+            />
+          )}
         />
       ))}
 
       {/* input for adding specification start */}
       <div
         className={`specification-input ${
-          showspecificationsInput ? "block" : "hidden"
+          specifications.showInput ? "block" : "hidden"
         }`}
       >
-        <Input
-          label='Heading'
-          required
-          fullWidth
-          value={specificationsInput}
-          onKeyDown={(e) => handleSpecifications(e.key)}
-          onChange={(e) => setSpecificationsInput(e.target.value)}
+        <Controller
+          name='Heading'
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              label='Heading'
+              required
+              fullWidth
+              value={specifications.inputValue}
+              onKeyDown={(e) => handleSpecifications(e)}
+              onChange={(e) =>
+                setSpecifications((prev) => {
+                  return {
+                    showInput: prev.showInput,
+                    inputValue: e.target.value,
+                    arr: prev.arr,
+                  };
+                })
+              }
+            />
+          )}
         />
       </div>
       <Button
-        onClick={() => setShowSpecificationsInput(!showspecificationsInput)}
+        onClick={() =>
+          setSpecifications((prev) => {
+            return {
+              showInput: !prev.showInput,
+              inputValue: prev.inputValue,
+              arr: prev.arr,
+            };
+          })
+        }
         variant='outlined'
       >
-        More
+        More Features
       </Button>
       {/* input for adding specification end */}
 
-      <Input
-        {...register("description", {
-          required: isRequired,
-        })}
-        className='col-span-2'
-        label={"Description"}
-        required={isRequired}
-        focused={product ? true : false}
-        defaultValue={product?.description || ""}
-        multiline
-        fullWidth
+      <Controller
+        name='description'
+        control={control}
+        rules={{ required: "It is required" }}
+        render={({ field }) => (
+          <Input
+            {...field}
+            className='col-span-2'
+            label={"Description"}
+            required={true}
+            multiline
+            maxRows={15}
+            fullWidth
+          />
+        )}
       />
       <Button
         className='submit-btn'
+        type='submit'
         disabled={disable}
-        onClick={handleSubmit(Submit)}
         variant='contained'
       >
-        {actionType} product
+        Add product
       </Button>
-    </form>
+    </Box>
   );
 };
 

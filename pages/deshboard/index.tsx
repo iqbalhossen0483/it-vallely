@@ -14,21 +14,21 @@ import { useRouter } from "next/router";
 
 const DeshboardLayout = () => {
   const [drawer, setDrawer] = useState<boolean>(false);
-  const [value, setValue] = useState(0);
   const router = useRouter();
+  const [value, setValue] = useState(0);
 
   const components = [
     Deshboard,
     AddProduct,
-    UpdateProduct,
     ManageProduct,
     ManageOrder,
     ManageUser,
     Customization,
+    UpdateProduct,
   ];
 
   useEffect(() => {
-    if (value !== 2) {
+    if (value !== 6) {
       if (router.query.id) {
         router.push("/deshboard");
       }

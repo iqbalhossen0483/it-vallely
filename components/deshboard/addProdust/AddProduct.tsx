@@ -40,7 +40,7 @@ const AddProduct = ({ value, index }: Props) => {
   }
   return (
     <div hidden={value !== index}>
-      <ProductInputForm actionType='add' onSubmit={handleSubmit} />
+      <ProductInputForm onSubmit={handleSubmit} />
     </div>
   );
 };

@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/product/index.ts", "util/product/addProduct/addProduct.js", "util/cloudinary/shared/imageUpload.js", "util/cloudinary/cloudinary.confiq.js", "components/shared/ProductInputForm.tsx", "components/shared/ProductInputForm.jsx", "util/product/getProduct/getProduct.js", "util/cloudinary/shared/deleteImage.js", "components/productDetails/ProductDeatails.tsx", "components/productDetails/component/ProductDetailsDesPart.js", "components/header/component/shared/CartProduct.tsx", "pages/shop/[id].js", "util/slider/deleteSlider.js", "util/product/updateProduct/updateProduct.js", "util/order/postOrder.js", "util/order/getOrder.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/product/index.ts", "util/product/addProduct/addProduct.js", "util/cloudinary/shared/imageUpload.js", "util/cloudinary/cloudinary.confiq.js", "components/shared/ProductInputForm.tsx", "components/shared/ProductInputForm.jsx", "util/product/getProduct/getProduct.js", "util/cloudinary/shared/deleteImage.js", "components/productDetails/ProductDeatails.tsx", "components/productDetails/component/ProductDetailsDesPart.js", "components/header/component/shared/CartProduct.tsx", "pages/shop/[id].js", "util/slider/deleteSlider.js", "util/product/updateProduct/updateProduct.js", "util/order/postOrder.js", "util/order/getOrder.js", "components/deshboard/updateProduct/UpdateProduct.tsx"],
   "exclude": ["node_modules"]
 }

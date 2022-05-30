@@ -12,13 +12,13 @@ const ProductDetailsDesPart = ({ data, setData }) => {
             </Button>
           )}
           <Button
-            variant={`${data.specifications ? "outlined" : "contained"}`}
-            className={`${!data.specifications && "bg-mui"}`}
+            variant={`${data?.specifications ? "outlined" : "contained"}`}
+            className={`${!data?.specifications && "bg-mui"}`}
           >
             <a href='#description'>Description</a>
           </Button>
         </div>
-        {data.specifications && (
+        {data?.specifications && (
           <div className='specification'>
             <h3>Specification</h3>
             {data.specifications.map((item, index) => (
@@ -40,7 +40,7 @@ const ProductDetailsDesPart = ({ data, setData }) => {
             ))}
           </div>
         )}
-        <div className={`${!data.specifications && "mt-5"}`} id='description'>
+        <div className={`${!data?.specifications && "mt-5"}`} id='description'>
           <h3>Description</h3>
           <h3 className='mt-6'>{data.name}</h3>
           <p>{data.description}</p>
