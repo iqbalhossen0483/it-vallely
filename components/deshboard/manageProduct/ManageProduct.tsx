@@ -39,6 +39,8 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
     (async () => {
       const res = await fetchAPI<Product[]>("/api/product");
       if (res.data) {
+        console.log(res.data);
+
         setProducts(res.data);
       } else if (res.error) {
         store?.State.setAlert(res.error);
@@ -140,49 +142,50 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {products?.map((product) => (
-            <TableRow
-              onClick={() => router.push(`/shop/${product._id}`)}
-              sx={{ cursor: "pointer" }}
-              key={product._id}
-              hover
-            >
-              <TableCell width={30}>
-                <Image
-                  width={100}
-                  height={100}
-                  src={product.productImg.imgUrl}
-                  alt=''
-                />
-              </TableCell>
-              <TableCell width={250}>{product.name}</TableCell>
-              <TableCell>{product.price}</TableCell>
-              <TableCell>{product.productCode}</TableCell>
-              <TableCell>{product.stock}</TableCell>
-              <TableCell>{product.orderPending || 0}</TableCell>
-              <TableCell width={200}>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    router.push(`/deshboard?id=${product._id}`);
-                    setValue(6);
-                  }}
-                  variant='outlined'
-                >
-                  Edit Product
-                </Button>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteProduct(product._id);
-                  }}
-                  variant='outlined'
-                >
-                  Delete Product
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {products &&
+            products?.map((product) => (
+              <TableRow
+                onClick={() => router.push(`/shop/${product._id}`)}
+                sx={{ cursor: "pointer" }}
+                key={product._id}
+                hover
+              >
+                <TableCell width={30}>
+                  <Image
+                    width={100}
+                    height={100}
+                    src={product.productImg.imgUrl}
+                    alt=''
+                  />
+                </TableCell>
+                <TableCell width={250}>{product.name}</TableCell>
+                <TableCell>{product.price}</TableCell>
+                <TableCell>{product.productCode}</TableCell>
+                <TableCell>{product.stock}</TableCell>
+                <TableCell>{product.orderPending || 0}</TableCell>
+                <TableCell width={200}>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(`/deshboard?id=${product._id}`);
+                      setValue(6);
+                    }}
+                    variant='outlined'
+                  >
+                    Edit Product
+                  </Button>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteProduct(product._id);
+                    }}
+                    variant='outlined'
+                  >
+                    Delete Product
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </div>

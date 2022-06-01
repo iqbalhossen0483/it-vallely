@@ -69,6 +69,19 @@ export async function getProduct(req, res, products) {
       }
     } //till
 
+    //search product
+    else if (req.query.searchProduct) {
+      const result = await products
+        .aggregate([
+          {
+            $match: { $text: { $search: req.headers.text } },
+          },
+          { $project: { _id: 1, name: 1, productImg: 1 } },
+        ])
+        .toArray();
+      res.status(200).send(result);
+    }
+
     //send all products;
     else {
       const allProduct = await products.find().toArray();
