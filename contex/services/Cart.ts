@@ -41,7 +41,7 @@ function Cart(): CartReturnType {
                   item.quantity = parseInt(cart.quantity);
                 }
               }
-              price += parseInt(item.price);
+              price += item.price;
               const product: OrderedProducts = {
                 _id: item._id,
                 quantity: 1,

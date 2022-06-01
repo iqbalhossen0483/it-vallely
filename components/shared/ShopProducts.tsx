@@ -69,9 +69,7 @@ const ShopProducts: FC<Props> = ({ products }) => {
             )}
             <div className='btn-group'>
               <Button
-                onClick={() =>
-                  handlecartProduct(product._id, parseInt(product.price))
-                }
+                onClick={() => handlecartProduct(product._id, product.price)}
                 variant='contained'
               >
                 add to cart

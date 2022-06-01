@@ -35,8 +35,25 @@
     @apply text-base py-3 border-mui file:bg-[#4a8cbe2b] file:border file:rounded-2xl
     file:border-mui file:px-3 file:mr-3 w-full my-0;
   }
+  .specification-form {
+    @apply absolute right-6 bottom-[7.5rem];
+  }
   .specification-input {
-    @apply absolute -right-8 bottom-44 bg-white shadow-md w-72;
+    @apply absolute -right-8 bottom-full bg-white shadow-md w-72;
+  }
+
+  /* manage product */
+  .filter-wrapper-manage-product {
+    @apply flex space-x-2;
+  }
+  .filter-wrapper-manage-product div:nth-child(2) {
+    @apply mt-1;
+  }
+  .filter-wrapper-manage-product input {
+    @apply h-1;
+  }
+  .filter-wrapper-manage-product label {
+    @apply -top-1;
   }
 }
 
@@ -76,9 +93,9 @@
 }
 @keyframes specificationInput {
   0% {
-    bottom: 10rem;
+    bottom: 50%;
   }
   100% {
-    bottom: 11rem;
+    bottom: 100%;
   }
 }

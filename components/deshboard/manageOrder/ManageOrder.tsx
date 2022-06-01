@@ -59,7 +59,7 @@ const ManageOrder = ({ value, index }: Props) => {
 
   async function deleteOrder(id: string) {
     store?.State.setLoading(true);
-    const confirm = window.confirm("Are you sure to delete");
+    const confirm = window.confirm("Are you sure to delete this order");
     if (confirm) {
       const res = await fetch("/api/order", {
         method: "DELETE",

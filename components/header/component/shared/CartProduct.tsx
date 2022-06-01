@@ -41,7 +41,7 @@ const CartProduct = ({ setShowCart }: Props) => {
               </Link>
               <CloseIcon
                 onClick={() => {
-                  store?.Carts.deleteCart(product._id, parseInt(product.price));
+                  store?.Carts.deleteCart(product._id, product.price);
                   store?.State.setAlert("Deleted successfull");
                 }}
               />
@@ -49,7 +49,8 @@ const CartProduct = ({ setShowCart }: Props) => {
           ))}
           <Button
             onClick={() => router.push("/account/viewcart")}
-            className='bg-mui mt-4'
+            className='bg-mui'
+            sx={{ marginTop: "1rem" }}
             variant='contained'
           >
             View cart

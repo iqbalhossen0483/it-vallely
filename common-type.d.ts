@@ -17,14 +17,14 @@ interface BannerImg {
 interface Product {
   _id: string;
   name: string;
-  price: string;
+  price: number;
   prevPrice?: number;
-  orderPending: string;
+  orderPending: number;
   category: string;
   keyFeatures: string[];
   tags: string[];
   pImg: FileList;
-  specifications: {}[];
+  specifications: any[];
   stock: number;
   productCode: string;
   brand: string;
@@ -42,7 +42,7 @@ type OrderedProducts = {
   productCode: string;
   productImg: { imgUrl: string };
   name: string;
-  price: string;
+  price: number;
   quantity: number;
 };
 

@@ -40,6 +40,35 @@ export async function getProduct(req, res, products) {
       }
     } //till;
 
+    //filter product
+    else if (req.query.filterProduct) {
+      const key = req.query.key,
+        value = req.query.value;
+      let result;
+      if (key === "Product Code") {
+        result = await products.find({ productCode: value }).toArray();
+      } else if (key === "Price") {
+        result = await products
+          .find({ price: { $gt: 0, $lt: parseInt(value) } })
+          .toArray();
+      } else if (key === "Order pending") {
+        result = await products
+          .find({ orderPending: { $gt: 0, $lt: parseInt(value) } })
+          .toArray();
+      } else if (key === "Stock") {
+        result = await products
+          .find({ stock: { $gt: 0, $lt: parseInt(value) } })
+          .toArray();
+      } else {
+        result = await products.find().toArray();
+      }
+      if (result) {
+        res.status(200).send(result);
+      } else {
+        serverError(res);
+      }
+    } //till
+
     //send all products;
     else {
       const allProduct = await products.find().toArray();

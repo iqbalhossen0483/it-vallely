@@ -29,13 +29,13 @@ const Shop = ({ data }: Props) => {
     }
     setBrands(brands);
 
-    let minPrice = parseInt(data[0].price);
+    let minPrice = data[0].price;
     let maxPrice = 0;
     data.forEach((item) => {
-      if (parseInt(item.price) > maxPrice) {
-        maxPrice = parseInt(item.price);
-      } else if (parseInt(item.price) < minPrice) {
-        minPrice = parseInt(item.price);
+      if (item.price > maxPrice) {
+        maxPrice = item.price;
+      } else if (item.price < minPrice) {
+        minPrice = item.price;
       }
     });
     setMinMaxValue([minPrice, maxPrice]);
@@ -44,8 +44,7 @@ const Shop = ({ data }: Props) => {
 
   function filterProducts() {
     const filtered = data?.filter(
-      (item) =>
-        parseInt(item.price) >= value[0] && parseInt(item.price) <= value[1]
+      (item) => item.price >= value[0] && item.price <= value[1]
     );
     if (filtered) {
       if (filterBrand.length) {
@@ -73,14 +72,12 @@ const Shop = ({ data }: Props) => {
         }
       });
       const filtered = filteredProducts.filter(
-        (item) =>
-          parseInt(item.price) >= value[0] && parseInt(item.price) <= value[1]
+        (item) => item.price >= value[0] && item.price <= value[1]
       );
       setProducts(filtered);
     } else {
       const filtered = data.filter(
-        (item) =>
-          parseInt(item.price) >= value[0] && parseInt(item.price) <= value[1]
+        (item) => item.price >= value[0] && item.price <= value[1]
       );
       setProducts(filtered);
     }

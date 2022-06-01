@@ -45,8 +45,8 @@ const OverViewProducts = ({
     if (product) {
       for (const item of product) {
         const totalPrice = item.quantity
-          ? item.quantity * parseInt(item.price)
-          : parseInt(item.price);
+          ? item.quantity * item.price
+          : item.price;
         total += totalPrice;
       }
       setTotal(total);
@@ -136,10 +136,7 @@ const OverViewProducts = ({
                   </TableCell>
                   <TableCell>{item.price}৳</TableCell>
                   <TableCell>
-                    {item.quantity
-                      ? item.quantity * parseInt(item.price)
-                      : item.price}
-                    ৳
+                    {item.quantity ? item.quantity * item.price : item.price}৳
                   </TableCell>
                 </TableRow>
               );
@@ -147,11 +144,7 @@ const OverViewProducts = ({
         </TableBody>
       </Table>
       <div className='price-table'>
-        <Table
-          className={`${
-            router.pathname === "/account/viewcart" ? "w-40" : "w-52"
-          } ml-auto md:w-64`}
-        >
+        <Table>
           <TableBody>
             {router.pathname === "/account/viewcart" ? (
               <TableRow hover>

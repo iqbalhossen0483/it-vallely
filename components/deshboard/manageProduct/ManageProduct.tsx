@@ -10,9 +10,10 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../contex/hooks/useStore";
 import { fetchAPI } from "../../../services/shared/sharedFunction";
+import Input from "../../shared/utilitize/Input";
 interface Props {
   value: number;
   index: number;
@@ -20,7 +21,8 @@ interface Props {
 }
 const ManageProduct = ({ value, index, setValue }: Props) => {
   const [products, setProducts] = useState<Product[] | null>(null);
-  const [filterValue, setFilterValue] = useState<string>("Images");
+  const [filterValue, setFilterValue] = useState<string>("All");
+  const [inputValue, setInputValue] = useState("");
   const heads = [
     "Images",
     "Product Name",
@@ -29,6 +31,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
     "Stock",
     "Order Pending",
   ];
+  const filters = ["All", "Price", "Product Code", "Order pending", "Stock"];
   const store = useStore();
   const router = useRouter();
 
@@ -45,6 +48,55 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
     })();
   }, [store?.State]);
 
+  async function doSearch(key: string, value: string) {
+    const res = await fetchAPI<Product[]>(
+      `/api/product?key=${key}&value=${value}&filterProduct=true`
+    );
+    if (res.data && res.data.length) {
+      setInputValue("");
+      setProducts(res.data);
+    } else if (res.data && !res.data.length) {
+      store?.State.setAlert("No result matched");
+    }
+  }
+  function getFilterProduct(key: string, action: "input" | "select") {
+    if (action === "input") {
+      if (key === "Enter") {
+        if (inputValue) {
+          const value =
+            filterValue !== "Product Code"
+              ? parseInt(inputValue) + 1
+              : inputValue;
+          doSearch(filterValue, value.toString());
+        }
+      }
+    } else {
+      if (key === "All") {
+        doSearch(key, inputValue);
+      }
+    }
+  }
+
+  async function deleteProduct(id: string) {
+    const confirm = window.confirm("Are you sure to delete this product");
+    if (confirm) {
+      const res = await fetch("/api/product", {
+        method: "DELETE",
+        headers: {
+          id,
+        },
+      });
+      const data = await res.json();
+      if (res.ok) {
+        store?.State.setAlert("Deleted successfull");
+        const exist = products?.filter((item) => item._id !== id);
+        setProducts(exist!);
+      } else {
+        store?.State.setAlert(data.message);
+      }
+    }
+  }
+
   return (
     <div hidden={value !== index}>
       <Table>
@@ -54,21 +106,36 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
               <TableCell key={index}>{item}</TableCell>
             ))}
             <TableCell>
-              <TextField
-                sx={{ width: "100%", textAlign: "center" }}
-                id='standard-select-currency'
-                helperText='filter order'
-                value={filterValue}
-                onChange={(e) => setFilterValue(e.target.value)}
-                variant='standard'
-                select
-              >
-                {heads.map((item, index) => (
-                  <MenuItem value={item} key={index}>
-                    {item}
-                  </MenuItem>
-                ))}
-              </TextField>
+              <div className='filter-wrapper-manage-product'>
+                <TextField
+                  sx={{ width: "100%", textAlign: "center" }}
+                  id='standard-select-currency'
+                  helperText='filter order'
+                  value={filterValue}
+                  onChange={(e) => {
+                    setFilterValue(e.target.value);
+                    getFilterProduct(e.target.value, "select");
+                  }}
+                  variant='standard'
+                  select
+                >
+                  {filters.map((item, index) => (
+                    <MenuItem value={item} key={index}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                {filterValue !== "All" && (
+                  <Input
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyUpCapture={(e) => getFilterProduct(e.key, "input")}
+                    disabled={filterValue === "All"}
+                    value={inputValue}
+                    type='number'
+                    label='Amount'
+                  />
+                )}
+              </div>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -104,7 +171,15 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
                 >
                   Edit Product
                 </Button>
-                <Button variant='outlined'>Delete Product</Button>
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteProduct(product._id);
+                  }}
+                  variant='outlined'
+                >
+                  Delete Product
+                </Button>
               </TableCell>
             </TableRow>
           ))}

@@ -55,6 +55,9 @@ export async function addProduct(req, res, products) {
           delete req.body.gImg;
 
           //after all operation successfull, save data to database;
+          req.body.orderPending = 0;
+          parseInt(req.body.price);
+          parseInt(req.body.stock);
           products.insertOne(req.body, async (err, result) => {
             if (!err) {
               return res.status(200).send(result);

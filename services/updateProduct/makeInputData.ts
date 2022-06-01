@@ -52,17 +52,3 @@ export function MakeInputDataForUpdateProduct(
     ],
   });
 }
-
-export function makeInputDataForAddProduct() {
-  return [
-    { label: "name", type: "text" },
-    { label: "price", type: "number" },
-    { label: "prevPrice", type: "number" },
-    { label: "stock", type: "text" },
-    { label: "category", type: "text" },
-    { label: "productCode", type: "text" },
-    { label: "brand", type: "text" },
-    { label: "tags", type: "text" },
-    { label: "keyFeatures", type: "text" },
-  ];
-}

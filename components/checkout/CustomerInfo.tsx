@@ -35,8 +35,8 @@ const CustomerInfo = ({
     let subTotal = 0;
     for (const product of products!) {
       const price = product.quantity
-        ? parseInt(product.price) * product.quantity
-        : parseInt(product.price);
+        ? product.price * product.quantity
+        : product.price;
       subTotal += price;
     }
     peyload.paymentMethod = paymentMethods;

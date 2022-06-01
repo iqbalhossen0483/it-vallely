@@ -1,9 +1,10 @@
-import { Collection, Db } from "mongodb";
-import { NextApiRequest, NextApiResponse } from "next";
+import { deleteProduct } from "../../../util/product/deleteProduct/deleteProduct";
+import { updateProdut } from "../../../util/product/updateProduct/updateProduct";
 import { addProduct } from "../../../util/product/addProduct/addProduct";
 import { getProduct } from "../../../util/product/getProduct/getProduct";
-import { updateProdut } from "../../../util/product/updateProduct/updateProduct";
 import { dbConnection } from "../../../util/services/dbConnection";
+import { NextApiRequest, NextApiResponse } from "next";
+import { Collection } from "mongodb";
 
 export const config = {
   api: { bodyParser: false },
@@ -27,6 +28,10 @@ export default async function handler(
 
     case "PUT":
       updateProdut(req, res, products);
+      break;
+    
+    case "DELETE":
+      deleteProduct(req, res, products);
       break;
 
     default:
