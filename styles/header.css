@@ -63,7 +63,7 @@
   */
 
   .search-bar-wrapper {
-    @apply md:col-span-2;
+    @apply md:col-span-2 relative;
   }
   .search-input-wrapper {
     @apply w-full relative py-2 md:py-0 md:w-3/4 md:ml-auto;
@@ -74,6 +74,13 @@
   }
   .search-input-wrapper svg {
     @apply absolute px-6 top-6 text-primary_normal right-0 text-xl md:right-16 md:top-3;
+  }
+  .search-bar-wrapper .result {
+    @apply absolute top-full left-[5.25rem] bg-white px-4 py-3 rounded z-50 shadow-lg 
+    space-y-3 min-w-[22rem];
+  }
+  .search-bar-wrapper .result .matched {
+    @apply flex gap-4 border-b items-center cursor-pointer;
   }
 
   /* 

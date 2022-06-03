@@ -33,13 +33,9 @@ const RelatedProduct = ({ category, setData }: Props) => {
       <h3>Related Product</h3>
       {products?.map((item) => (
         <div className='related-product' key={item._id}>
-          <Image
-            className='object-cover'
-            height={100}
-            width={100}
-            src={item.productImg.imgUrl}
-            alt=''
-          />
+          <div className='flex items-center'>
+            <Image height={80} width={80} src={item.productImg.imgUrl} alt='' />
+          </div>
           <div className='col-span-2'>
             <p onClick={() => handleRandomProduct(item._id)} className='name'>
               {item.name}
