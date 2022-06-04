@@ -10,7 +10,7 @@
     @apply cursor-pointer text-xl border-r-2 border-gray-100 hidden md:block;
   }
   .deshboard-container button {
-    @apply font-semibold my-1 w-full hover:text-mui;
+    @apply font-semibold my-1 w-full;
   }
 
   /*------------------- 

@@ -1,9 +1,12 @@
 import { useRouter } from "next/router";
 import React from "react";
-import OverViewProducts from "../../components/shared/OverViewProducts";
 import useStore from "../../contex/hooks/useStore";
-
-const ViewCart = () => {
+import OverViewProducts from "../shared/OverViewProducts";
+interface Props {
+  value: number;
+  index: number;
+}
+const ViewCart = ({ value, index }: Props) => {
   const store = useStore();
   const router = useRouter();
   const cartProduct = store?.Carts.cartProduct.products;
@@ -12,7 +15,7 @@ const ViewCart = () => {
     router.push(`/checkout?multiple=true`);
   }
   return (
-    <div className='bg-gray-100 py-7 px-5'>
+    <div className='bg-gray-100 p-5 rounded' hidden={value !== index}>
       {cartProduct && cartProduct.length ? (
         <div className='viewcart-container'>
           <h3>Shopping Cart</h3>

@@ -13,6 +13,9 @@
   textarea {
     @apply border rounded py-1 px-3 my-1 text-xl focus:outline-none;
   }
+  button:disabled {
+    @apply cursor-not-allowed;
+  }
   .error-input {
     @apply border-2 border-red-500 bg-red-100;
   }

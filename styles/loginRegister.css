@@ -19,6 +19,9 @@
   .login-register form button {
     @apply col-span-3 mt-4 w-fit mx-auto;
   }
+  .login-register form p {
+    @apply col-span-3 text-center text-primary mt-1;
+  }
   .login-register .other-option {
     @apply text-center;
   }

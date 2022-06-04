@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import Banner from "../components/home/Banner";
-import BannerSlider from "../components/home/BannerSlider";
-import Categories from "../components/home/Categories";
-import ShopProducts from "../components/shared/ShopProducts";
-import Cart from "../components/shared/utilitize/Cart";
 import { dbConnection } from "../util/services/dbConnection";
+import ShopProducts from "../components/shared/ShopProducts";
+import BannerSlider from "../components/home/BannerSlider";
+import Cart from "../components/shared/utilitize/Cart";
+import Categories from "../components/home/Categories";
+import Banner from "../components/home/Banner";
+import useStore from "../contex/hooks/useStore";
+import { useEffect } from "react";
 
 type Props = {
   products: Product[];
@@ -13,7 +14,7 @@ type Props = {
 };
 
 const Home = ({ products, sliderImg, bannerImg }: Props) => {
-  const [categories, setCategories] = useState<string[]>([]);
+  const store = useStore();
   useEffect(() => {
     const categories: string[] = [];
     products.forEach((single) => {
@@ -21,14 +22,15 @@ const Home = ({ products, sliderImg, bannerImg }: Props) => {
         categories.push(single.category);
       }
     });
-    setCategories(categories);
+    store?.State.setCategories(categories);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products]);
 
   return (
     <>
       <main>
         <div className='banner-container'>
-          <Categories categories={categories} />
+          <Categories />
           <BannerSlider images={sliderImg} />
           <Banner images={bannerImg} />
         </div>

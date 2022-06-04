@@ -7,9 +7,16 @@ type Props = {
   setDrawer: (prev: boolean) => void;
   value: number;
   setValue: (prev: number) => void;
+  menus: string[];
 };
 
-const SideMenuInDrawer = ({ open, setDrawer, value, setValue }: Props) => {
+const SideMenuInDrawer = ({
+  open,
+  setDrawer,
+  value,
+  setValue,
+  menus,
+}: Props) => {
   return (
     <SwipeableDrawer
       open={open}
@@ -17,7 +24,7 @@ const SideMenuInDrawer = ({ open, setDrawer, value, setValue }: Props) => {
       onOpen={() => setDrawer(true)}
       onClose={() => setDrawer(false)}
     >
-      <SideMenus value={value} setValue={setValue} />
+      <SideMenus value={value} setValue={setValue} menus={menus} />
     </SwipeableDrawer>
   );
 };

@@ -1,3 +1,4 @@
+import { User } from "firebase/auth";
 import { Dispatch, SetStateAction } from "react";
 
 type cartProduct = {
@@ -16,6 +17,8 @@ interface StatesReturnType {
   setLoading: (loading: boolean) => void;
   orderInfo: OrderInfo | null;
   setOrderInfo: Dispatch<SetStateAction<OrderInfo | null>>;
+  categories: string[];
+  setCategories: Dispatch<SetStateAction<string[]>>;
 }
 interface CartReturnType {
   cartProduct: cartProduct;
@@ -23,4 +26,15 @@ interface CartReturnType {
   Add(productId: string, price: number): CartFnReturn;
   deleteCart: (id: string, price: number) => void;
   updateCart: (id: string, quantity: string) => void;
+}
+
+interface FirebaseReturn {
+  googleSingIn: () => Promise<SignUpIn>;
+  emailSignUp: (
+    name: string,
+    email: string,
+    password: string
+  ) => Promise<SignUpIn>;
+  emailSingIn: (email: string, password: string) => Promise<SignUpIn>;
+  user: User | null;
 }

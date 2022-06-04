@@ -22,7 +22,7 @@ const TopInfo = () => {
         </p>
         <p>
           <PersonOutlineOutlinedIcon />
-          <Link href='/login'>
+          <Link href='/account'>
             <a>Account</a>
           </Link>
         </p>

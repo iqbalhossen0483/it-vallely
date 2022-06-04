@@ -17,6 +17,16 @@ const DeshboardLayout = () => {
   const router = useRouter();
   const [value, setValue] = useState(0);
 
+  const sideMenus = [
+    "Deshboard",
+    "Add Product",
+    "Manage Products",
+    "Manage Orders",
+    "Manage Users",
+    "Customization",
+    "",
+  ];
+
   const components = [
     Deshboard,
     AddProduct,
@@ -42,7 +52,7 @@ const DeshboardLayout = () => {
           <FontAwesomeIcon icon={faBars} />
         </div>
         <div className='deshboard-menus'>
-          <SideMenus value={value} setValue={setValue} />
+          <SideMenus value={value} setValue={setValue} menus={sideMenus} />
         </div>
         <main>
           {components.map((Component, index) => (
@@ -59,6 +69,7 @@ const DeshboardLayout = () => {
           setDrawer={setDrawer}
           value={value}
           setValue={setValue}
+          menus={sideMenus}
         />
       </div>
     </>

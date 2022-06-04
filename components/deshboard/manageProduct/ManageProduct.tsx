@@ -39,8 +39,6 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
     (async () => {
       const res = await fetchAPI<Product[]>("/api/product");
       if (res.data) {
-        console.log(res.data);
-
         setProducts(res.data);
       } else if (res.error) {
         store?.State.setAlert(res.error);

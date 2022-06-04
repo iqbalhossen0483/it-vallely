@@ -48,7 +48,7 @@ const CartProduct = ({ setShowCart }: Props) => {
             </div>
           ))}
           <Button
-            onClick={() => router.push("/account/viewcart")}
+            onClick={() => router.push("/account?c=2")}
             className='bg-mui'
             sx={{ marginTop: "1rem" }}
             variant='contained'
