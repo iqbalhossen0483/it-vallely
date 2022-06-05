@@ -4,12 +4,14 @@ import {
   GoogleAuthProvider,
   getAuth,
   signInWithPopup,
-  UserCredential,
   User,
   createUserWithEmailAndPassword,
   updateProfile,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  signOut,
+  sendEmailVerification,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { FirebaseReturn } from "../contex-type";
 import { useEffect, useState } from "react";
@@ -21,12 +23,6 @@ function Firebase(): FirebaseReturn {
   const googleprovider = new GoogleAuthProvider();
   const auth = getAuth();
 
-  function handleToken(result: UserCredential) {
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential?.accessToken;
-    localStorage.setItem("token", `Bearrar${token}`);
-  }
-
   //manage user;
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -37,47 +33,76 @@ function Firebase(): FirebaseReturn {
   //google sing up / in;
   async function googleSingIn(): Promise<SignUpIn> {
     try {
-      const result = await signInWithPopup(auth, googleprovider);
-      handleToken(result);
+      await signInWithPopup(auth, googleprovider);
       return { error: false, message: null };
     } catch (err: any) {
       return { error: true, message: err.message };
     }
   } //till
 
-  //emain singup
+  //email singup
   async function emailSignUp(
     name: string,
     email: string,
     password: string
-  ): Promise<SignUpIn> {
+  ): Promise<emaiSignUP> {
     try {
-      const result = await createUserWithEmailAndPassword(
+      const { user } = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      handleToken(result);
       await updateUser(name);
-      return { error: false, message: null };
+      return { error: false, message: null, user };
     } catch (err: any) {
-      return { error: true, message: err.message };
+      return { error: true, message: err.message, user: null };
     }
   } //till
 
+  //email sing in;
   async function emailSingIn(
     email: string,
     password: string
   ): Promise<SignUpIn> {
     try {
-      const result = await signInWithEmailAndPassword(auth, email, password);
-      handleToken(result);
+      await signInWithEmailAndPassword(auth, email, password);
       return { error: false, message: null };
     } catch (err: any) {
       return { error: true, message: err.message };
     }
+  } //till;
+
+  //sign out ouser;
+  async function singOut(): Promise<{ error: boolean }> {
+    try {
+      await signOut(auth);
+      return { error: false };
+    } catch (err) {
+      return { error: true };
+    }
   }
 
+  //varify email;
+  async function varifyEmail(user: User) {
+    try {
+      await sendEmailVerification(user);
+      return { error: false };
+    } catch (err) {
+      return { error: true };
+    }
+  }
+
+  //reset password;
+  async function resetPassword(email: string): Promise<{ error: boolean }> {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      return { error: false };
+    } catch (err) {
+      return { error: true };
+    }
+  }
+
+  //update user info;
   async function updateUser(
     name?: string,
     photoURL?: string
@@ -93,13 +118,16 @@ function Firebase(): FirebaseReturn {
         return { error: true };
       }
     }
-  }
+  } //till;
 
   return {
     googleSingIn,
     emailSignUp,
     emailSingIn,
     user,
+    singOut,
+    varifyEmail,
+    resetPassword,
   };
 }
 

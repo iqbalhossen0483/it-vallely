@@ -4,7 +4,7 @@ const Alert = () => {
   const store = useStore();
   setTimeout(() => {
     store?.State.setAlert(null);
-  }, 6000);
+  }, 10000);
 
   if (!store?.State.alert) {
     return null;

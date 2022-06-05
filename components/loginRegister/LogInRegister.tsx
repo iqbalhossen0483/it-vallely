@@ -1,10 +1,11 @@
-import GoogleIcon from "@mui/icons-material/Google";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import { Button } from "@mui/material";
-import { useRouter } from "next/router";
+import GoogleIcon from "@mui/icons-material/Google";
 import useStore from "../../contex/hooks/useStore";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { Button } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 
 type Props = { title: "register" | "login" };
 type Data = {
@@ -14,9 +15,12 @@ type Data = {
   rePassword: string;
 };
 
-function LoginRegister({ title }: Props): JSX.Element {
+function LoginRegister({ title }: Props) {
+  const [isVarificationSent, setIsVarificationSent] = useState(false);
   const { handleSubmit, register, reset } = useForm<Data>();
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const [emailValue, setEmailValue] = useState("");
+  const varificationDiv = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const store = useStore();
 
@@ -26,7 +30,7 @@ function LoginRegister({ title }: Props): JSX.Element {
       if (!error) {
         router.push("/");
       } else {
-        setError(message!);
+        setError(message);
       }
     }
   }
@@ -36,7 +40,14 @@ function LoginRegister({ title }: Props): JSX.Element {
     if (store) {
       const result = await store.firebase.emailSignUp(name, email, password);
       if (!result.error) {
-        router.push("/");
+        const { error } = await store.firebase.varifyEmail(result.user);
+        if (!error) {
+          reset();
+          setIsVarificationSent(true);
+          setInterval(() => {
+            router.push("/");
+          }, 3000);
+        }
       } else {
         setError(result.message!);
       }
@@ -56,7 +67,7 @@ function LoginRegister({ title }: Props): JSX.Element {
 
   function onSubmit(data: Data) {
     store?.State.setLoading(true);
-    setError("");
+    setError(null);
     if (title === "register") {
       if (data.password !== data.rePassword) {
         setError("Your password doesn't matched each other");
@@ -68,6 +79,26 @@ function LoginRegister({ title }: Props): JSX.Element {
     }
     store?.State.setLoading(false);
   }
+
+  async function forgerPassword() {
+    if (store) {
+      const { error } = await store.firebase.resetPassword(emailValue);
+      if (!error) {
+        setIsVarificationSent(true);
+      } else {
+        store.State.setAlert("Somthing went wrong");
+      }
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", (e) => {
+      const isContain = varificationDiv.current?.contains(e.target as Node);
+      if (!isContain) {
+        setIsVarificationSent(false);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -88,6 +119,7 @@ function LoginRegister({ title }: Props): JSX.Element {
           <input
             {...register("email", { required: true })}
             type='email'
+            onChange={(e) => setEmailValue(e.target.value)}
             placeholder='Enter email'
           />
           <label>Password:</label>
@@ -97,6 +129,14 @@ function LoginRegister({ title }: Props): JSX.Element {
             minLength={8}
             placeholder='Enter password'
           />
+          <div
+            hidden={!error || title !== "login"}
+            className='col-span-3 text-right'
+          >
+            <Button type='button' onClick={forgerPassword} variant='outlined'>
+              forget password
+            </Button>
+          </div>
           {title === "register" && (
             <>
               <label>Password:</label>
@@ -109,8 +149,8 @@ function LoginRegister({ title }: Props): JSX.Element {
             </>
           )}
           <p hidden={!error}>
-            {error.includes("firebase: ")
-              ? error.replace(/firebase: /i, "")
+            {error?.includes("Firebase: ")
+              ? error?.replace(/firebase: /i, "")
               : error}
           </p>
           <Button
@@ -149,6 +189,19 @@ function LoginRegister({ title }: Props): JSX.Element {
               {title === "register" ? "login" : "register"}
             </span>
           </p>
+        </div>
+
+        {/* varification part */}
+        <div hidden={!isVarificationSent} className='varification-container'>
+          <div>
+            <CheckCircleIcon />
+          </div>
+          <b>
+            Varification email has been sent! <br />
+            If you not found email, please check your spam email or click resend
+            email button
+          </b>
+          <Button variant='outlined'>Resend email</Button>
         </div>
       </div>
     </>

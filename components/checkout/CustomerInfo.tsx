@@ -1,8 +1,8 @@
-import { useRouter } from "next/router";
-import React, { RefObject } from "react";
-import { useForm } from "react-hook-form";
 import useStore from "../../contex/hooks/useStore";
 import Input from "../shared/utilitize/Input";
+import { useForm } from "react-hook-form";
+import React, { RefObject } from "react";
+import { useRouter } from "next/router";
 
 type Props = {
   customerInfoForm: RefObject<HTMLButtonElement>;
@@ -19,8 +19,10 @@ const CustomerInfo = ({
   products,
   discount,
 }: Props) => {
-  const { register, handleSubmit } = useForm<OrderInfo>();
   const store = useStore();
+  const { register, handleSubmit } = useForm<OrderInfo>({
+    defaultValues: { email: store?.firebase.user?.email || "" },
+  });
   const router = useRouter();
 
   function onSubmit(peyload: OrderInfo) {
@@ -124,11 +126,7 @@ const CustomerInfo = ({
           label='Mobile'
           type={"number"}
         />
-        <Input
-          {...register("email", { required: true })}
-          label='Email'
-          type={"email"}
-        />
+        <Input {...register("email")} disabled label='Email' type={"email"} />
         <Input {...register("comment")} multiline minRows={5} label='Comment' />
         <button ref={customerInfoForm} hidden>
           submit

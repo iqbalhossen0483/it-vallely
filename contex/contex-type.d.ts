@@ -34,7 +34,10 @@ interface FirebaseReturn {
     name: string,
     email: string,
     password: string
-  ) => Promise<SignUpIn>;
+  ) => Promise<emaiSignUP>;
   emailSingIn: (email: string, password: string) => Promise<SignUpIn>;
   user: User | null;
+  singOut: () => Promise<{ error: boolean }>;
+  varifyEmail: (user: User) => Promise<{ error: boolean }>;
+  resetPassword: (email: string) => Promise<{ error: boolean }>;
 }
