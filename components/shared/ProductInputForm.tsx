@@ -151,9 +151,46 @@ const ProductInputForm = ({ onSubmit }: Props) => {
             maxRows={7}
           />
         ))}
+
+        {/* input for adding specification start */}
+        <div className='specification-container'>
+          <Input
+            label='Heading'
+            hidden={!specifications.showInput}
+            className='specipication-input'
+            required
+            value={specifications.inputValue}
+            onKeyDown={(e) => handleSpecifications(e)}
+            onChange={(e) =>
+              setSpecifications((prev) => {
+                return {
+                  showInput: prev.showInput,
+                  inputValue: e.target.value,
+                  arr: prev.arr,
+                };
+              })
+            }
+          />
+          <Button
+            type='button'
+            onClick={() =>
+              setSpecifications((prev) => {
+                return {
+                  showInput: !prev.showInput,
+                  inputValue: prev.inputValue,
+                  arr: prev.arr,
+                };
+              })
+            }
+            variant='outlined'
+          >
+            More Features
+          </Button>
+        </div>
+        {/* input for adding specification end */}
+
         <Input
           {...register("description", { required: true })}
-          style={{ marginTop: "70px" }}
           className='col-span-2'
           label={"Description"}
           required={true}
@@ -170,46 +207,6 @@ const ProductInputForm = ({ onSubmit }: Props) => {
           Add product
         </Button>
       </form>
-
-      {/* input for adding specification start */}
-      <div className='specification-form'>
-        <div
-          hidden={!specifications.showInput}
-          className={`specification-input`}
-        >
-          <Input
-            label='Heading'
-            required
-            fullWidth
-            value={specifications.inputValue}
-            onKeyDown={(e) => handleSpecifications(e)}
-            onChange={(e) =>
-              setSpecifications((prev) => {
-                return {
-                  showInput: prev.showInput,
-                  inputValue: e.target.value,
-                  arr: prev.arr,
-                };
-              })
-            }
-          />
-        </div>
-        <Button
-          onClick={() =>
-            setSpecifications((prev) => {
-              return {
-                showInput: !prev.showInput,
-                inputValue: prev.inputValue,
-                arr: prev.arr,
-              };
-            })
-          }
-          variant='outlined'
-        >
-          More Features
-        </Button>
-      </div>
-      {/* input for adding specification end */}
     </Container>
   );
 };

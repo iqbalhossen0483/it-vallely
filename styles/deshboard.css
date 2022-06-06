@@ -35,11 +35,14 @@
     @apply text-base py-3 border-mui file:bg-[#4a8cbe2b] file:border file:rounded-2xl
     file:border-mui file:px-3 file:mr-3 w-full my-0;
   }
-  .specification-form {
-    @apply absolute right-6 bottom-[7.5rem];
+  .specification-container {
+    @apply flex flex-col items-end col-span-2 relative;
   }
-  .specification-input {
-    @apply absolute -right-8 bottom-full bg-white shadow-md w-72;
+  .specification-container .specipication-input {
+    @apply absolute bottom-full right-0 bg-white rounded shadow-md;
+  }
+  .specification-container button {
+    @apply w-fit;
   }
 
   /* manage product */
@@ -88,7 +91,7 @@
   }
 }
 
-.specification-input {
+.specification-container .specipication-input {
   animation: specificationInput 250ms linear;
 }
 @keyframes specificationInput {

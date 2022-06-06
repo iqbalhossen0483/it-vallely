@@ -20,7 +20,7 @@ export type ProductInputs = {
 
 export function MakeInputDataForUpdateProduct(
   data: Product,
-  setProductInputs: Dispatch<SetStateAction<ProductInputs | null>>
+  setProductInputs: Dispatch<SetStateAction<ProductInputs>>
 ) {
   const specipications = [];
   let item: any;
@@ -28,7 +28,7 @@ export function MakeInputDataForUpdateProduct(
     let toStr = "";
     Object.entries(item).forEach(([key, value], index, arr) => {
       if (key !== "header") {
-        toStr += `${key}: ${value}${arr.length !== index + 1 && " | "}`;
+        toStr += `${key}: ${value}${arr.length !== index + 1 ? " | " : ""}`;
       }
     });
     specipications.push({
@@ -37,11 +37,6 @@ export function MakeInputDataForUpdateProduct(
       defaltValue: toStr,
     });
   }
-  specipications.push({
-    label: "description",
-    type: "text",
-    defaltValue: data.description,
-  });
   setProductInputs({
     specipications,
     others: [

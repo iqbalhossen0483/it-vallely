@@ -15,13 +15,16 @@ interface Props {
   value: number;
   index: number;
 }
-type Rest = { _id: string; orderPending: number };
+type Rest = { _id: string; orderPending: number; description: string };
 
 const UpdateProduct = ({ value, index }: Props) => {
-  const [productInputs, setProductInputs] = useState<ProductInputs | null>(
-    null
-  );
+  const [productInputs, setProductInputs] = useState<ProductInputs>({
+    specipications: [],
+    others: [],
+  });
   const [restData, setRestData] = useState<Rest | null>(null);
+  const [showInput, setShowInput] = useState(false);
+  const [inputValue, setInputValue] = useState("");
   const { handleSubmit, reset, register } = useForm<Product>();
   const router = useRouter();
   const store = useStore();
@@ -38,6 +41,7 @@ const UpdateProduct = ({ value, index }: Props) => {
           setRestData({
             _id: res.data._id,
             orderPending: res.data.orderPending,
+            description: res.data.description,
           });
         } else if (res.error) {
           store?.State.setAlert(res.error);
@@ -49,6 +53,7 @@ const UpdateProduct = ({ value, index }: Props) => {
   }, [reset, router.query.id, store]);
 
   async function OnSubmit(peyLoad: Product) {
+    store?.State.setLoading(true);
     const specifi = makeDataSeperated(peyLoad, productInputs?.specipications!);
     peyLoad.specifications = specifi;
     peyLoad._id = restData?._id!;
@@ -85,6 +90,33 @@ const UpdateProduct = ({ value, index }: Props) => {
     } else {
       store?.State.setAlert(data.message);
     }
+    store?.State.setLoading(false);
+  }
+
+  function addSpecifications(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (inputValue.length > 0) {
+        const isExist = productInputs.specipications.find(
+          (item) => item.label === inputValue
+        );
+        if (!isExist) {
+          setProductInputs((prev) => {
+            return {
+              specipications: [
+                ...prev.specipications,
+                { label: inputValue, type: "text", defaltValue: "" },
+              ],
+              others: prev?.others,
+            };
+          });
+          setInputValue("");
+          setShowInput(false);
+        } else {
+          store?.State.setAlert("Already exist");
+        }
+      }
+    }
   }
 
   return (
@@ -94,6 +126,7 @@ const UpdateProduct = ({ value, index }: Props) => {
         className='product-input-form-container'
       >
         {productInputs &&
+          productInputs?.others.length &&
           productInputs?.others.map((inputValue, index) => (
             <Input
               key={index}
@@ -134,13 +167,14 @@ const UpdateProduct = ({ value, index }: Props) => {
         />
 
         {productInputs &&
-          productInputs?.specipications.map((item, index) => (
+          productInputs?.specipications.length &&
+          productInputs?.specipications.map((item) => (
             <Input
-              key={index}
+              key={item.label}
               {...register(item.label)}
               defaultValue={item.defaltValue}
               className='col-span-2'
-              label={item.label}
+              label={`${item.label}, give input like key: value | key:value`}
               type={item.type}
               focused
               fullWidth
@@ -148,7 +182,44 @@ const UpdateProduct = ({ value, index }: Props) => {
               maxRows={15}
             />
           ))}
-        <Button type='submit' variant='contained' className='submit-btn'>
+
+        {/* input for adding specification start */}
+        <div className='specification-container'>
+          <Input
+            hidden={!showInput}
+            label='Heading'
+            className='specipication-input'
+            value={inputValue}
+            onKeyDown={(e) => addSpecifications(e)}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+          <Button
+            type='button'
+            onClick={() => setShowInput((prev) => !prev)}
+            variant='outlined'
+          >
+            More Features
+          </Button>
+        </div>
+        {/* input for adding specification end */}
+
+        <Input
+          {...register("description")}
+          defaultValue={restData?.description}
+          className='col-span-2'
+          label='Description'
+          type='text'
+          focused
+          fullWidth
+          multiline
+          maxRows={15}
+        />
+        <Button
+          type='submit'
+          disabled={store?.State.loading}
+          variant='contained'
+          className='submit-btn'
+        >
           update product
         </Button>
       </form>
