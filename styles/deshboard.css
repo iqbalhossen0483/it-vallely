@@ -31,6 +31,13 @@
   .product-input-form-container button.submit-btn {
     @apply bg-mui hover:text-gray-100 justify-self-center;
   }
+  .specification-input-container {
+    @apply col-span-2 relative;
+  }
+  .specification-input-container svg {
+    @apply absolute top-2/4 right-3 -translate-y-2/4 fill-gray-400 hover:fill-gray-800
+    cursor-pointer;
+  }
   .file {
     @apply text-base py-3 border-mui file:bg-[#4a8cbe2b] file:border file:rounded-2xl
     file:border-mui file:px-3 file:mr-3 w-full my-0;

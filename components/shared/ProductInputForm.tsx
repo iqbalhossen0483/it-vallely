@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import CloseIcon from "@mui/icons-material/Close";
 import { Button, Container } from "@mui/material";
+import { useForm } from "react-hook-form";
+import React, { useState } from "react";
 import Input from "./utilitize/Input";
 
 type Props = {
@@ -90,6 +91,17 @@ const ProductInputForm = ({ onSubmit }: Props) => {
     }
   }
 
+  function deleteSpecification(label: string) {
+    const exist = specifications.arr.filter((item) => item !== label);
+    setSpecifications((prev) => {
+      return {
+        inputValue: prev.inputValue,
+        showInput: prev.showInput,
+        arr: exist,
+      };
+    });
+  }
+
   return (
     <Container sx={{ position: "relative" }}>
       <form
@@ -140,16 +152,18 @@ const ProductInputForm = ({ onSubmit }: Props) => {
           multiple
         />
         {specifications.arr.map((item, index) => (
-          <Input
-            key={index}
-            {...register(item, { required: true })}
-            className='col-span-2'
-            label={`${item}, give input like key: value | key:value`}
-            required={true}
-            fullWidth
-            multiline
-            maxRows={7}
-          />
+          <div key={index} className='specification-input-container'>
+            <Input
+              {...register(item, { required: true })}
+              className='col-span-2'
+              label={`${item}, give input like key: value | key:value`}
+              required={true}
+              fullWidth
+              multiline
+              maxRows={7}
+            />
+            <CloseIcon onClick={() => deleteSpecification(item)} />
+          </div>
         ))}
 
         {/* input for adding specification start */}
@@ -158,7 +172,6 @@ const ProductInputForm = ({ onSubmit }: Props) => {
             label='Heading'
             hidden={!specifications.showInput}
             className='specipication-input'
-            required
             value={specifications.inputValue}
             onKeyDown={(e) => handleSpecifications(e)}
             onChange={(e) =>

@@ -2,6 +2,7 @@ import { makeDataSeperated } from "../../../services/updateProduct/makeDataSeper
 import { fetchAPI } from "../../../services/shared/sharedFunction";
 import useStore from "../../../contex/hooks/useStore";
 import React, { useEffect, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 import Input from "../../shared/utilitize/Input";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -119,6 +120,18 @@ const UpdateProduct = ({ value, index }: Props) => {
     }
   }
 
+  function deleteSpecification(label: string) {
+    const exist = productInputs.specipications.filter(
+      (item) => item.label !== label
+    );
+    setProductInputs((prev) => {
+      return {
+        specipications: exist,
+        others: prev.others,
+      };
+    });
+  }
+
   return (
     <div hidden={value !== index} style={{ width: "70%" }}>
       <form
@@ -169,18 +182,19 @@ const UpdateProduct = ({ value, index }: Props) => {
         {productInputs &&
           productInputs?.specipications.length &&
           productInputs?.specipications.map((item) => (
-            <Input
-              key={item.label}
-              {...register(item.label)}
-              defaultValue={item.defaltValue}
-              className='col-span-2'
-              label={`${item.label}, give input like key: value | key:value`}
-              type={item.type}
-              focused
-              fullWidth
-              multiline
-              maxRows={15}
-            />
+            <div key={item.label} className='specification-input-container'>
+              <Input
+                {...register(item.label)}
+                defaultValue={item.defaltValue}
+                label={`${item.label}, give input like key: value | key:value`}
+                type={item.type}
+                focused
+                fullWidth
+                multiline
+                maxRows={15}
+              />
+              <CloseIcon onClick={() => deleteSpecification(item.label)} />
+            </div>
           ))}
 
         {/* input for adding specification start */}
