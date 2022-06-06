@@ -1,9 +1,18 @@
 import { Dispatch, SetStateAction } from "react";
 
 export type ProductInputs = {
-  specipications: { label: string; type: string; defaltValue: string }[];
+  specipications: { label: any; type: string; defaltValue: string }[];
   others: {
-    label: string;
+    label:
+      | "name"
+      | "price"
+      | "prevPrice"
+      | "stock"
+      | "category"
+      | "productCode"
+      | "brand"
+      | "tags"
+      | "keyFeatures";
     type: string;
     defaltValue: string | number;
   }[];

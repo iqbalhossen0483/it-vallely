@@ -18,7 +18,6 @@ export async function addProduct(req, res, products) {
         if (req.body.specifications) {
           req.body.specifications = JSON.parse(req.body.specifications);
         }
-
         //main product img upload;
         const { error, result } = await imageUpload(
           file.path,

@@ -66,5 +66,6 @@ export async function getStaticProps() {
       sliderImg: JSON.parse(JSON.stringify(sliderImg)),
       bannerImg: JSON.parse(JSON.stringify(bannerImg)),
     },
+    revalidate: 10,
   };
 }

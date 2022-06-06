@@ -18,7 +18,7 @@ const ProductDetailsDesPart = ({ data, setData }) => {
             <a href='#description'>Description</a>
           </Button>
         </div>
-        {data?.specifications && (
+        {data?.specifications.length && (
           <div className='specification'>
             <h3>Specification</h3>
             {data.specifications.map((item, index) => (

@@ -47,8 +47,8 @@ const ProductInputForm = ({ onSubmit }: Props) => {
 
   async function Submit(data: any) {
     setDisable(true);
+    data.specifications = [];
     if (specifications.arr.length) {
-      data.specifications = [];
       for (const item of specifications.arr) {
         const itemArray: any = data[item].replaceAll(" | ", ": ").split(": ");
         let obj: any = { header: item };
@@ -61,19 +61,17 @@ const ProductInputForm = ({ onSubmit }: Props) => {
         delete data[item];
       }
     }
-    // const { error } = await onSubmit(data);
-    // if (!error) {
-    //   reset();
-    //   setSpecifications(() => {
-    //     return {
-    //       showInput: false,
-    //       inputValue: "",
-    //       arr: [],
-    //     };
-    //   });
-    // }
-    console.log(data);
-
+    const { error } = await onSubmit(data);
+    if (!error) {
+      reset();
+      setSpecifications(() => {
+        return {
+          showInput: false,
+          inputValue: "",
+          arr: [],
+        };
+      });
+    }
     setDisable(false);
   }
 

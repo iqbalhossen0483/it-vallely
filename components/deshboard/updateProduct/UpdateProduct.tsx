@@ -1,23 +1,28 @@
+import { makeDataSeperated } from "../../../services/updateProduct/makeDataSeperated";
+import { fetchAPI } from "../../../services/shared/sharedFunction";
+import useStore from "../../../contex/hooks/useStore";
+import React, { useEffect, useState } from "react";
+import Input from "../../shared/utilitize/Input";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { Button } from "@mui/material";
 import {
   MakeInputDataForUpdateProduct,
   ProductInputs,
 } from "../../../services/updateProduct/makeInputData";
-import { fetchAPI } from "../../../services/shared/sharedFunction";
-import useStore from "../../../contex/hooks/useStore";
-import React, { useEffect, useRef, useState } from "react";
-import Input from "../../shared/utilitize/Input";
-import { Controller, useForm } from "react-hook-form";
-import { useRouter } from "next/router";
-import { Button } from "@mui/material";
+
 interface Props {
   value: number;
   index: number;
 }
+type Rest = { _id: string; orderPending: number };
+
 const UpdateProduct = ({ value, index }: Props) => {
   const [productInputs, setProductInputs] = useState<ProductInputs | null>(
     null
   );
-  const { handleSubmit, reset, control, register } = useForm<any>();
+  const [restData, setRestData] = useState<Rest | null>(null);
+  const { handleSubmit, reset, register } = useForm<Product>();
   const router = useRouter();
   const store = useStore();
 
@@ -30,13 +35,56 @@ const UpdateProduct = ({ value, index }: Props) => {
         if (res.data) {
           reset();
           MakeInputDataForUpdateProduct(res.data, setProductInputs);
+          setRestData({
+            _id: res.data._id,
+            orderPending: res.data.orderPending,
+          });
+        } else if (res.error) {
+          store?.State.setAlert(res.error);
+        } else {
+          store?.State.setError(res.netProblem);
         }
       }
     })();
-  }, [reset, router.query.id]);
+  }, [reset, router.query.id, store]);
 
-  async function OnSubmit(peyLoad: any) {
-    console.log(peyLoad);
+  async function OnSubmit(peyLoad: Product) {
+    const specifi = makeDataSeperated(peyLoad, productInputs?.specipications!);
+    peyLoad.specifications = specifi;
+    peyLoad._id = restData?._id!;
+    peyLoad.orderPending = restData?.orderPending!;
+
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(peyLoad)) {
+      if (key !== "pImg" && key !== "gImg" && key !== "specifications") {
+        formData.append(key, value);
+      } else if (key === "specifications" && key.length) {
+        formData.append("specifications", JSON.stringify(value));
+      } else if (key === "pImg" && value.length) {
+        formData.append(key, value[0]);
+      } else if (key === "gImg" && value.length) {
+        const gallery: File[] = Array.from(value);
+        gallery.forEach((img) => {
+          formData.append("gImg", img);
+        });
+      }
+    }
+    putProduct(formData);
+  }
+
+  async function putProduct(peyload: FormData) {
+    const res = await fetch(`/api/product`, {
+      method: "PUT",
+      body: peyload,
+    });
+    const data = await res.json();
+    if (res.ok) {
+      if (data.modifiedCount > 0) {
+        store?.State.setAlert("Update successfull");
+      } else store?.State.setAlert("No updated document found");
+    } else {
+      store?.State.setAlert(data.message);
+    }
   }
 
   return (

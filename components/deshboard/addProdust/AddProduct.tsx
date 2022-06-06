@@ -1,5 +1,5 @@
-import useStore from "../../../contex/hooks/useStore";
 import ProductInputForm from "../../shared/ProductInputForm";
+import useStore from "../../../contex/hooks/useStore";
 interface Props {
   value: number;
   index: number;

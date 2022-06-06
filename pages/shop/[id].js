@@ -39,5 +39,6 @@ export async function getStaticProps(contex) {
     props: {
       data: JSON.parse(JSON.stringify(singleProduct)),
     },
+    revalidate: 10
   };
 }
