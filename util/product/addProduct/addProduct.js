@@ -6,8 +6,11 @@ import { deleteImage } from "../../cloudinary/shared/deleteImage";
 export async function addProduct(req, res, products) {
   try {
     //multer for body persing;
-    const { error, file, files } = await bodyPerse(req, res);
+    const { error } = await bodyPerse(req, res);
+    // const { error, file, files } =
     if (!error) {
+      const file = req.files["pImg"][0];
+      const files = req.files["gImg"];
       //check the product code is unique;
       const isExist = await products.findOne({
         productCode: req.body.productCode,
@@ -55,8 +58,9 @@ export async function addProduct(req, res, products) {
 
           //after all operation successfull, save data to database;
           req.body.orderPending = 0;
-          parseInt(req.body.price);
-          parseInt(req.body.stock);
+          req.body.price = parseInt(req.body.price);
+          req.body.stock = parseInt(req.body.stock);
+          req.body.prevPrice = parseInt(req.body.prevPrice);
           products.insertOne(req.body, async (err, result) => {
             if (!err) {
               return res.status(200).send(result);

@@ -77,14 +77,19 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
     }
   }
 
-  async function deleteProduct(id: string) {
+  type IMG = { imgId: string; imgUrl: string };
+  type Params = { id: string; productImg: IMG; galleryImg: IMG[] };
+  async function deleteProduct({ id, productImg, galleryImg }: Params) {
     const confirm = window.confirm("Are you sure to delete this product");
     if (confirm) {
+      const formData = new FormData();
+      formData.append("id", id);
+      formData.append("productImg", JSON.stringify(productImg));
+      formData.append("galleryImg", JSON.stringify(galleryImg));
+
       const res = await fetch("/api/product", {
         method: "DELETE",
-        headers: {
-          id,
-        },
+        body: formData,
       });
       const data = await res.json();
       if (res.ok) {
@@ -175,7 +180,11 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
-                      deleteProduct(product._id);
+                      deleteProduct({
+                        id: product._id,
+                        productImg: product.productImg,
+                        galleryImg: product.productImgGallery,
+                      });
                     }}
                     variant='outlined'
                   >

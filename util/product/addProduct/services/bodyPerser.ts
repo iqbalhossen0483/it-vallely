@@ -9,13 +9,8 @@ export async function bodyPerse(req: any, res: any) {
       ]);
       multer(req, res, resolve);
     });
-
-    if (req.files["pImg"] && req.files["gImg"]) {
-      const file = req.files["pImg"][0];
-      const files = req.files["gImg"];
-      return { error: false, file, files };
-    } else return { error: false, file: undefined, files: undefined };
+    return { error: false };
   } catch (err) {
-    return { error: true, file: undefined, files: undefined };
+    return { error: true };
   }
 }

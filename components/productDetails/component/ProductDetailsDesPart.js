@@ -18,7 +18,7 @@ const ProductDetailsDesPart = ({ data, setData }) => {
             <a href='#description'>Description</a>
           </Button>
         </div>
-        {data?.specifications.length && (
+        {data?.specifications?.length ? (
           <div className='specification'>
             <h3>Specification</h3>
             {data.specifications.map((item, index) => (
@@ -39,8 +39,11 @@ const ProductDetailsDesPart = ({ data, setData }) => {
               </div>
             ))}
           </div>
-        )}
-        <div className={`${!data?.specifications && "mt-5"}`} id='description'>
+        ) : null}
+        <div
+          className={`${!data?.specifications.length && "mt-5"}`}
+          id='description'
+        >
           <h3>Description</h3>
           <h3 className='mt-6'>{data.name}</h3>
           <p>{data.description}</p>

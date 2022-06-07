@@ -52,6 +52,7 @@ function Cart(): CartReturnType {
               };
               products.push(product);
             }
+
             setCartProduct(() => {
               return {
                 quantity: cartProducts.length,

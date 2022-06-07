@@ -7,13 +7,13 @@ export async function postOrder(req, res, orders, products) {
     if (!multiple) {
       await products.updateOne(
         { _id: ObjectId(id) },
-        { $set: { orderPending: req.body.products.quantity.toString() } }
+        { $set: { orderPending: parseInt(req.body.products.quantity) } }
       );
     } else {
       for (const product of req.body.products) {
         await products.updateOne(
           { _id: ObjectId(product._id) },
-          { $set: { orderPending: product.quantity.toString() } }
+          { $set: { orderPending: parseInt(product.quantity) } }
         );
       }
     }

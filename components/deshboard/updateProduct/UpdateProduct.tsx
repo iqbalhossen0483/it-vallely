@@ -16,14 +16,13 @@ interface Props {
   value: number;
   index: number;
 }
-type Rest = { _id: string; orderPending: number; description: string };
 
 const UpdateProduct = ({ value, index }: Props) => {
   const [productInputs, setProductInputs] = useState<ProductInputs>({
     specipications: [],
     others: [],
   });
-  const [restData, setRestData] = useState<Rest | null>(null);
+  const [product, setproduct] = useState<Product | null>(null);
   const [showInput, setShowInput] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const { handleSubmit, reset, register } = useForm<Product>();
@@ -39,11 +38,7 @@ const UpdateProduct = ({ value, index }: Props) => {
         if (res.data) {
           reset();
           MakeInputDataForUpdateProduct(res.data, setProductInputs);
-          setRestData({
-            _id: res.data._id,
-            orderPending: res.data.orderPending,
-            description: res.data.description,
-          });
+          setproduct(res.data);
         } else if (res.error) {
           store?.State.setAlert(res.error);
         } else {
@@ -57,8 +52,8 @@ const UpdateProduct = ({ value, index }: Props) => {
     store?.State.setLoading(true);
     const specifi = makeDataSeperated(peyLoad, productInputs?.specipications!);
     peyLoad.specifications = specifi;
-    peyLoad._id = restData?._id!;
-    peyLoad.orderPending = restData?.orderPending!;
+    peyLoad._id = product?._id!;
+    peyLoad.orderPending = product?.orderPending!;
 
     const formData = new FormData();
     for (const [key, value] of Object.entries(peyLoad)) {
@@ -75,6 +70,15 @@ const UpdateProduct = ({ value, index }: Props) => {
         });
       }
     }
+    //if user want to update product image or gallery;
+    if (peyLoad.pImg.length)
+      formData.append("productImg", JSON.stringify(product?.productImg!));
+    if (peyLoad.gImg.length)
+      formData.append(
+        "productImgGallery",
+        JSON.stringify(product?.productImgGallery!)
+      );
+
     putProduct(formData);
   }
 
@@ -179,30 +183,29 @@ const UpdateProduct = ({ value, index }: Props) => {
           accept='image/*'
         />
 
-        {productInputs &&
-          productInputs?.specipications.length &&
-          productInputs?.specipications.map((item) => (
-            <div key={item.label} className='specification-input-container'>
-              <Input
-                {...register(item.label)}
-                defaultValue={item.defaltValue}
-                label={`${item.label}, give input like key: value | key:value`}
-                type={item.type}
-                focused
-                fullWidth
-                multiline
-                maxRows={15}
-              />
-              <CloseIcon onClick={() => deleteSpecification(item.label)} />
-            </div>
-          ))}
+        {productInputs && productInputs?.specipications.length
+          ? productInputs?.specipications.map((item) => (
+              <div key={item.label} className='specification-input-container'>
+                <Input
+                  {...register(item.label)}
+                  defaultValue={item.defaltValue}
+                  label={`${item.label}, give input like key: value | key:value`}
+                  type={item.type}
+                  focused
+                  fullWidth
+                  multiline
+                  maxRows={15}
+                />
+                <CloseIcon onClick={() => deleteSpecification(item.label)} />
+              </div>
+            ))
+          : null}
 
         {/* input for adding specification start */}
         <div className='specification-container'>
           <Input
-            hidden={!showInput}
             label='Heading'
-            className='specipication-input'
+            className={`${!showInput ? "hidden" : "specipication-input"}`}
             value={inputValue}
             onKeyDown={(e) => addSpecifications(e)}
             onChange={(e) => setInputValue(e.target.value)}
@@ -219,7 +222,7 @@ const UpdateProduct = ({ value, index }: Props) => {
 
         <Input
           {...register("description")}
-          defaultValue={restData?.description}
+          defaultValue={product?.description}
           className='col-span-2'
           label='Description'
           type='text'
