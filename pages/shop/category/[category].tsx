@@ -15,7 +15,12 @@ const Category = () => {
     (async function () {
       store?.State.setLoading(true);
       const res = await fetchAPI<Product[]>(
-        `/api/product?category=${category}&random=false`
+        `/api/product?category=${category}&random=false`,
+        {
+          headers: {
+            token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER}`,
+          },
+        }
       );
       if (res.data && res.data.length) {
         setProduct(res.data);

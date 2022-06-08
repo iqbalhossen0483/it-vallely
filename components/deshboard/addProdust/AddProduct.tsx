@@ -25,8 +25,13 @@ const AddProduct = ({ value, index }: Props) => {
       }
     }
 
+    const token = await store?.firebase.user?.getIdToken();
     const res = await fetch("/api/product", {
       method: "POST",
+      headers: {
+        user_uid: `${store?.firebase.user?.uid}`,
+        token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
+      },
       body: formData,
     });
     const data = await res.json();

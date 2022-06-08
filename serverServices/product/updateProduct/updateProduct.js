@@ -3,9 +3,14 @@ import { serverError } from "../../serverError";
 import { ObjectId } from "mongodb";
 import { imageUpload } from "../../cloudinary/shared/imageUpload";
 import { deleteImage } from "../../cloudinary/shared/deleteImage";
+import { userVarification } from "../../firebase-server/userVarification";
 
 export async function updateProduct(req, res, product) {
   try {
+    const varication = await userVarification(req);
+    if (varication.error) {
+      return res.status(401).send({ message: "user authentication failed" });
+    }
     //multer for body persing;
     const { error } = await bodyPerse(req, res);
     if (!error) {

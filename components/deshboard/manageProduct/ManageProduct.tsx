@@ -37,7 +37,11 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetchAPI<Product[]>("/api/product");
+      const res = await fetchAPI<Product[]>("/api/product", {
+        headers: {
+          token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER}`,
+        },
+      });
       if (res.data) {
         setProducts(res.data);
       } else if (res.error) {
@@ -48,6 +52,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
     })();
   }, [store?.State]);
 
+  //filter product and manage start;
   async function doSearch(key: string, value: string) {
     const res = await fetchAPI<Product[]>(
       `/api/product?key=${key}&value=${value}&filterProduct=true`
@@ -75,13 +80,15 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
         doSearch(key, inputValue);
       }
     }
-  }
+  } //filter product and manage end;;
 
+  //delete product
   type IMG = { imgId: string; imgUrl: string };
   type Params = { id: string; productImg: IMG; galleryImg: IMG[] };
   async function deleteProduct({ id, productImg, galleryImg }: Params) {
     const confirm = window.confirm("Are you sure to delete this product");
     if (confirm) {
+      const token = await store?.firebase.user?.getIdToken();
       const formData = new FormData();
       formData.append("id", id);
       formData.append("productImg", JSON.stringify(productImg));
@@ -89,6 +96,10 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
 
       const res = await fetch("/api/product", {
         method: "DELETE",
+        headers: {
+          user_uid: `${store?.firebase.user?.uid}`,
+          token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
+        },
         body: formData,
       });
       const data = await res.json();
@@ -100,7 +111,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
         store?.State.setAlert(data.message);
       }
     }
-  }
+  } //till;
 
   return (
     <div hidden={value !== index}>

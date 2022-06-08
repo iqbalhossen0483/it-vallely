@@ -20,7 +20,8 @@ function SliderCustomize() {
         store?.State.setError(res.netProblem);
       }
     })();
-  }, [update, store?.State]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [update]);
 
   //post
   async function onSubmit(slider: SliderImg) {
@@ -30,8 +31,13 @@ function SliderCustomize() {
     formData.append("file", slider.file[0]);
     formData.append("link", slider.link);
 
+    const token = await store?.firebase.user?.getIdToken();
     const res = await fetch("/api/slider", {
       method: "POST",
+      headers: {
+        user_uid: `${store?.firebase.user?.uid}`,
+        token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
+      },
       body: formData,
     });
     const data = await res.json();
@@ -47,11 +53,14 @@ function SliderCustomize() {
 
   async function deleteSliderImage(db_id: string, img_id: string) {
     store?.State.setLoading(true);
+    const token = await store?.firebase.user?.getIdToken();
     const res = await fetch("/api/slider", {
       method: "DELETE",
       headers: {
         db_id,
         img_id,
+        user_uid: `${store?.firebase.user?.uid}`,
+        token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
       },
     });
     if (res.ok) {

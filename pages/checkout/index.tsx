@@ -27,7 +27,11 @@ const Order = () => {
   useEffect(() => {
     if (productId) {
       (async function () {
-        const res = await fetchAPI<Product>(`/api/product?id=${productId}`);
+        const res = await fetchAPI<Product>(`/api/product?id=${productId}`, {
+          headers: {
+            token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER}`,
+          },
+        });
         if (res.data) {
           const product: OrderedProducts = {
             _id: res.data._id,

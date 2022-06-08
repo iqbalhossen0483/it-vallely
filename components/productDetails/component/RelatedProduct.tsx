@@ -13,7 +13,12 @@ const RelatedProduct = ({ category, setData }: Props) => {
   useEffect(() => {
     (async function () {
       const products = await fetchAPI<Product[]>(
-        `/api/product?category=${category}&random=true`
+        `/api/product?category=${category}&random=true`,
+        {
+          headers: {
+            token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER}`,
+          },
+        }
       );
       if (products.data) {
         setProducts(products.data);

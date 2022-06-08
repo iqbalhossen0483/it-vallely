@@ -31,7 +31,12 @@ function Cart(): CartReturnType {
 
         (async () => {
           const res = await fetchAPI<Product[]>(
-            `/api/product?id=${productId}&multipleId=true`
+            `/api/product?id=${productId}&multipleId=true`,
+            {
+              headers: {
+                token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER}`,
+              },
+            }
           );
           if (res.data) {
             const products: OrderedProducts[] = [];

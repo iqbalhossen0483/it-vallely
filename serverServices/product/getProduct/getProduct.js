@@ -3,8 +3,14 @@ import { serverError } from "../../serverError";
 
 export async function getProduct(req, res, products) {
   try {
-    //send id products
+    if (
+      !req.headers.token ||
+      req.headers.token !== process.env.NEXT_PUBLIC_TOKEN_BEARRER
+    ) {
+      return res.status(401).send({ message: "user authentication failed" });
+    }
     if (req.query.id) {
+      //send id products
       if (req.query.multipleId) {
         const allId = [];
         req.query.id.split("|").forEach((id) => {

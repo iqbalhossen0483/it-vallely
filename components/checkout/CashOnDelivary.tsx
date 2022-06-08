@@ -14,10 +14,13 @@ const CashOnDelivary = () => {
   }
   async function postOrder(peyload: OrderInfo) {
     store?.State.setLoading(true);
+    const token = await store?.firebase.user?.getIdToken();
     const res = await fetch("/api/order", {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        user_uid: `${store?.firebase.user?.uid}`,
+        token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
       },
       body: JSON.stringify(peyload),
     });
@@ -29,7 +32,7 @@ const CashOnDelivary = () => {
         store?.State.setOrderInfo(peyload);
         if (router.query.multiple) {
           localStorage.removeItem("cart");
-          store?.Carts.setCartProduct((prev) => {
+          store?.Carts.setCartProduct(() => {
             return { price: 0, products: null, quantity: 0 };
           });
         }

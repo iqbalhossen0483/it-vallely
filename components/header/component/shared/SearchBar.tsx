@@ -17,6 +17,7 @@ const SearchBar = () => {
     const res = await fetch(`/api/product?searchProduct=true`, {
       headers: {
         text,
+        token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER}`,
       },
     });
     const data = await res.json();

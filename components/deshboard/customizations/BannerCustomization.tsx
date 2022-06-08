@@ -20,18 +20,23 @@ function BannerCustomization() {
         store?.State.setError(res.netProblem);
       }
     })();
-  }, [update, store?.State]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [update]);
 
   //post
   async function onSubmit(banner: BannerImg) {
     store?.State.setLoading(true);
-
+    const token = await store?.firebase.user?.getIdToken();
     const formData = new FormData();
     formData.append("file", banner.file[0]);
     formData.append("link", banner.link);
 
     const res = await fetch("/api/banner", {
       method: "POST",
+      headers: {
+        user_uid: `${store?.firebase.user?.uid}`,
+        token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
+      },
       body: formData,
     });
     const data = await res.json();
@@ -47,11 +52,14 @@ function BannerCustomization() {
 
   async function deleteSliderImage(db_id: string, img_id: string) {
     store?.State.setLoading(true);
+    const token = await store?.firebase.user?.getIdToken();
     const res = await fetch("/api/banner", {
       method: "DELETE",
       headers: {
         db_id,
         img_id,
+        user_uid: `${store?.firebase.user?.uid}`,
+        token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
       },
     });
     if (res.ok) {

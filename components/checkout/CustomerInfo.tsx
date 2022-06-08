@@ -27,12 +27,6 @@ const CustomerInfo = ({
   const [agreeTerms, setAgreeTerms] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    const instance = new Date();
-    let date = instance.getDate() + 5;
-    let month = instance.getMonth() + 1;
-  }, []);
-
   function onSubmit(peyload: OrderInfo) {
     store?.State.setLoading(true);
     if (!agreeTerms) {
@@ -70,11 +64,7 @@ const CustomerInfo = ({
       : subTotal + delivaryCost;
 
     if (paymentMethods === "cash") {
-      if (router.query.productId) {
-        postOrder(peyload, `/api/order`);
-      } else {
-        postOrder(peyload, `/api/order`);
-      }
+      postOrder(peyload);
     } else {
       store?.State.setOrderInfo(peyload);
       router.push(
@@ -84,11 +74,14 @@ const CustomerInfo = ({
     store?.State.setLoading(false);
   }
 
-  async function postOrder(peyload: OrderInfo, url: string) {
-    const res = await fetch(url, {
+  async function postOrder(peyload: OrderInfo) {
+    const token = await store?.firebase.user?.getIdToken();
+    const res = await fetch("/api/order", {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        user_uid: `${store?.firebase.user?.uid}`,
+        token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
       },
       body: JSON.stringify(peyload),
     });
@@ -100,7 +93,7 @@ const CustomerInfo = ({
         store?.State.setOrderInfo(peyload);
         if (router.query.multiple) {
           localStorage.removeItem("cart");
-          store?.Carts.setCartProduct((prev) => {
+          store?.Carts.setCartProduct(() => {
             return { price: 0, products: null, quantity: 0 };
           });
         }

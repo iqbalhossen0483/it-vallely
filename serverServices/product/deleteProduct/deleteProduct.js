@@ -1,10 +1,15 @@
 import { ObjectId } from "mongodb";
 import { deleteImage } from "../../cloudinary/shared/deleteImage";
+import { userVarification } from "../../firebase-server/userVarification";
 import { serverError } from "../../serverError";
 import { bodyPerse } from "../addProduct/services/bodyPerser";
 
 export async function deleteProduct(req, res, product) {
   try {
+    const varification = await userVarification(req);
+    if (varification.error) {
+      return res.status(401).send({ message: "user authentication failed" });
+    }
     const { error } = await bodyPerse(req, res);
     if (!error) {
       req.body.productImg = JSON.parse(req.body.productImg);

@@ -2,6 +2,7 @@ import { Collection } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { deleteImage } from "../../cloudinary/shared/deleteImage";
 import { imageUpload } from "../../cloudinary/shared/imageUpload";
+import { userVarification } from "../../firebase-server/userVarification";
 import { serverError } from "../../serverError";
 import { singleFileBodyParser } from "../singleFileBodyParser";
 
@@ -12,6 +13,11 @@ export async function postSlider_Banner(
   imgFolder: string
 ) {
   try {
+    const varication = await userVarification(req);
+    if (varication.error) {
+      return res.status(401).send({ message: "user authentication failed" });
+    }
+
     //multer for body persing;
     const { error, file } = await singleFileBodyParser(req, res, "file");
     if (!error) {
