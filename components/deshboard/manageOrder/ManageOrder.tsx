@@ -1,4 +1,4 @@
-import { fetchAPI } from "../../../services/shared/sharedFunction";
+import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
 import useStore from "../../../contex/hooks/useStore";
 import React, { useEffect, useState } from "react";
 import {
@@ -11,6 +11,7 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
+import { useRouter } from "next/router";
 
 interface Props {
   value: number;
@@ -23,20 +24,31 @@ const ManageOrder = ({ value, index }: Props) => {
   const headData = ["Customer Info", "Product Info", "Delivary Info"];
   const status = ["Pending", "Approved", "Cenceled", "Delivered"];
   const filterStatus = ["All", ...status];
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
-      const res = await fetchAPI<OrderInfo[]>("/api/order");
+      const token = await store?.firebase.user?.getIdToken();
+      const res = await fetchAPI<OrderInfo[]>("/api/order", {
+        headers: {
+          user_uid: `${store?.firebase.user?.uid}`,
+          token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
+        },
+      });
       if (res.data) {
         setOrders(res.data);
         setFilterOrder("All");
       } else if (res.error) {
-        store?.State.setAlert(res.data);
+        store?.State.setAlert(res.error);
+      } else if (!res.authentication) {
+        store?.State.setAlert(res.error);
+        router.push("/");
       } else if (res.netProblem) {
         store?.State.setError(res.netProblem);
       }
     })();
-  }, [store?.State]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function updateOrder(id: string, status: string) {
     store?.State.setLoading(true);

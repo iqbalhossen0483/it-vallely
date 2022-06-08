@@ -20,14 +20,18 @@ initializeApp(firebaseConfig);
 
 function Firebase(): FirebaseReturn {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const googleprovider = new GoogleAuthProvider();
   const auth = getAuth();
 
   //manage user;
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      setLoading(false);
     });
+
+    return () => unsubscribe();
   }, [auth]);
 
   //google sing up / in;
@@ -128,6 +132,8 @@ function Firebase(): FirebaseReturn {
     singOut,
     varifyEmail,
     resetPassword,
+    loading,
+    setLoading,
   };
 }
 

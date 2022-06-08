@@ -6,24 +6,37 @@ export function getScrollHeight(height: number): boolean {
   } else return false;
 }
 
-export async function fetchAPI<T>(url: string): Promise<{
+export async function fetchAPI<T>(
+  url: string,
+  options?: RequestInit
+): Promise<{
   error: string | null;
+  authentication: boolean;
   netProblem: boolean;
   data: T | null;
 }> {
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, options);
     if (res.ok) {
       const data = await res.json();
       return {
         error: null,
+        authentication: true,
         netProblem: false,
         data,
+      };
+    } else if (res.status === 401) {
+      return {
+        error: "user authentication failed",
+        authentication: false,
+        netProblem: false,
+        data: null,
       };
     } else {
       const msg = await res.json();
       return {
-        error: msg || "There was an serverside error",
+        error: msg.message || "There was an serverside error",
+        authentication: true,
         netProblem: false,
         data: null,
       };
@@ -31,6 +44,7 @@ export async function fetchAPI<T>(url: string): Promise<{
   } catch (err) {
     return {
       error: null,
+      authentication: false,
       netProblem: true,
       data: null,
     };

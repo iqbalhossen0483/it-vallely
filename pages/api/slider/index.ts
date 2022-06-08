@@ -1,9 +1,9 @@
 import { Collection } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import { dbConnection } from "../../../util/services/dbConnection";
-import { deleteSlider } from "../../../util/slider/deleteSlider";
-import { getSlider } from "../../../util/slider/getSlider";
-import { postSliderImg } from "../../../util/slider/postSliderImg";
+import { dbConnection } from "../../../serverServices/services/dbConnection";
+import { deleteSlider } from "../../../serverServices/slider/deleteSlider";
+import { getSlider } from "../../../serverServices/slider/getSlider";
+import { postSliderImg } from "../../../serverServices/slider/postSliderImg";
 
 export const config = {
   api: { bodyParser: false },

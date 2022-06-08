@@ -1,7 +1,7 @@
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { getScrollHeight } from "../../../services/shared/sharedFunction";
+import { getScrollHeight } from "../../../clientServices/shared/sharedFunction";
 
 const ScrollTop = () => {
   const [stricky, setStricky] = useState<boolean>(false);

@@ -1,8 +1,9 @@
 import useStore from "../../contex/hooks/useStore";
 import Input from "../shared/utilitize/Input";
 import { useForm } from "react-hook-form";
-import React, { RefObject } from "react";
+import React, { RefObject, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { Checkbox, FormControlLabel, Paper } from "@mui/material";
 
 type Props = {
   customerInfoForm: RefObject<HTMLButtonElement>;
@@ -23,10 +24,24 @@ const CustomerInfo = ({
   const { register, handleSubmit } = useForm<OrderInfo>({
     defaultValues: { email: store?.firebase.user?.email || "" },
   });
+  const [agreeTerms, setAgreeTerms] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const instance = new Date();
+    let date = instance.getDate() + 5;
+    let month = instance.getMonth() + 1;
+  }, []);
 
   function onSubmit(peyload: OrderInfo) {
     store?.State.setLoading(true);
+    if (!agreeTerms) {
+      store?.State.setAlert(
+        "Please agree with our terms & conditions, Or read about this"
+      );
+      store?.State.setLoading(false);
+      return;
+    }
 
     if (peyload.mobile.length < 11 || peyload.mobile.length > 11) {
       store?.State.setAlert("Phone number is invalid");
@@ -56,9 +71,9 @@ const CustomerInfo = ({
 
     if (paymentMethods === "cash") {
       if (router.query.productId) {
-        postOrder(peyload, `/api/order?id=${router.query.productId}`);
+        postOrder(peyload, `/api/order`);
       } else {
-        postOrder(peyload, `/api/order?multiple=true`);
+        postOrder(peyload, `/api/order`);
       }
     } else {
       store?.State.setOrderInfo(peyload);
@@ -132,6 +147,15 @@ const CustomerInfo = ({
           submit
         </button>
       </form>
+      <FormControlLabel
+        onChange={(e, value) => setAgreeTerms(value)}
+        className={`${agreeTerms ? "text-mui" : "text-primary"}`}
+        control={<Checkbox />}
+        label='Agree with Terms & Conditions'
+      />
+      <div>
+        <b>This product will possibly be delivered within 5 days</b>
+      </div>
     </div>
   );
 };

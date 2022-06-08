@@ -28,7 +28,7 @@ function LoginRegister({ title }: Props) {
     if (store) {
       const { error, message } = await store?.firebase?.googleSingIn();
       if (!error) {
-        router.push("/");
+        router.push(store.State.redirect || "/");
       } else {
         setError(message);
       }
@@ -45,7 +45,7 @@ function LoginRegister({ title }: Props) {
           reset();
           setIsVarificationSent(true);
           setInterval(() => {
-            router.push("/");
+            router.push(store.State.redirect || "/");
           }, 3000);
         }
       } else {
@@ -58,7 +58,7 @@ function LoginRegister({ title }: Props) {
     if (store) {
       const result = await store.firebase.emailSingIn(email, password);
       if (!result.error) {
-        router.push("/");
+        router.push(store.State.redirect || "/");
       } else {
         setError(result.message!);
       }

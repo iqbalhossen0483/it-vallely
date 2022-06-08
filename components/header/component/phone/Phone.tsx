@@ -1,4 +1,4 @@
-import { getScrollHeight } from "../../../../services/shared/sharedFunction";
+import { getScrollHeight } from "../../../../clientServices/shared/sharedFunction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import CallCart from "../window/conponent/Call&Cart";

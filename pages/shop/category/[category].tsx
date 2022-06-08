@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import ShopProducts from "../../../components/shared/ShopProducts";
 import Spinner from "../../../components/shared/utilitize/Spinner";
 import useStore from "../../../contex/hooks/useStore";
-import { fetchAPI } from "../../../services/shared/sharedFunction";
+import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
 
 const Category = () => {
   const [product, setProduct] = useState<Product[] | null>(null);

@@ -18,7 +18,7 @@ const ProductDetailsDesPart = ({ data, setData }) => {
             <a href='#description'>Description</a>
           </Button>
         </div>
-        {data?.specifications?.length ? (
+        {data?.specifications && data?.specifications.length ? (
           <div className='specification'>
             <h3>Specification</h3>
             {data.specifications.map((item, index) => (
@@ -41,7 +41,7 @@ const ProductDetailsDesPart = ({ data, setData }) => {
           </div>
         ) : null}
         <div
-          className={`${!data?.specifications.length && "mt-5"}`}
+          className={`${!data?.specifications?.length && "mt-5"}`}
           id='description'
         >
           <h3>Description</h3>

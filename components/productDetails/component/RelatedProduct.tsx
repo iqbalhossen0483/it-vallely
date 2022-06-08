@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { fetchAPI } from "../../../services/shared/sharedFunction";
+import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
 
 type Props = {
   category: string;

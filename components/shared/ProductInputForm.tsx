@@ -170,9 +170,9 @@ const ProductInputForm = ({ onSubmit }: Props) => {
         <div className='specification-container'>
           <Input
             label='Heading'
-            className={`${
-              !specifications.showInput ? "hidden" : "specipication-input"
-            }`}
+            style={{
+              display: `${!specifications.showInput ? "none" : "block"}`,
+            }}
             value={specifications.inputValue}
             onKeyDown={(e) => handleSpecifications(e)}
             onChange={(e) =>

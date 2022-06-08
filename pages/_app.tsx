@@ -23,6 +23,8 @@ import useStore from "../contex/hooks/useStore";
 import Alert from "../components/alert/Alert";
 import Error from "../components/error/Error";
 import type { AppProps } from "next/app";
+import { useRouter } from "next/router";
+import UserRoute from "../components/protectedRoute/UserRoute";
 
 type Props = {
   Component: NextComponentType<NextPageContext, any, {}>;
@@ -31,6 +33,8 @@ type Props = {
 
 function Layout({ Component, pageProps }: Props) {
   const store = useStore();
+  const router = useRouter();
+  const protectedRoute = ["/account", "/checkout", "/deshboard"];
 
   return (
     <>
@@ -40,7 +44,13 @@ function Layout({ Component, pageProps }: Props) {
         <>
           <MetaTages />
           <Header />
-          <Component {...pageProps} />
+          {protectedRoute.includes(router.pathname) ? (
+            <UserRoute>
+              <Component {...pageProps} />
+            </UserRoute>
+          ) : (
+            <Component {...pageProps} />
+          )}
           <ScrollTop />
           <Footer />
           <Alert />

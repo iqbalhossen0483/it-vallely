@@ -24,18 +24,20 @@ export function MakeInputDataForUpdateProduct(
 ) {
   const specipications = [];
   let item: any;
-  for (item of data?.specifications) {
-    let toStr = "";
-    Object.entries(item).forEach(([key, value], index, arr) => {
-      if (key !== "header") {
-        toStr += `${key}: ${value}${arr.length !== index + 1 ? " | " : ""}`;
-      }
-    });
-    specipications.push({
-      label: item.header,
-      type: "text",
-      defaltValue: toStr,
-    });
+  if (data.specifications) {
+    for (item of data.specifications) {
+      let toStr = "";
+      Object.entries(item).forEach(([key, value], index, arr) => {
+        if (key !== "header") {
+          toStr += `${key}: ${value}${arr.length !== index + 1 ? " | " : ""}`;
+        }
+      });
+      specipications.push({
+        label: item.header,
+        type: "text",
+        defaltValue: toStr,
+      });
+    }
   }
   setProductInputs({
     specipications,

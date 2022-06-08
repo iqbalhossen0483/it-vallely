@@ -1,7 +1,7 @@
 import CustomerInfo from "../../components/checkout/CustomerInfo";
 import DelivaryInfo from "../../components/checkout/DelivaryInfo";
 import PaymentInfo from "../../components/checkout/PaymentInfo";
-import { fetchAPI } from "../../services/shared/sharedFunction";
+import { fetchAPI } from "../../clientServices/shared/sharedFunction";
 import OrderReview from "../../components/checkout/OrderReview";
 import Input from "../../components/shared/utilitize/Input";
 import React, { useEffect, useRef, useState } from "react";

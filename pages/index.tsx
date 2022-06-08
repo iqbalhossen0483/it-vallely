@@ -1,4 +1,4 @@
-import { dbConnection } from "../util/services/dbConnection";
+import { dbConnection } from "../serverServices/services/dbConnection";
 import ShopProducts from "../components/shared/ShopProducts";
 import BannerSlider from "../components/home/BannerSlider";
 import Cart from "../components/shared/utilitize/Cart";

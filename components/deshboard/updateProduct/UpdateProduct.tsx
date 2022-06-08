@@ -1,5 +1,5 @@
-import { makeDataSeperated } from "../../../services/updateProduct/makeDataSeperated";
-import { fetchAPI } from "../../../services/shared/sharedFunction";
+import { makeDataSeperated } from "../../../clientServices/updateProduct/makeDataSeperated";
+import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
 import useStore from "../../../contex/hooks/useStore";
 import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -10,7 +10,7 @@ import { Button } from "@mui/material";
 import {
   MakeInputDataForUpdateProduct,
   ProductInputs,
-} from "../../../services/updateProduct/makeInputData";
+} from "../../../clientServices/updateProduct/makeInputData";
 
 interface Props {
   value: number;
@@ -205,7 +205,7 @@ const UpdateProduct = ({ value, index }: Props) => {
         <div className='specification-container'>
           <Input
             label='Heading'
-            className={`${!showInput ? "hidden" : "specipication-input"}`}
+            style={{ display: `${!showInput ? "none" : "block"}` }}
             value={inputValue}
             onKeyDown={(e) => addSpecifications(e)}
             onChange={(e) => setInputValue(e.target.value)}

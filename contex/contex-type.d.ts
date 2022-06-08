@@ -19,6 +19,8 @@ interface StatesReturnType {
   setOrderInfo: Dispatch<SetStateAction<OrderInfo | null>>;
   categories: string[];
   setCategories: Dispatch<SetStateAction<string[]>>;
+  redirect: string;
+  setRidirect: Dispatch<SetStateAction<string>>;
 }
 interface CartReturnType {
   cartProduct: cartProduct;
@@ -40,4 +42,6 @@ interface FirebaseReturn {
   singOut: () => Promise<{ error: boolean }>;
   varifyEmail: (user: User) => Promise<{ error: boolean }>;
   resetPassword: (email: string) => Promise<{ error: boolean }>;
+  loading: boolean;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 }

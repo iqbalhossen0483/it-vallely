@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchAPI } from "../../services/shared/sharedFunction";
+import { fetchAPI } from "../../clientServices/shared/sharedFunction";
 interface Props {
   value: number;
   index: number;

@@ -45,7 +45,7 @@
   .specification-container {
     @apply flex flex-col items-end col-span-2 relative;
   }
-  .specification-container .specipication-input {
+  .specification-container > div {
     @apply absolute bottom-full right-0 bg-white rounded shadow-md;
   }
   .specification-container button {
@@ -98,7 +98,7 @@
   }
 }
 
-.specification-container .specipication-input {
+.specification-container > div {
   animation: specificationInput 250ms linear;
 }
 @keyframes specificationInput {

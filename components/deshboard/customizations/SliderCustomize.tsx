@@ -1,5 +1,5 @@
 import Banner_Slider from "../../shared/mergedBanner_Slider/Banner_Slider";
-import { fetchAPI } from "../../../services/shared/sharedFunction";
+import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
 import useStore from "../../../contex/hooks/useStore";
 import React, { useState } from "react";
 import { useEffect } from "react";

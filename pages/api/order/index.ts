@@ -1,10 +1,10 @@
 import { Collection, Db } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getOrder } from "../../../util/order/getOrder";
-import { postOrder } from "../../../util/order/postOrder";
-import { dbConnection } from "../../../util/services/dbConnection";
-import { updateOrder } from "../../../util/order/updateOrder";
-import { deleteOrder } from "../../../util/order/deleteOrder";
+import { getOrder } from "../../../serverServices/order/getOrder";
+import { postOrder } from "../../../serverServices/order/postOrder";
+import { dbConnection } from "../../../serverServices/services/dbConnection";
+import { updateOrder } from "../../../serverServices/order/updateOrder";
+import { deleteOrder } from "../../../serverServices/order/deleteOrder";
 
 export default async function handler(
   req: NextApiRequest,

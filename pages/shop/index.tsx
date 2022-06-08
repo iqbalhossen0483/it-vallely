@@ -1,6 +1,6 @@
 import SideMenuInDrawer from "../../components/shop/SideMenuInDrawer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { dbConnection } from "../../util/services/dbConnection";
+import { dbConnection } from "../../serverServices/services/dbConnection";
 import ShopProducts from "../../components/shared/ShopProducts";
 import SideMenuBar from "../../components/shop/SideMenuBar";
 import { faBars } from "@fortawesome/free-solid-svg-icons";

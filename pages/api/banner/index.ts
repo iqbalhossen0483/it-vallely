@@ -1,9 +1,9 @@
 import { Collection } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getBannerImg } from "../../../util/banner/getBannerImg";
-import { postBannerImg } from "../../../util/banner/postBanner";
-import { deleteBannerImg } from "../../../util/banner/deleteBanner";
-import { dbConnection } from "../../../util/services/dbConnection";
+import { getBannerImg } from "../../../serverServices/banner/getBannerImg";
+import { postBannerImg } from "../../../serverServices/banner/postBanner";
+import { deleteBannerImg } from "../../../serverServices/banner/deleteBanner";
+import { dbConnection } from "../../../serverServices/services/dbConnection";
 
 export const config = {
   api: { bodyParser: false },

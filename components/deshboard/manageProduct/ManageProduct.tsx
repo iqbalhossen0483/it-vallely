@@ -12,7 +12,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../contex/hooks/useStore";
-import { fetchAPI } from "../../../services/shared/sharedFunction";
+import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
 import Input from "../../shared/utilitize/Input";
 interface Props {
   value: number;

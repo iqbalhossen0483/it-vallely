@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { getScrollHeight } from "../../../services/shared/sharedFunction";
+import { getScrollHeight } from "../../../clientServices/shared/sharedFunction";
 import useStore from "../../../contex/hooks/useStore";
 
 const Cart = () => {

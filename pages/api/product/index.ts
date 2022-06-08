@@ -1,8 +1,8 @@
-import { deleteProduct } from "../../../util/product/deleteProduct/deleteProduct";
-import { updateProduct } from "../../../util/product/updateProduct/updateProduct";
-import { addProduct } from "../../../util/product/addProduct/addProduct";
-import { getProduct } from "../../../util/product/getProduct/getProduct";
-import { dbConnection } from "../../../util/services/dbConnection";
+import { deleteProduct } from "../../../serverServices/product/deleteProduct/deleteProduct";
+import { updateProduct } from "../../../serverServices/product/updateProduct/updateProduct";
+import { addProduct } from "../../../serverServices/product/addProduct/addProduct";
+import { getProduct } from "../../../serverServices/product/getProduct/getProduct";
+import { dbConnection } from "../../../serverServices/services/dbConnection";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Collection } from "mongodb";
 

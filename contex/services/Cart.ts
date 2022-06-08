@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchAPI } from "../../services/shared/sharedFunction";
+import { fetchAPI } from "../../clientServices/shared/sharedFunction";
 import { cartProduct, CartReturnType } from "../contex-type";
 
 type CartFnReturn = { message: "added" | "success" };

@@ -5,8 +5,9 @@ import SideMenus from "../../components/deshboard/SideMenus";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import Profile from "../../components/account/Profile";
 import MyOrder from "../../components/account/MyOrder";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import useStore from "../../contex/hooks/useStore";
 
 const AccountLayout = () => {
   const [drawer, setDrawer] = useState<boolean>(false);

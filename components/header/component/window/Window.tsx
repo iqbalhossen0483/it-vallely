@@ -1,4 +1,4 @@
-import { getScrollHeight } from "../../../../services/shared/sharedFunction";
+import { getScrollHeight } from "../../../../clientServices/shared/sharedFunction";
 import CallCart from "./conponent/Call&Cart";
 import SearchBar from "../shared/SearchBar";
 import { useEffect, useState } from "react";
