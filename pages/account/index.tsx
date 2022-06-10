@@ -7,7 +7,6 @@ import Profile from "../../components/account/Profile";
 import MyOrder from "../../components/account/MyOrder";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import useStore from "../../contex/hooks/useStore";
 
 const AccountLayout = () => {
   const [drawer, setDrawer] = useState<boolean>(false);
@@ -16,6 +15,13 @@ const AccountLayout = () => {
 
   const sideMenus = ["My Profile", "My Orders", "Cart Product"];
   const components = [Profile, MyOrder, ViewCart];
+
+  useEffect(() => {
+    if (value !== 2) {
+      router.push("/account");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   return (
     <>

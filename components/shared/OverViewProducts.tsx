@@ -146,7 +146,7 @@ const OverViewProducts = ({
       <div className='price-table'>
         <Table>
           <TableBody>
-            {router.pathname === "/account/viewcart" ? (
+            {router.pathname === "/account" ? (
               <TableRow hover>
                 <TableCell>Total:</TableCell>
                 <TableCell sx={{ fontWeight: 600, color: "#e8080a" }}>

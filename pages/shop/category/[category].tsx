@@ -1,9 +1,9 @@
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import ShopProducts from "../../../components/shared/ShopProducts";
-import Spinner from "../../../components/shared/utilitize/Spinner";
-import useStore from "../../../contex/hooks/useStore";
 import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
+import Spinner from "../../../components/shared/utilitize/Spinner";
+import ShopProducts from "../../../components/shared/ShopProducts";
+import useStore from "../../../contex/hooks/useStore";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const Category = () => {
   const [product, setProduct] = useState<Product[] | null>(null);
@@ -44,7 +44,7 @@ const Category = () => {
           <ShopProducts products={product} />
         </div>
       ) : (
-        <div className='flex justify-center items-center h-[50vh] text-xl text-gray-400'>
+        <div className='empty-message'>
           <p>There is no product available</p>
         </div>
       )}

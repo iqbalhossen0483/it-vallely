@@ -25,6 +25,12 @@
   .hideOnPhone {
     @apply hidden md:block;
   }
+  .empty-message {
+    @apply flex justify-center items-center h-[50vh] text-xl text-gray-400;
+  }
+  .link {
+    @apply cursor-pointer hover:text-mui;
+  }
 }
 * {
   font-family: "Roboto", sans-serif;

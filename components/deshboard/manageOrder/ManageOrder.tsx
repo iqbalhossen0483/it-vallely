@@ -11,17 +11,19 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
+import Orders from "../../HOC/Orders";
 
 interface Props {
   value: number;
   index: number;
+  updateOrder(id: string, status: OrderStatus): void;
+  deleteOrder(id: string): Promise<void>;
 }
-const ManageOrder = ({ value, index }: Props) => {
+const ManageOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
   const headData = ["Customer Info", "Product Info", "Delivary Info"];
   const status = ["Pending", "Approved", "Cenceled", "Delivered"];
   const [orders, setOrders] = useState<OrderInfo[] | null>(null);
   const [filterOrder, setFilterOrder] = useState("All");
-  const [update, setUpdate] = useState(false);
   const filterStatus = ["All", ...status];
   const store = useStore();
 
@@ -37,63 +39,14 @@ const ManageOrder = ({ value, index }: Props) => {
       if (res.data) {
         setOrders(res.data);
         setFilterOrder("All");
-      } else if (res.error) {
-        store?.State.setAlert(res.error);
-      } else if (!res.authentication) {
-        store?.State.setAlert(res.error);
       } else if (res.netProblem) {
         store?.State.setError(res.netProblem);
+      } else {
+        store?.State.setAlert(res.error);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [update]);
-
-  async function updateOrder(id: string, status: string) {
-    store?.State.setLoading(true);
-    const token = await store?.firebase.user?.getIdToken();
-    const body = { id, status };
-    const res = await fetch("/api/order", {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-        user_uid: `${store?.firebase.user?.uid}`,
-        token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
-      },
-      body: JSON.stringify(body),
-    });
-    const data = await res.json();
-    if (res.ok) {
-      store?.State.setAlert("Update successfull");
-      setUpdate((prev) => !prev);
-    } else {
-      store?.State.setAlert(data.message || "Opps! an error occurs");
-    }
-    store?.State.setLoading(false);
-  }
-
-  async function deleteOrder(id: string) {
-    store?.State.setLoading(true);
-    const token = await store?.firebase.user?.getIdToken();
-    const confirm = window.confirm("Are you sure to delete this order");
-    if (confirm) {
-      const res = await fetch("/api/order", {
-        method: "DELETE",
-        headers: {
-          "content-type": "application/json",
-          id,
-          user_uid: `${store?.firebase.user?.uid}`,
-          token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
-        },
-      });
-      const data = await res.json();
-      if (res.ok) {
-        store?.State.setAlert("Deleted successfull");
-      } else {
-        store?.State.setAlert(data.message || "Opps! an error occurs");
-      }
-    }
-    store?.State.setLoading(false);
-  }
+  }, [store?.State.update, store?.firebase.user]);
 
   async function handleFilterOrder(status: string) {
     setFilterOrder(status);
@@ -115,7 +68,9 @@ const ManageOrder = ({ value, index }: Props) => {
         <TableHead>
           <TableRow>
             {headData.map((item, index) => (
-              <TableCell key={index}>{item}</TableCell>
+              <TableCell key={index}>
+                <b>{item}</b>
+              </TableCell>
             ))}
             <TableCell>
               <TextField
@@ -197,7 +152,7 @@ const ManageOrder = ({ value, index }: Props) => {
                     value={order.status}
                     disabled={store?.State.loading}
                     onChange={(e) => {
-                      updateOrder(order._id, e.target.value);
+                      updateOrder(order._id, e.target.value as OrderStatus);
                     }}
                     variant='standard'
                     select
@@ -224,4 +179,4 @@ const ManageOrder = ({ value, index }: Props) => {
   );
 };
 
-export default ManageOrder;
+export default Orders(ManageOrder);

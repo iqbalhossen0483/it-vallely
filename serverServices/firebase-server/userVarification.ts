@@ -1,5 +1,8 @@
 import { NextApiRequest } from "next";
 import admin from "firebase-admin";
+import { firebase_server_init } from "./firebase_server_init";
+
+firebase_server_init();
 
 export async function userVarification(req: NextApiRequest): Promise<{
   error: boolean;

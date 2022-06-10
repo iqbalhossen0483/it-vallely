@@ -70,8 +70,8 @@ const CustomerInfo = ({
       router.push(
         `/checkout/payment${router.query?.multiple ? "?multiple=true" : ""}`
       );
+      store?.State.setLoading(false);
     }
-    store?.State.setLoading(false);
   }
 
   async function postOrder(peyload: OrderInfo) {
@@ -104,6 +104,7 @@ const CustomerInfo = ({
     } else {
       store?.State.setAlert(data.message);
     }
+    store?.State.setLoading(false);
   }
 
   return (
@@ -132,11 +133,11 @@ const CustomerInfo = ({
           {...register("mobile", { required: true })}
           required
           label='Mobile'
-          type={"number"}
+          type='text'
         />
         <Input {...register("email")} disabled label='Email' type={"email"} />
         <Input {...register("comment")} multiline minRows={5} label='Comment' />
-        <button ref={customerInfoForm} hidden>
+        <button disabled={store?.State.loading} ref={customerInfoForm} hidden>
           submit
         </button>
       </form>

@@ -63,3 +63,5 @@ type OrderInfo = {
   total: number;
   status: string;
 };
+
+type OrderStatus = "Pending" | "Approved" | "Cenceled" | "Delivered";

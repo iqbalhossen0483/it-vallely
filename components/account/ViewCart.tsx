@@ -15,7 +15,10 @@ const ViewCart = ({ value, index }: Props) => {
     router.push(`/checkout?multiple=true`);
   }
   return (
-    <div className='bg-gray-100 p-5 rounded' hidden={value !== index}>
+    <div
+      className={`${cartProduct && "bg-gray-100 p-5 rounded"}`}
+      hidden={value !== index}
+    >
       {cartProduct && cartProduct.length ? (
         <div className='viewcart-container'>
           <h3>Shopping Cart</h3>
@@ -24,7 +27,7 @@ const ViewCart = ({ value, index }: Props) => {
           )}
         </div>
       ) : (
-        <div className='flex justify-center items-center h-32'>
+        <div className='empty-message'>
           <p>The cart is empty</p>
         </div>
       )}

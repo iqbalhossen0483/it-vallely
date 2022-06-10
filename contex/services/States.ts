@@ -10,6 +10,7 @@ function States(): StatesReturnType {
   const [quantity, setQuantity] = useState<number>(1);
   const [error, setError] = useState<boolean>(false);
   const [redirect, setRidirect] = useState<string>("");
+  const [update, setUpdate] = useState(false);
   //all state end
 
   return {
@@ -27,6 +28,8 @@ function States(): StatesReturnType {
     setCategories,
     redirect,
     setRidirect,
+    update,
+    setUpdate,
   };
 }
 

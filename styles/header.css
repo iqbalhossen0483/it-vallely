@@ -69,11 +69,12 @@
     @apply w-full relative py-2 md:py-0 md:w-3/4 md:ml-auto;
   }
   .search-input {
-    @apply w-full px-3 rounded-full py-2 md:py-1 border-primary_normal 
-    hover:border-primary_deef text-base md:text-xl md:w-[80%];
+    @apply w-full px-3 rounded-full py-2 border-primary_normal 
+    hover:border-primary_deef text-base md:text-[1.13rem] md:w-[80%];
   }
   .search-input-wrapper svg {
-    @apply absolute px-6 top-6 text-primary_normal right-0 text-xl md:right-16 md:top-3;
+    @apply absolute px-6 top-2/4 -translate-y-2/4 text-primary_normal right-0 text-xl 
+    md:right-16;
   }
   .search-bar-wrapper .result {
     @apply absolute top-full left-[5.25rem] bg-white px-4 py-3 rounded z-50 shadow-lg 

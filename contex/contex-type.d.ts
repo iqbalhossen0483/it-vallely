@@ -21,6 +21,8 @@ interface StatesReturnType {
   setCategories: Dispatch<SetStateAction<string[]>>;
   redirect: string;
   setRidirect: Dispatch<SetStateAction<string>>;
+  update: boolean;
+  setUpdate: Dispatch<SetStateAction<boolean>>;
 }
 interface CartReturnType {
   cartProduct: cartProduct;
