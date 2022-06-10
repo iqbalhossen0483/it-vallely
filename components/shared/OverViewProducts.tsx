@@ -9,12 +9,11 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStore from "../../contex/hooks/useStore";
 
 export const thead = [
-  "Image",
-  "Product Name",
+  "Product",
   "Product Code",
   "Quantity",
   "Unit Price",
@@ -72,25 +71,35 @@ const OverViewProducts = ({
       <Table sx={{ width: "100%" }}>
         <TableHead>
           <TableRow className='bg-slate-200'>
-            {thead.map((item, index) =>
-              router.pathname !== "/account/viewcart" ? (
-                item !== "Image" ? (
-                  item !== "Product Code" ? (
-                    <TableCell key={index}>{item}</TableCell>
-                  ) : null
-                ) : null
-              ) : (
-                <TableCell
-                  className={`${
-                    (item === "Product Code" || item === "Image") &&
-                    "hideOnPhone"
-                  }`}
-                  key={index}
-                >
-                  {item}
-                </TableCell>
-              )
-            )}
+            {thead.map((item, index) => {
+              return (
+                <>
+                  {router.pathname === "/account" ? (
+                    <TableCell
+                      key={index}
+                      colSpan={item === "Product" ? 2 : 1}
+                      align='center'
+                      className={`${item === "Product Code" && "hideOnPhone"}`}
+                    >
+                      {item}
+                    </TableCell>
+                  ) : (
+                    item !== "Product Code" && (
+                      <TableCell
+                        key={index}
+                        colSpan={item === "Product" ? 2 : 1}
+                        align='center'
+                        className={`${
+                          item === "Product Code" && "hideOnPhone"
+                        }`}
+                      >
+                        {item}
+                      </TableCell>
+                    )
+                  )}
+                </>
+              );
+            })}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -98,24 +107,20 @@ const OverViewProducts = ({
             product.map((item: OrderedProducts) => {
               return (
                 <TableRow hover key={item._id}>
-                  {router.pathname === "/account/viewcart" && (
-                    <TableCell className='hideOnPhone'>
-                      <Image
-                        height={80}
-                        width={80}
-                        src={item.productImg.imgUrl}
-                        alt=''
-                      />
-                    </TableCell>
-                  )}
+                  <TableCell className='hideOnPhone'>
+                    <Image
+                      height={80}
+                      width={80}
+                      src={item.productImg.imgUrl}
+                      alt=''
+                    />
+                  </TableCell>
                   <TableCell>{item.name}</TableCell>
-                  {router.pathname === "/account/viewcart" && (
-                    <TableCell className='hideOnPhone'>
-                      {item.productCode}
-                    </TableCell>
+                  {router.pathname === "/account" && (
+                    <TableCell align='center'>{item.productCode}</TableCell>
                   )}
                   <TableCell>
-                    {router.pathname === "/account/viewcart" ? (
+                    {router.pathname === "/account" ? (
                       <input
                         onChange={(e) =>
                           updateTotal(parseInt(e.target.value), item._id)

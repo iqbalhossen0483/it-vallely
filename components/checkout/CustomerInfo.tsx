@@ -1,9 +1,10 @@
 import useStore from "../../contex/hooks/useStore";
 import Input from "../shared/utilitize/Input";
 import { useForm } from "react-hook-form";
-import React, { RefObject, useEffect, useState } from "react";
+import React, { RefObject, useState } from "react";
 import { useRouter } from "next/router";
 import { Checkbox, FormControlLabel, Paper } from "@mui/material";
+import PostOrder from "./services/PostOrder";
 
 type Props = {
   customerInfoForm: RefObject<HTMLButtonElement>;
@@ -64,7 +65,7 @@ const CustomerInfo = ({
       : subTotal + delivaryCost;
 
     if (paymentMethods === "cash") {
-      postOrder(peyload);
+      PostOrder(peyload, store, router);
     } else {
       store?.State.setOrderInfo(peyload);
       router.push(
@@ -72,39 +73,6 @@ const CustomerInfo = ({
       );
       store?.State.setLoading(false);
     }
-  }
-
-  async function postOrder(peyload: OrderInfo) {
-    const token = await store?.firebase.user?.getIdToken();
-    const res = await fetch("/api/order", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        user_uid: `${store?.firebase.user?.uid}`,
-        token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
-      },
-      body: JSON.stringify(peyload),
-    });
-    const data = await res.json();
-    if (res.ok) {
-      if (data.insertedId) {
-        store?.State.setAlert("Order placed successfully");
-        peyload._id = data.insertedId;
-        store?.State.setOrderInfo(peyload);
-        if (router.query.multiple) {
-          localStorage.removeItem("cart");
-          store?.Carts.setCartProduct(() => {
-            return { price: 0, products: null, quantity: 0 };
-          });
-        }
-        router.push("/checkout/orderPlaced");
-      } else {
-        store?.State.setAlert("Something went wrong");
-      }
-    } else {
-      store?.State.setAlert(data.message);
-    }
-    store?.State.setLoading(false);
   }
 
   return (

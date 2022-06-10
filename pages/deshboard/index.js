@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 const DeshboardLayout = () => {
-  const [drawer, setDrawer] = useState<boolean>(false);
+  const [drawer, setDrawer] = useState(false);
   const router = useRouter();
   const [value, setValue] = useState(0);
 

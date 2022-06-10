@@ -9,9 +9,9 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 const AccountLayout = () => {
-  const [drawer, setDrawer] = useState<boolean>(false);
+  const [drawer, setDrawer] = useState(false);
   const router = useRouter();
-  const [value, setValue] = useState(parseInt(router.query.c as string) || 0);
+  const [value, setValue] = useState(parseInt(router.query.c) || 0);
 
   const sideMenus = ["My Profile", "My Orders", "Cart Product"];
   const components = [Profile, MyOrder, ViewCart];
