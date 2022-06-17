@@ -1,5 +1,8 @@
 import Banner_Slider from "../../shared/mergedBanner_Slider/Banner_Slider";
-import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
+import {
+  fetchAPI,
+  handleError,
+} from "../../../clientServices/shared/sharedFunction";
 import useStore from "../../../contex/hooks/useStore";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -14,10 +17,8 @@ function BannerCustomization() {
       const res = await fetchAPI<BannerImg[]>("/api/banner");
       if (res.data) {
         setBannerImages(res.data);
-      } else if (res.error) {
-        store?.State.setAlert(res.error);
       } else {
-        store?.State.setError(res.netProblem);
+        handleError(res, store?.State!);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps

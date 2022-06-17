@@ -1,14 +1,21 @@
-import { ObjectId } from "mongodb";
 import { userVarification } from "../firebase-server/userVarification";
 import { sendEmail } from "../services/sendEmail";
+import { ObjectId } from "mongodb";
+import { serverError } from "../serverError";
 
 export async function postOrder(req, res, orders, products) {
   try {
     const { error } = await userVarification(req);
     if (error) {
-      return res.status(401).send({ message: "user authentication failed" });
+      return serverError(res, {
+        msg: "user authentication failed",
+        status: 401,
+      });
     } else {
-      const result = await orders.insertOne(req.body);
+      const result = await orders.insertOne({
+        ...req.body,
+        created_at: new Date(),
+      });
       //update corosponding product order;
       for (const product of req.body.products) {
         await products.updateOne(
@@ -30,6 +37,7 @@ export async function postOrder(req, res, orders, products) {
       res.status(200).send(result);
     }
   } catch (error) {
-    res.status(500).send({ message: "Interner error, Please try again" });
+    console.log(error);
+    serverError(res, { msg: "Interner error, Please try again" });
   }
 }

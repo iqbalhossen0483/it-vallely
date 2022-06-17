@@ -4,7 +4,7 @@ type Props = {
   value: number;
   index: number;
   updateOrder: (id: string, status: OrderStatus) => void;
-  deleteOrder(id: string): Promise<void>;
+  deleteOrder(id: string, willDeleteImg: string[] | null): Promise<void>;
 };
 type Params = ({
   value,
@@ -47,7 +47,7 @@ const Orders = (OriginalComponent: Params) => {
     } //update order end;;
 
     //delete order start;;
-    async function deleteOrder(id: string) {
+    async function deleteOrder(id: string, willDeleteImg: string[] | null) {
       store?.State.setLoading(true);
       const token = await store?.firebase.user?.getIdToken();
       const confirm = window.confirm("Are you sure to delete this order");
@@ -56,10 +56,10 @@ const Orders = (OriginalComponent: Params) => {
           method: "DELETE",
           headers: {
             "content-type": "application/json",
-            id,
             user_uid: `${store?.firebase.user?.uid}`,
             token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
           },
+          body: JSON.stringify({ id, willDeleteImg }),
         });
         const data = await res.json();
         if (res.ok && data.deletedCount > 0) {

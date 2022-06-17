@@ -36,7 +36,7 @@ const Order = () => {
           const product: OrderedProducts = {
             _id: res.data._id,
             quantity: parseInt(q as string) || 1,
-            productImg: { imgUrl: res.data.productImg.imgUrl },
+            productImg: res.data.productImg,
             name: res.data.name,
             price: res.data.price,
             productCode: res.data.productCode,

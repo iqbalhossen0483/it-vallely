@@ -1,16 +1,31 @@
-import Customization from "../../components/deshboard/customizations/Customization";
-import UpdateProduct from "../../components/deshboard/updateProduct/UpdateProduct";
-import ManageProduct from "../../components/deshboard/manageProduct/ManageProduct";
-import ManageOrder from "../../components/deshboard/manageOrder/ManageOrder";
-import SideMenuInDrawer from "../../components/deshboard/SideMenuInDrawer";
-import AddProduct from "../../components/deshboard/addProdust/AddProduct";
-import ManageUser from "../../components/deshboard/manageUser/ManageUser";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SideMenus from "../../components/deshboard/SideMenus";
 import Deshboard from "../../components/deshboard/Deshboard";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+const Customization = lazy(() =>
+  import("../../components/deshboard/customizations/Customization")
+);
+import Spinner from "../../components/shared/utilitize/Spinner";
+const UpdateProduct = lazy(() =>
+  import("../../components/deshboard/updateProduct/UpdateProduct")
+);
+const ManageProduct = lazy(() =>
+  import("../../components/deshboard/manageProduct/ManageProduct")
+);
+const ManageOrder = lazy(() =>
+  import("../../components/deshboard/manageOrder/ManageOrder")
+);
+const SideMenuInDrawer = lazy(() =>
+  import("../../components/deshboard/SideMenuInDrawer")
+);
+const AddProduct = lazy(() =>
+  import("../../components/deshboard/addProdust/AddProduct")
+);
+const ManageUser = lazy(() =>
+  import("../../components/deshboard/manageUser/ManageUser")
+);
 
 const DeshboardLayout = () => {
   const [drawer, setDrawer] = useState(false);
@@ -57,8 +72,8 @@ const DeshboardLayout = () => {
         <main>
           {components.map((Component, index) => (
             <Component
-              setValue={setValue}
               key={index}
+              setValue={setValue}
               index={index}
               value={value}
             />

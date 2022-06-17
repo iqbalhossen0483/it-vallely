@@ -1,12 +1,15 @@
-import SideMenuInDrawer from "../../components/deshboard/SideMenuInDrawer";
-import ViewCart from "../../components/account/ViewCart";
+const SideMenus = lazy(() => import("../../components/deshboard/SideMenus"));
+const ViewCart = lazy(() => import("../../components/account/ViewCart"));
+const Profile = lazy(() => import("../../components/account/Profile"));
+const MyOrder = lazy(() => import("../../components/account/MyOrder"));
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SideMenus from "../../components/deshboard/SideMenus";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import Profile from "../../components/account/Profile";
-import MyOrder from "../../components/account/MyOrder";
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
+const SideMenuInDrawer = lazy(() =>
+  import("../../components/deshboard/SideMenuInDrawer")
+);
 import { useRouter } from "next/router";
+import Spinner from "../../components/shared/Spinner";
 
 const AccountLayout = () => {
   const [drawer, setDrawer] = useState(false);
@@ -34,7 +37,9 @@ const AccountLayout = () => {
         </div>
         <main>
           {components.map((Component, index) => (
-            <Component key={index} index={index} value={value} />
+            <Suspense key={index} fallback={<Spinner />}>
+              <Component index={index} value={value} />
+            </Suspense>
           ))}
         </main>
         <SideMenuInDrawer

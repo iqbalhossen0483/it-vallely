@@ -36,6 +36,7 @@ function LoginRegister({ title }: Props) {
   }
 
   async function emailSignUp(data: Data) {
+    store?.State.setLoading(true);
     const { name, email, password } = data;
     if (store) {
       const result = await store.firebase.emailSignUp(name, email, password);
@@ -52,8 +53,10 @@ function LoginRegister({ title }: Props) {
         setError(result.message!);
       }
     }
+    store?.State.setLoading(false);
   }
   async function emailSinIn(data: Data) {
+    store?.State.setLoading(true);
     const { email, password } = data;
     if (store) {
       const result = await store.firebase.emailSingIn(email, password);
@@ -63,6 +66,7 @@ function LoginRegister({ title }: Props) {
         setError(result.message!);
       }
     }
+    store?.State.setLoading(false);
   }
 
   function onSubmit(data: Data) {

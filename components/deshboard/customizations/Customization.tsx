@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
+import React from "react";
 import BannerCustomization from "./BannerCustomization";
 import SliderCustomize from "./SliderCustomize";
 interface Props {

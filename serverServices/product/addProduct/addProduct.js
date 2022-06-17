@@ -8,7 +8,10 @@ export async function addProduct(req, res, products) {
   try {
     const varication = await userVarification(req);
     if (varication.error) {
-      return res.status(401).send({ message: "user authentication failed" });
+      return serverError(res, {
+        msg: "user authentication failed",
+        status: 401,
+      });
     }
     //multer for body persing;
     const { error } = await bodyPerse(req, res);
@@ -66,6 +69,7 @@ export async function addProduct(req, res, products) {
           req.body.price = parseInt(req.body.price);
           req.body.stock = parseInt(req.body.stock);
           req.body.prevPrice = parseInt(req.body.prevPrice);
+          req.body.created_at = new Date();
           products.insertOne(req.body, async (err, result) => {
             if (!err) {
               return res.status(200).send(result);
@@ -81,9 +85,9 @@ export async function addProduct(req, res, products) {
           return serverError(res);
         }
       } else {
-        return res
-          .status(500)
-          .send({ message: "Product code is exist, Change the product code" });
+        return serverError(res, {
+          msg: "Product code is exist, Change the product code",
+        });
       }
     } else {
       return serverError(res);

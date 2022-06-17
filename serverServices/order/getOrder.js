@@ -13,10 +13,13 @@ export async function getOrder(req, res, orders) {
           .toArray();
         return res.send(result);
       } else if (req.query.email) {
-        const result = await orders.find({ email: req.query.email }).toArray();
+        const result = await orders
+          .find({ email: req.query.email })
+          .sort({ created_at: 1 })
+          .toArray();
         res.send(result);
       } else {
-        const result = await orders.find().toArray();
+        const result = await orders.find().sort({ created_at: 1 }).toArray();
         return res.status(200).send(result);
       }
     }

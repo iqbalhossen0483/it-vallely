@@ -19,15 +19,27 @@ import { useEffect, useState } from "react";
 initializeApp(firebaseConfig);
 
 function Firebase(): FirebaseReturn {
-  const [user, setUser] = useState<User | null>(null);
+  const [userRole, setUserRole] = useState<UserRoles>("User");
   const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<User | null>(null);
   const googleprovider = new GoogleAuthProvider();
   const auth = getAuth();
 
   //manage user;
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
+      if (user) {
+        try {
+          const res = await fetch(`/api/user?uid=${user.uid}`);
+          if (res.ok) {
+            const { role }: { role: UserRoles } = await res.json();
+            setUserRole(role);
+          }
+        } catch (err) {
+          setUserRole("User");
+        }
+      }
       setLoading(false);
     });
 
@@ -134,6 +146,7 @@ function Firebase(): FirebaseReturn {
     resetPassword,
     loading,
     setLoading,
+    userRole,
   };
 }
 

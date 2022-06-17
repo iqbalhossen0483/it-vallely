@@ -1,5 +1,7 @@
 // getScrollHeight, fetchAPI,
 
+import { StatesReturnType } from "../../contex/contex-type";
+
 export function getScrollHeight(height: number): boolean {
   if (window.scrollY > height) {
     return true;
@@ -48,5 +50,16 @@ export async function fetchAPI<T>(
       netProblem: true,
       data: null,
     };
+  }
+}
+
+export function handleError(
+  data: { error: string | null; authentication: boolean; netProblem: boolean },
+  state: StatesReturnType
+) {
+  if (data.netProblem) {
+    state.setError(data.netProblem);
+  } else {
+    state.setAlert(data.error);
   }
 }

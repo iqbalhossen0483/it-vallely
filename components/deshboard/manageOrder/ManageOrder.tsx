@@ -1,4 +1,7 @@
-import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
+import {
+  fetchAPI,
+  handleError,
+} from "../../../clientServices/shared/sharedFunction";
 import useStore from "../../../contex/hooks/useStore";
 import React, { useEffect, useState } from "react";
 import {
@@ -17,7 +20,7 @@ interface Props {
   value: number;
   index: number;
   updateOrder(id: string, status: OrderStatus): void;
-  deleteOrder(id: string): Promise<void>;
+  deleteOrder(id: string, willDeleteImg: string[] | null): Promise<void>;
 }
 const ManageOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
   const headData = ["Customer Info", "Product Info", "Delivary Info"];
@@ -39,10 +42,8 @@ const ManageOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
       if (res.data) {
         setOrders(res.data);
         setFilterOrder("All");
-      } else if (res.netProblem) {
-        store?.State.setError(res.netProblem);
       } else {
-        store?.State.setAlert(res.error);
+        handleError(res, store?.State!);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -164,8 +165,11 @@ const ManageOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
                     ))}
                   </TextField>
                   <Button
+                    disabled={store?.State.loading}
                     variant='outlined'
-                    onClick={() => deleteOrder(order._id)}
+                    onClick={() =>
+                      deleteOrder(order._id, order.willDeleteImg || null)
+                    }
                   >
                     Delete
                   </Button>
@@ -175,6 +179,11 @@ const ManageOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
           </TableBody>
         )}
       </Table>
+      <div
+        className={`${orders && orders?.length ? "hidden" : "empty-message"}`}
+      >
+        <p>There is no order</p>
+      </div>
     </div>
   );
 };

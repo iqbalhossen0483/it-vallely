@@ -1,5 +1,8 @@
 import { makeDataSeperated } from "../../../clientServices/updateProduct/makeDataSeperated";
-import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
+import {
+  fetchAPI,
+  handleError,
+} from "../../../clientServices/shared/sharedFunction";
 import useStore from "../../../contex/hooks/useStore";
 import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -33,20 +36,24 @@ const UpdateProduct = ({ value, index }: Props) => {
     (async () => {
       if (router.query.id) {
         const res = await fetchAPI<Product>(
-          `/api/product?id=${router.query.id}`
+          `/api/product?id=${router.query.id}`,
+          {
+            headers: {
+              token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER}`,
+            },
+          }
         );
         if (res.data) {
           reset();
           MakeInputDataForUpdateProduct(res.data, setProductInputs);
           setproduct(res.data);
-        } else if (res.error) {
-          store?.State.setAlert(res.error);
         } else {
-          store?.State.setError(res.netProblem);
+          handleError(res, store?.State!);
         }
       }
     })();
-  }, [reset, router.query.id, store]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query.id]);
 
   async function OnSubmit(peyLoad: Product) {
     store?.State.setLoading(true);
@@ -96,7 +103,7 @@ const UpdateProduct = ({ value, index }: Props) => {
     if (res.ok) {
       if (data.modifiedCount > 0) {
         store?.State.setAlert("Update successfull");
-      } else store?.State.setAlert("No updated document found");
+      } else store?.State.setAlert(data.message || "No updated document found");
     } else {
       store?.State.setAlert(data.message);
     }

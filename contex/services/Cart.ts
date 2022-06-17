@@ -50,7 +50,7 @@ function Cart(): CartReturnType {
               const product: OrderedProducts = {
                 _id: item._id,
                 quantity: 1,
-                productImg: { imgUrl: item.productImg.imgUrl },
+                productImg: item.productImg,
                 name: item.name,
                 price: item.price,
                 productCode: item.productCode,

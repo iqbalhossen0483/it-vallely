@@ -30,6 +30,7 @@ const CustomerInfo = ({
 
   function onSubmit(peyload: OrderInfo) {
     store?.State.setLoading(true);
+    //check user agree with terms & conditions;
     if (!agreeTerms) {
       store?.State.setAlert(
         "Please agree with our terms & conditions, Or read about this"
@@ -38,6 +39,7 @@ const CustomerInfo = ({
       return;
     }
 
+    //check is mobile number is valid;
     if (peyload.mobile.length < 11 || peyload.mobile.length > 11) {
       store?.State.setAlert("Phone number is invalid");
       store?.State.setLoading(false);

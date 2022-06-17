@@ -33,6 +33,7 @@ interface Product {
   productImg: { imgId: string; imgUrl: string };
   productImgGallery: { imgUrl: string; imgId: string }[];
   description: string;
+  created_at: Date;
 }
 
 type Cart = { productId: string; price: number; quantity: string };
@@ -40,7 +41,7 @@ type Cart = { productId: string; price: number; quantity: string };
 type OrderedProducts = {
   _id: string;
   productCode: string;
-  productImg: { imgUrl: string };
+  productImg: { imgUrl: string; imgId: string };
   name: string;
   price: number;
   quantity: number;
@@ -62,6 +63,10 @@ type OrderInfo = {
   discount: number;
   total: number;
   status: string;
+  created_at: Date;
+  willDeleteImg?: string[];
 };
 
 type OrderStatus = "Pending" | "Approved" | "Cenceled" | "Delivered";
+
+type UserRoles = "User" | "Admin" | "Manager";

@@ -12,7 +12,10 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../../contex/hooks/useStore";
-import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
+import {
+  fetchAPI,
+  handleError,
+} from "../../../clientServices/shared/sharedFunction";
 import Input from "../../shared/utilitize/Input";
 interface Props {
   value: number;
@@ -44,10 +47,8 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
       });
       if (res.data) {
         setProducts(res.data);
-      } else if (res.error) {
-        store?.State.setAlert(res.error);
-      } else if (res.netProblem) {
-        store?.State.setError(res.netProblem);
+      } else {
+        handleError(res, store?.State!);
       }
     })();
   }, [store?.State]);

@@ -16,6 +16,7 @@ export default async function handler(
 ): Promise<void> {
   const database = await dbConnection();
   const products: Collection<Document> = database.collection("products");
+  const orders: Collection<Document> = database.collection("orders");
 
   switch (req.method) {
     case "GET":
@@ -27,7 +28,7 @@ export default async function handler(
       break;
 
     case "PUT":
-      updateProduct(req, res, products);
+      updateProduct(req, res, products, orders);
       break;
 
     case "DELETE":

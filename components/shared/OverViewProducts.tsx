@@ -1,4 +1,3 @@
-import { Store } from "@mui/icons-material";
 import {
   Button,
   Table,
@@ -73,10 +72,9 @@ const OverViewProducts = ({
           <TableRow className='bg-slate-200'>
             {thead.map((item, index) => {
               return (
-                <>
+                <React.Fragment key={index}>
                   {router.pathname === "/account" ? (
                     <TableCell
-                      key={index}
                       colSpan={item === "Product" ? 2 : 1}
                       align='center'
                       className={`${item === "Product Code" && "hideOnPhone"}`}
@@ -97,7 +95,7 @@ const OverViewProducts = ({
                       </TableCell>
                     )
                   )}
-                </>
+                </React.Fragment>
               );
             })}
           </TableRow>

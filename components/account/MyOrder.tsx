@@ -9,7 +9,10 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { fetchAPI } from "../../clientServices/shared/sharedFunction";
+import {
+  fetchAPI,
+  handleError,
+} from "../../clientServices/shared/sharedFunction";
 import useStore from "../../contex/hooks/useStore";
 import Orders from "../HOC/Orders";
 
@@ -17,7 +20,7 @@ interface Props {
   value: number;
   index: number;
   updateOrder: (id: string, status: OrderStatus) => void;
-  deleteOrder(id: string): Promise<void>;
+  deleteOrder(id: string, willDeleteImg: string[] | null): Promise<void>;
 }
 
 const MyOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
@@ -40,7 +43,7 @@ const MyOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
       if (res.data) {
         setOrders(res.data);
       } else {
-        store?.State.setAlert(res.error);
+        handleError(res, store?.State!);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -121,7 +124,9 @@ const MyOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
                   <b className='text-mui'>Thank you</b>
                 ) : item.status === "Cenceled" ? (
                   <Button
-                    onClick={() => deleteOrder(item._id)}
+                    onClick={() =>
+                      deleteOrder(item._id, item.willDeleteImg || null)
+                    }
                     variant='outlined'
                   >
                     Delete

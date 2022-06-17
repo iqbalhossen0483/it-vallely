@@ -2,6 +2,7 @@ import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import useStore from "../../contex/hooks/useStore";
+import Spinner from "../shared/utilitize/Spinner";
 
 const UserRoute = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -29,9 +30,7 @@ const UserRoute = ({ children }: { children: React.ReactNode }) => {
           </div>
         )
       ) : (
-        <div>
-          <p>loading....</p>
-        </div>
+        <Spinner />
       )}
     </>
   );
