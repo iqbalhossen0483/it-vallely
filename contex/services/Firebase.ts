@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 initializeApp(firebaseConfig);
 
 function Firebase(): FirebaseReturn {
-  const [userRole, setUserRole] = useState<UserRoles>("User");
+  const [userRole, setUserRole] = useState<UserRoles | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User | null>(null);
   const googleprovider = new GoogleAuthProvider();

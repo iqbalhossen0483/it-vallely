@@ -144,6 +144,11 @@ const MyOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
           ))}
         </TableBody>
       </Table>
+      <div
+        className={`${orders && orders?.length ? "hidden" : "empty-message"}`}
+      >
+        <p>You have not placed any order yet</p>
+      </div>
     </div>
   );
 };

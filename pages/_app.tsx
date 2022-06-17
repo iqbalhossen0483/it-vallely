@@ -25,6 +25,7 @@ import Error from "../components/error/Error";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import UserRoute from "../components/protectedRoute/UserRoute";
+import AdminRoute from "../components/protectedRoute/AdminRoute";
 
 type Props = {
   Component: NextComponentType<NextPageContext, any, {}>;
@@ -34,7 +35,8 @@ type Props = {
 function Layout({ Component, pageProps }: Props) {
   const store = useStore();
   const router = useRouter();
-  const protectedRoute = ["/account", "/checkout", "/deshboard"];
+  const userRoute = ["/account", "/checkout"];
+  const adminRoute = ["/deshboard"];
 
   return (
     <>
@@ -44,7 +46,11 @@ function Layout({ Component, pageProps }: Props) {
         <>
           <MetaTages />
           <Header />
-          {protectedRoute.includes(router.pathname) ? (
+          {adminRoute.includes(router.pathname) ? (
+            <AdminRoute>
+              <Component {...pageProps} />
+            </AdminRoute>
+          ) : userRoute.includes(router.pathname) ? (
             <UserRoute>
               <Component {...pageProps} />
             </UserRoute>

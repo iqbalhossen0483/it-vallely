@@ -20,7 +20,7 @@ export async function sendEmail({ email, name, subj, body }: Params) {
       <body>
         <h3>Hi ${name}!</h3>
         <br/>
-        <p>${body}</p>
+        ${body}
         <p>From ITVALLELY team</p>
       </body>`,
     };

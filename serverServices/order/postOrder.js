@@ -28,10 +28,33 @@ export async function postOrder(req, res, orders, products) {
         email: req.body.email,
         name: req.body.fname + req.body.lname,
         subj: "Order Confirmation",
-        body: `Dear ${req.body.fname},
-      your order is successfully pleaced and the order ID is: <b>${result.insertedId}</b>.
-      <br/>
-      your payment method was <b>${req.body.paymentMethod}</b>`,
+        body: `
+        <p>
+          Dear ${req.body.fname},
+          Your order <b>${
+            result.insertedId
+          }</b> has been placed successfully. Do you
+          have any questions about your order, feel free to call us on 01846770635
+          (10am to 5pm).
+        </p>
+        <div style="display: flex; line-height: 7px">
+          <div style="margin-right: 15px">
+            <b>Delivary address</b>
+            <p>${req.body.fname + " " + req.body.lname}</p>
+            <p>${req.body.address}</p>
+            <p>${req.body.mobile}</p>
+          </div>
+          <div>
+            <b>Order summery</b>
+            <div>
+              <p>Sub-total: <b>${req.body.subTotal}৳</b></p>
+              <p>Delivary cost: <b>${req.body.delivaryCost}৳</b></p>
+              <p>Total: <b>${req.body.total}৳</b></p>
+              <p>Amount paid: <b>0৳</b></p>
+              <p>Due: <b>${req.body.total}৳</b></p>
+            </div>
+          </div>
+        </div>`,
       };
       await sendEmail(options);
       res.status(200).send(result);
