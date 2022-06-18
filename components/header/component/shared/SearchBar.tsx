@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import SearchIcon from "@mui/icons-material/Search";
 import { DebounceInput } from "react-debounce-input";
 import { useEffect, useRef, useState } from "react";
 import useStore from "../../../../contex/hooks/useStore";
@@ -48,7 +47,7 @@ const SearchBar = () => {
           debounceTimeout={500}
           onChange={(e) => handleSearchText(e.target.value)}
         />
-        <FontAwesomeIcon icon={faSearch} />
+        <SearchIcon />
       </div>
       <div hidden={!products.showDiv} ref={result} className='result'>
         {products.product?.length ? (

@@ -47,7 +47,7 @@ const ManageOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store?.State.update, store?.firebase.user]);
+  }, [store?.State.update]);
 
   async function handleFilterOrder(status: string) {
     setFilterOrder(status);

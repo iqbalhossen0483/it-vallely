@@ -1,13 +1,11 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { lazy, useEffect, useState } from "react";
 import SideMenus from "../../components/deshboard/SideMenus";
 import Deshboard from "../../components/deshboard/Deshboard";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { useRouter } from "next/router";
 const Customization = lazy(() =>
   import("../../components/deshboard/customizations/Customization")
 );
-import Spinner from "../../components/shared/utilitize/Spinner";
 const UpdateProduct = lazy(() =>
   import("../../components/deshboard/updateProduct/UpdateProduct")
 );
@@ -64,7 +62,7 @@ const DeshboardLayout = () => {
     <>
       <div className='deshboard-container'>
         <div onClick={() => setDrawer(!drawer)} className='shop-menu-icon'>
-          <FontAwesomeIcon icon={faBars} />
+          <FormatListBulletedIcon />
         </div>
         <div className='deshboard-menus'>
           <SideMenus value={value} setValue={setValue} menus={sideMenus} />

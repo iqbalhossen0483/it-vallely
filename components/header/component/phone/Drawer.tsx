@@ -1,16 +1,13 @@
-import { faContactBook } from "@fortawesome/free-regular-svg-icons";
+import ContactPageIcon from "@mui/icons-material/ContactPage";
 import { Button, Collapse, SwipeableDrawer } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { FC, Fragment, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import {
-  faHome,
-  faInfoCircle,
-  faListDots,
-  faShoppingBag,
-} from "@fortawesome/free-solid-svg-icons";
+import HomeIcon from "@mui/icons-material/Home";
+import InfoIcon from "@mui/icons-material/Info";
+import ViewListIcon from "@mui/icons-material/ViewList";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import useStore from "../../../../contex/hooks/useStore";
 
 interface Props {
@@ -24,16 +21,16 @@ const Drawer: FC<Props> = ({ open, setDrawer }) => {
   const store = useStore();
 
   const menus = [
-    { name: "Home", icon: faHome, href: "/" },
-    { name: "Shop", icon: faShoppingBag, href: "/shop" },
+    { name: "Home", icon: HomeIcon, href: "/" },
+    { name: "Shop", icon: ShoppingCartIcon, href: "/shop" },
     {
       name: "Categories",
-      icon: faListDots,
+      icon: ViewListIcon,
       href: router.pathname,
       subMeus: store?.State.categories,
     },
-    { name: "About us", icon: faInfoCircle, href: "/about" },
-    { name: "Contact us", icon: faContactBook, href: "/contact" },
+    { name: "About us", icon: InfoIcon, href: "/about" },
+    { name: "Contact us", icon: ContactPageIcon, href: "/contact" },
   ];
 
   function handleClose(menu: string) {
@@ -54,7 +51,7 @@ const Drawer: FC<Props> = ({ open, setDrawer }) => {
         {menus.map((menu) => (
           <Fragment key={menu.name}>
             <Button key={menu.name} onClick={() => handleClose(menu.name)}>
-              <FontAwesomeIcon icon={menu.icon} />
+              <menu.icon />
               <Link href={menu.href}>
                 <a>{menu.name}</a>
               </Link>

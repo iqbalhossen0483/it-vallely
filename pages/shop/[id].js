@@ -1,6 +1,6 @@
 import ProductDeatails from "../../components/productDetails/ProductDeatails";
-import { ObjectId } from "mongodb";
 import { dbConnection } from "../../serverServices/services/dbConnection";
+import { ObjectId } from "mongodb";
 
 const ProductDetailsLeyout = ({ data }) => {
   return <ProductDeatails data={data} />;

@@ -1,6 +1,5 @@
 import { getScrollHeight } from "../../../../clientServices/shared/sharedFunction";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import CallCart from "../window/conponent/Call&Cart";
 import TopInfo from "../window/conponent/TopInfo";
 import { useEffect, useState } from "react";
@@ -31,7 +30,7 @@ const Phone = () => {
           <div className='content'>
             <LogoName />
             <Button onClick={() => setDrawer(!drawer)}>
-              <FontAwesomeIcon icon={faBars} />
+              <FormatListBulletedIcon />
             </Button>
           </div>
         </div>

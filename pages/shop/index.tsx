@@ -1,9 +1,8 @@
 import SideMenuInDrawer from "../../components/shop/SideMenuInDrawer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { dbConnection } from "../../serverServices/services/dbConnection";
 import ShopProducts from "../../components/shared/ShopProducts";
 import SideMenuBar from "../../components/shop/SideMenuBar";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import Cart from "../../components/shared/utilitize/Cart";
 import { useEffect, useState } from "react";
 
@@ -87,7 +86,7 @@ const Shop = ({ data }: Props) => {
     <>
       <div className='shop-container'>
         <div onClick={() => setDrawer(!drawer)} className='shop-menu-icon'>
-          <FontAwesomeIcon icon={faBars} />
+          <FormatListBulletedIcon />
         </div>
         <div className='side-menu-container hidden md:block'>
           <SideMenuBar

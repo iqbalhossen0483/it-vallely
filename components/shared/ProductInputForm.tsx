@@ -27,24 +27,24 @@ type InputItem = {
 };
 
 const ProductInputForm = ({ onSubmit }: Props) => {
-  const { handleSubmit, register, reset } = useForm<Product>();
-  const [disable, setDisable] = useState(false);
-  const [specifications, setSpecifications] = useState<Specification>({
-    showInput: false,
-    inputValue: "",
-    arr: [],
-  });
-  const inputItem: InputItem[] = [
-    { label: "name", type: "text" },
-    { label: "price", type: "number" },
-    { label: "prevPrice", type: "number" },
-    { label: "stock", type: "number" },
-    { label: "category", type: "text" },
-    { label: "productCode", type: "text" },
-    { label: "brand", type: "text" },
-    { label: "tags", type: "text" },
-    { label: "keyFeatures", type: "text" },
-  ];
+  const { handleSubmit, register, reset } = useForm<Product>(),
+    [disable, setDisable] = useState(false),
+    [specifications, setSpecifications] = useState<Specification>({
+      showInput: false,
+      inputValue: "",
+      arr: [],
+    }),
+    inputItem: InputItem[] = [
+      { label: "name", type: "text" },
+      { label: "price", type: "number" },
+      { label: "prevPrice", type: "number" },
+      { label: "stock", type: "number" },
+      { label: "category", type: "text" },
+      { label: "productCode", type: "text" },
+      { label: "brand", type: "text" },
+      { label: "tags", type: "text" },
+      { label: "keyFeatures", type: "text" },
+    ];
 
   async function Submit(data: any) {
     setDisable(true);

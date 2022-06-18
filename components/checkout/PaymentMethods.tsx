@@ -1,5 +1,4 @@
-import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
 import Image from "next/image";
 import React from "react";
 import { Methods } from "../../pages/checkout/payment";
@@ -32,7 +31,7 @@ const PaymentMethods = ({ methods, setmethods }: Props) => {
         }}
         className='item'
       >
-        <FontAwesomeIcon icon={faCreditCard} className='text-2xl mb-2' />
+        <CreditCardIcon fontSize='large' className='mb-2' />
         <p>Credit/Debit Card</p>
       </div>
       <div

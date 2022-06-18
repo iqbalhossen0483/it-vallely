@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { addUser } from "../../../serverServices/user/addUser";
 import { getUser } from "../../../serverServices/user/getUser";
+import { updateUser } from "../../../serverServices/user/updateUser";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,7 +13,11 @@ export default async function handler(
       break;
 
     case "POST":
-      // postSliderImg(req, res, slider);
+      addUser(req, res);
+      break;
+
+    case "PUT":
+      updateUser(req, res);
       break;
 
     case "DELETE":

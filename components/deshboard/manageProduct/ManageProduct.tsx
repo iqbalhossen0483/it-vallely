@@ -1,6 +1,8 @@
 import useStore from "../../../contex/hooks/useStore";
 import React, { useEffect, useState } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Input from "../../shared/utilitize/Input";
+import EditIcon from "@mui/icons-material/Edit";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import {
@@ -40,6 +42,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
   const store = useStore();
   const router = useRouter();
 
+  //fetch data;
   useEffect(() => {
     (async () => {
       const res = await fetchAPI<Product[]>("/api/product", {
@@ -59,7 +62,12 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
   //filter product and manage start;
   async function doSearch(key: string, value: string) {
     const res = await fetchAPI<Product[]>(
-      `/api/product?key=${key}&value=${value}&filterProduct=true`
+      `/api/product?key=${key}&value=${value}&filterProduct=true`,
+      {
+        headers: {
+          token: `${process.env.NEXT_PUBLIC_APP_TOKEN}`,
+        },
+      }
     );
     if (res.data && res.data.length) {
       setInputValue("");
@@ -183,6 +191,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
                 <TableCell>{product.orderPending || 0}</TableCell>
                 <TableCell width={200}>
                   <Button
+                    style={{ width: "49%", marginRight: "2%" }}
                     onClick={(e) => {
                       e.stopPropagation();
                       router.push(`/deshboard?id=${product._id}`);
@@ -190,9 +199,10 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
                     }}
                     variant='outlined'
                   >
-                    Edit Product
+                    <EditIcon />
                   </Button>
                   <Button
+                    style={{ width: "49%" }}
                     onClick={(e) => {
                       e.stopPropagation();
                       deleteProduct({
@@ -203,7 +213,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
                     }}
                     variant='outlined'
                   >
-                    Delete Product
+                    <DeleteIcon />
                   </Button>
                 </TableCell>
               </TableRow>

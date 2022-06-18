@@ -2,8 +2,7 @@ const SideMenus = lazy(() => import("../../components/deshboard/SideMenus"));
 const ViewCart = lazy(() => import("../../components/account/ViewCart"));
 const Profile = lazy(() => import("../../components/account/Profile"));
 const MyOrder = lazy(() => import("../../components/account/MyOrder"));
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import React, { lazy, Suspense, useEffect, useState } from "react";
 const SideMenuInDrawer = lazy(() =>
   import("../../components/deshboard/SideMenuInDrawer")
@@ -30,7 +29,7 @@ const AccountLayout = () => {
     <>
       <div className='deshboard-container'>
         <div onClick={() => setDrawer(!drawer)} className='shop-menu-icon'>
-          <FontAwesomeIcon icon={faBars} />
+          <FormatListBulletedIcon />
         </div>
         <div className='deshboard-menus'>
           <SideMenus value={value} setValue={setValue} menus={sideMenus} />

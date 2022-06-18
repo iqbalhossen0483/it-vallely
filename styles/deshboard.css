@@ -70,6 +70,13 @@
   .edit-form {
     @apply absolute top-2/4 -translate-y-2/4 right-0 bg-white z-20 shadow-lg w-36 rounded;
   }
+  .user-add-btn {
+    @apply absolute top-2/4 right-2 -translate-y-2/4;
+  }
+  .add-user {
+    @apply flex flex-col gap-2 w-2/4 bg-white z-30 absolute top-2/4 left-2/4 
+    -translate-x-2/4 -translate-y-2/4 px-5 py-3 rounded shadow-lg;
+  }
 }
 
 .deshboard-menus button::after,

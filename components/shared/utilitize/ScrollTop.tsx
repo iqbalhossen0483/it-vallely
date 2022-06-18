@@ -1,5 +1,4 @@
-import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import React, { useEffect, useState } from "react";
 import { getScrollHeight } from "../../../clientServices/shared/sharedFunction";
 
@@ -21,7 +20,7 @@ const ScrollTop = () => {
       onClick={gotoTop}
       className={`scroll-top ${stricky ? "flex" : "hidden"}`}
     >
-      <FontAwesomeIcon icon={faArrowUp} />
+      <ArrowUpwardIcon />
     </div>
   );
 };
