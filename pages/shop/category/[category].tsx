@@ -18,7 +18,7 @@ const Category = () => {
         `/api/product?category=${category}&random=false`,
         {
           headers: {
-            token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER}`,
+            token: `${process.env.NEXT_PUBLIC_APP_TOKEN}`,
           },
         }
       );

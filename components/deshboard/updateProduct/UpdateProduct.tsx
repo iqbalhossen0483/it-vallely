@@ -39,7 +39,7 @@ const UpdateProduct = ({ value, index }: Props) => {
           `/api/product?id=${router.query.id}`,
           {
             headers: {
-              token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER}`,
+              token: `${process.env.NEXT_PUBLIC_APP_TOKEN}`,
             },
           }
         );
@@ -95,7 +95,7 @@ const UpdateProduct = ({ value, index }: Props) => {
       method: "PUT",
       headers: {
         user_uid: `${store?.firebase.user?.uid}`,
-        token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
+        token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
       },
       body: peyload,
     });

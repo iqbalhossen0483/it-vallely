@@ -1,3 +1,8 @@
+import useStore from "../../../contex/hooks/useStore";
+import React, { useEffect, useState } from "react";
+import Input from "../../shared/utilitize/Input";
+import { useRouter } from "next/router";
+import Image from "next/image";
 import {
   Button,
   MenuItem,
@@ -8,20 +13,17 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
-import useStore from "../../../contex/hooks/useStore";
 import {
   fetchAPI,
   handleError,
 } from "../../../clientServices/shared/sharedFunction";
-import Input from "../../shared/utilitize/Input";
+
 interface Props {
   value: number;
   index: number;
   setValue: React.Dispatch<React.SetStateAction<number>>;
 }
+
 const ManageProduct = ({ value, index, setValue }: Props) => {
   const [products, setProducts] = useState<Product[] | null>(null);
   const [filterValue, setFilterValue] = useState<string>("All");
@@ -42,7 +44,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
     (async () => {
       const res = await fetchAPI<Product[]>("/api/product", {
         headers: {
-          token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER}`,
+          token: `${process.env.NEXT_PUBLIC_APP_TOKEN}`,
         },
       });
       if (res.data) {
@@ -51,7 +53,8 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
         handleError(res, store?.State!);
       }
     })();
-  }, [store?.State]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   //filter product and manage start;
   async function doSearch(key: string, value: string) {
@@ -99,7 +102,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
         method: "DELETE",
         headers: {
           user_uid: `${store?.firebase.user?.uid}`,
-          token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
+          token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
         },
         body: formData,
       });

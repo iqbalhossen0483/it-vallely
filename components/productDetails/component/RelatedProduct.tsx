@@ -16,7 +16,7 @@ const RelatedProduct = ({ category, setData }: Props) => {
         `/api/product?category=${category}&random=true`,
         {
           headers: {
-            token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER}`,
+            token: `${process.env.NEXT_PUBLIC_APP_TOKEN}`,
           },
         }
       );

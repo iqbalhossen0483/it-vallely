@@ -29,7 +29,7 @@ const Order = () => {
       (async function () {
         const res = await fetchAPI<Product>(`/api/product?id=${productId}`, {
           headers: {
-            token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER}`,
+            token: `${process.env.NEXT_PUBLIC_APP_TOKEN}`,
           },
         });
         if (res.data) {

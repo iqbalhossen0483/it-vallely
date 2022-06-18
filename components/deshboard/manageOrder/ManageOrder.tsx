@@ -36,7 +36,7 @@ const ManageOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
       const res = await fetchAPI<OrderInfo[]>("/api/order", {
         headers: {
           user_uid: `${store?.firebase.user?.uid}`,
-          token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
+          token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
         },
       });
       if (res.data) {
@@ -55,7 +55,7 @@ const ManageOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
     const res = await fetchAPI<OrderInfo[]>(`/api/order?status=${status}`, {
       headers: {
         user_uid: `${store?.firebase.user?.uid}`,
-        token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
+        token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
       },
     });
     if (res.data) {

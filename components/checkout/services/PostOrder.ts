@@ -12,7 +12,7 @@ export default async function PostOrder(
     headers: {
       "content-type": "application/json",
       user_uid: `${store?.firebase.user?.uid}`,
-      token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
+      token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
     },
     body: JSON.stringify(peyload),
   });

@@ -5,7 +5,7 @@ export async function getProduct(req, res, products) {
   try {
     if (
       !req.headers.token ||
-      req.headers.token !== process.env.NEXT_PUBLIC_TOKEN_BEARRER
+      req.headers.token !== process.env.NEXT_PUBLIC_APP_TOKEN
     ) {
       return res.status(401).send({ message: "user authentication failed" });
     }

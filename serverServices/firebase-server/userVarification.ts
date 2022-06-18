@@ -9,7 +9,7 @@ export async function userVarification(req: NextApiRequest): Promise<{
 }> {
   try {
     const token = req.headers.token as string;
-    if (token && token.startsWith(process.env.NEXT_PUBLIC_TOKEN_BEARRER!)) {
+    if (token && token.startsWith(process.env.NEXT_PUBLIC_APP_TOKEN!)) {
       const user = await admin.auth().verifyIdToken(token.split(" ")[1]);
       if (user.uid === req.headers.user_uid) {
         return { error: false };

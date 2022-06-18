@@ -36,7 +36,7 @@ const MyOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
         {
           headers: {
             user_uid: `${store?.firebase.user?.uid}`,
-            token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
+            token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
           },
         }
       );

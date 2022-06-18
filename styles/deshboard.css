@@ -65,6 +65,11 @@
   .filter-wrapper-manage-product label {
     @apply -top-1;
   }
+
+  /* manage user */
+  .edit-form {
+    @apply absolute top-2/4 -translate-y-2/4 right-0 bg-white z-20 shadow-lg w-36 rounded;
+  }
 }
 
 .deshboard-menus button::after,

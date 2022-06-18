@@ -34,7 +34,7 @@ function Cart(): CartReturnType {
             `/api/product?id=${productId}&multipleId=true`,
             {
               headers: {
-                token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER}`,
+                token: `${process.env.NEXT_PUBLIC_APP_TOKEN}`,
               },
             }
           );

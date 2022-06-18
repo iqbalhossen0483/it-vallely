@@ -36,7 +36,7 @@ function SliderCustomize() {
       method: "POST",
       headers: {
         user_uid: `${store?.firebase.user?.uid}`,
-        token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
+        token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
       },
       body: formData,
     });
@@ -60,7 +60,7 @@ function SliderCustomize() {
         db_id,
         img_id,
         user_uid: `${store?.firebase.user?.uid}`,
-        token: `${process.env.NEXT_PUBLIC_TOKEN_BEARRER} ${token}`,
+        token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
       },
     });
     if (res.ok) {
