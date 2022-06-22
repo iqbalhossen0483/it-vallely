@@ -1,19 +1,22 @@
 import useStore from "../../contex/hooks/useStore";
+import Alert from "@mui/material/Alert";
+import { Snackbar } from "@mui/material";
 
-const Alert = () => {
+const AlertProvider = () => {
   const store = useStore();
-  setTimeout(() => {
-    store?.State.setAlert(null);
-  }, 10000);
 
-  if (!store?.State.alert) {
-    return null;
-  }
   return (
-    <div className='alert-container'>
-      <p>{store?.State.alert}</p>
-    </div>
+    <Snackbar
+      open={store?.State.alert.msg ? true : false}
+      autoHideDuration={5000}
+      onClose={(e, reason) => {
+        if (reason === "clickaway") return;
+        store?.State.setAlert({ msg: "", type: "info" });
+      }}
+    >
+      <Alert severity={store?.State.alert.type}>{store?.State.alert.msg}</Alert>
+    </Snackbar>
   );
 };
 
-export default Alert;
+export default AlertProvider;

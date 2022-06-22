@@ -1,7 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { addUser } from "../../../serverServices/user/addUser";
+import { deleteUser } from "../../../serverServices/user/deleteUser";
 import { getUser } from "../../../serverServices/user/getUser";
 import { updateUser } from "../../../serverServices/user/updateUser";
+
+export const config = {
+  api: { bodyParser: false },
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -21,7 +26,7 @@ export default async function handler(
       break;
 
     case "DELETE":
-      // deleteSlider(req, res, slider);
+      deleteUser(req, res);
       break;
 
     default:

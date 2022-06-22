@@ -14,19 +14,31 @@ const UserRoute = ({ children }: { children: React.ReactNode }) => {
     }
   }, [router, store]);
 
+  async function resentEmail() {
+    await store?.firebase.varifyEmail(store.firebase.user!);
+    store?.State.setAlert({
+      msg: "Email sent, check your email",
+      type: "info",
+    });
+  }
+
   return (
     <>
       {store?.firebase.user ? (
         store.firebase.user.emailVerified ? (
           children
         ) : (
-          <div>
-            <p>Please varify your email</p>
-            <p>
-              We send a email to your email, If you not found any email, Please
-              ask to Resend email
-            </p>
-            <Button>Resend</Button>
+          <div className='empty-message text-center w-2/4 mx-auto'>
+            <div>
+              <p>Please varify your email</p>
+              <p>
+                We send a email to your email address, If you not found any
+                email, Please check your spam box or ask to resend email.
+              </p>
+              <Button onClick={resentEmail} variant='outlined' className='mt-3'>
+                Resend
+              </Button>
+            </div>
           </div>
         )
       ) : (

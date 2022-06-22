@@ -19,7 +19,10 @@ export default async function PostOrder(
   const data = await res.json();
   if (res.ok) {
     if (data.insertedId) {
-      store?.State.setAlert("Order placed successfully");
+      store?.State.setAlert({
+        msg: "Order placed successfully",
+        type: "success",
+      });
       peyload._id = data.insertedId;
       store?.State.setOrderInfo(peyload);
       if (router.query.multiple) {
@@ -30,10 +33,10 @@ export default async function PostOrder(
       }
       router.push("/checkout/orderPlaced");
     } else {
-      store?.State.setAlert("Something went wrong");
+      store?.State.setAlert({ msg: "Something went wrong", type: "error" });
     }
   } else {
-    store?.State.setAlert(data.message);
+    store?.State.setAlert({ msg: data.message, type: "error" });
   }
   store?.State.setLoading(false);
 }

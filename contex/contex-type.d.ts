@@ -6,11 +6,13 @@ type cartProduct = {
   products: OrderedProducts[] | null;
   price: number;
 };
+type Alert = { msg: string; type: "info" | "success" | "error" | "warning" };
+
 interface StatesReturnType {
   error: boolean;
   setError: (error: boolean) => void;
-  alert: string | null;
-  setAlert: Dispatch<SetStateAction<string | null>>;
+  alert: Alert;
+  setAlert: Dispatch<SetStateAction<Alert>>;
   quantity: number;
   setQuantity: (quantity: number) => void;
   loading: boolean;

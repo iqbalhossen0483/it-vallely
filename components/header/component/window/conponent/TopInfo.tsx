@@ -13,7 +13,7 @@ const TopInfo = () => {
     if (store) {
       const { error } = await store.firebase.singOut();
       if (error) {
-        store.State.setAlert("Something went wrong!");
+        store.State.setAlert({ msg: "Something went wrong!", type: "error" });
       }
     }
   };

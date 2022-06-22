@@ -15,7 +15,7 @@ function SliderCustomize() {
       if (res.data) {
         setSliderImages(res.data);
       } else if (res.error) {
-        store?.State.setAlert(res.error);
+        store?.State.setAlert({ msg: "There was an error", type: "error" });
       } else {
         store?.State.setError(res.netProblem);
       }
@@ -43,7 +43,10 @@ function SliderCustomize() {
     const data = await res.json();
 
     if (res.ok) {
-      store?.State.setAlert("Slider image added successfully");
+      store?.State.setAlert({
+        msg: "Slider image added successfully",
+        type: "success",
+      });
       setUpdate(!update);
     } else {
       store?.State.setAlert(data.message);
@@ -64,9 +67,9 @@ function SliderCustomize() {
       },
     });
     if (res.ok) {
-      store?.State.setAlert("Deleted successfully");
+      store?.State.setAlert({ msg: "Deleted successfully", type: "success" });
     } else {
-      store?.State.setAlert("There was an error");
+      store?.State.setAlert({ msg: "There was an error", type: "error" });
     }
     setUpdate((prev) => !prev);
     store?.State.setLoading(false);

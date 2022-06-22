@@ -1,9 +1,10 @@
+import useStore from "../../../contex/hooks/useStore";
+import React, { useEffect, useState } from "react";
+import Orders from "../../HOC/Orders";
 import {
   fetchAPI,
   handleError,
 } from "../../../clientServices/shared/sharedFunction";
-import useStore from "../../../contex/hooks/useStore";
-import React, { useEffect, useState } from "react";
 import {
   Button,
   MenuItem,
@@ -14,21 +15,22 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import Orders from "../../HOC/Orders";
 
 interface Props {
   value: number;
   index: number;
+  loading: string;
   updateOrder(id: string, status: OrderStatus): void;
   deleteOrder(id: string, willDeleteImg: string[] | null): Promise<void>;
 }
-const ManageOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
-  const headData = ["Customer Info", "Product Info", "Delivary Info"];
-  const status = ["Pending", "Approved", "Cenceled", "Delivered"];
-  const [orders, setOrders] = useState<OrderInfo[] | null>(null);
-  const [filterOrder, setFilterOrder] = useState("All");
-  const filterStatus = ["All", ...status];
-  const store = useStore();
+const ManageOrder = (Props: Props) => {
+  const { value, index, updateOrder, deleteOrder, loading } = Props,
+    headData = ["Customer Info", "Product Info", "Delivary Info"],
+    status = ["Pending", "Approved", "Cenceled", "Delivered"],
+    [orders, setOrders] = useState<OrderInfo[] | null>(null),
+    [filterOrder, setFilterOrder] = useState("All"),
+    filterStatus = ["All", ...status],
+    store = useStore();
 
   useEffect(() => {
     (async () => {
@@ -151,7 +153,7 @@ const ManageOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
                     sx={{ width: "100%", textAlign: "center" }}
                     helperText='Change Status'
                     value={order.status}
-                    disabled={store?.State.loading}
+                    disabled={loading === order._id}
                     onChange={(e) => {
                       updateOrder(order._id, e.target.value as OrderStatus);
                     }}
@@ -165,7 +167,7 @@ const ManageOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
                     ))}
                   </TextField>
                   <Button
-                    disabled={store?.State.loading}
+                    disabled={loading === order._id}
                     variant='outlined'
                     onClick={() =>
                       deleteOrder(order._id, order.willDeleteImg || null)

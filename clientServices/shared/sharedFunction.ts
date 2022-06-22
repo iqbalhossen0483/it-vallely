@@ -60,6 +60,6 @@ export function handleError(
   if (data.netProblem) {
     state.setError(data.netProblem);
   } else {
-    state.setAlert(data.error);
+    state.setAlert({ msg: data.error!, type: "error" });
   }
 }

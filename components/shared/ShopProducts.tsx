@@ -1,10 +1,10 @@
-import { Button, ListItem } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
-import Image from "next/image";
-import Link from "next/link";
+import useStore from "../../contex/hooks/useStore";
+import { Button, ListItem } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { FC } from "react";
-import useStore from "../../contex/hooks/useStore";
+import Image from "next/image";
+import Link from "next/link";
 
 type Props = { products: Product[] | null };
 
@@ -22,9 +22,12 @@ const ShopProducts: FC<Props> = ({ products }) => {
           products: prev.products,
         };
       });
-      store?.State.setAlert("Product successfully added");
+      store?.State.setAlert({
+        msg: "Product successfully added",
+        type: "success",
+      });
     } else if (isAdded.message === "added") {
-      store?.State.setAlert("Product already added");
+      store?.State.setAlert({ msg: "Product already added", type: "info" });
     }
   }
   return (

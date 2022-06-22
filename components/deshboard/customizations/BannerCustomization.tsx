@@ -43,7 +43,10 @@ function BannerCustomization() {
     const data = await res.json();
 
     if (res.ok) {
-      store?.State.setAlert("Banner image added successfully");
+      store?.State.setAlert({
+        msg: "Banner image added successfully",
+        type: "success",
+      });
       setUpdate(!update);
     } else {
       store?.State.setAlert(data.message);
@@ -64,9 +67,9 @@ function BannerCustomization() {
       },
     });
     if (res.ok) {
-      store?.State.setAlert("Deleted successfully");
+      store?.State.setAlert({ msg: "Deleted successfully", type: "success" });
     } else {
-      store?.State.setAlert("There was an error");
+      store?.State.setAlert({ msg: "There was an error", type: "error" });
     }
     setUpdate((prev) => !prev);
     store?.State.setLoading(false);

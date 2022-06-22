@@ -1,8 +1,14 @@
 import ProductDeatails from "../../components/productDetails/ProductDeatails";
 import { dbConnection } from "../../serverServices/services/dbConnection";
 import { ObjectId } from "mongodb";
+import { useRouter } from "next/router";
+import Spinner from "../../components/shared/Spinner";
 
 const ProductDetailsLeyout = ({ data }) => {
+  const router = useRouter();
+  if (router.isFallback) {
+    return <Spinner />;
+  }
   return <ProductDeatails data={data} />;
 };
 
@@ -22,7 +28,7 @@ export async function getStaticPaths() {
   });
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
@@ -33,6 +39,12 @@ export async function getStaticProps(contex) {
   const singleProduct = await productsCollection.findOne({
     _id: ObjectId(params.id),
   });
+
+  if (!singleProduct?._id) {
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
       data: JSON.parse(JSON.stringify(singleProduct)),

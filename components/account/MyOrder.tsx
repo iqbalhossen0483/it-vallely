@@ -1,3 +1,13 @@
+import Refreshing from "../shared/utilitize/Refreshing";
+import useStore from "../../contex/hooks/useStore";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Orders from "../HOC/Orders";
+import Image from "next/image";
+import {
+  fetchAPI,
+  handleError,
+} from "../../clientServices/shared/sharedFunction";
 import {
   Button,
   Table,
@@ -6,27 +16,20 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import {
-  fetchAPI,
-  handleError,
-} from "../../clientServices/shared/sharedFunction";
-import useStore from "../../contex/hooks/useStore";
-import Orders from "../HOC/Orders";
 
 interface Props {
   value: number;
   index: number;
+  loading: string;
   updateOrder: (id: string, status: OrderStatus) => void;
   deleteOrder(id: string, willDeleteImg: string[] | null): Promise<void>;
 }
 
-const MyOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
-  const [orders, setOrders] = useState<OrderInfo[] | null>(null);
-  const store = useStore();
-  const router = useRouter();
+const MyOrder = (Props: Props) => {
+  const { value, index, updateOrder, deleteOrder, loading } = Props,
+    [orders, setOrders] = useState<OrderInfo[] | null>(null),
+    store = useStore(),
+    router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -50,7 +53,10 @@ const MyOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
   }, [store?.firebase.user, store?.State.update]);
 
   return (
-    <div className='bg-gray-100 p-5 rounded' hidden={value !== index}>
+    <div
+      className='bg-gray-100 p-5 rounded min-w-[80%]'
+      hidden={value !== index}
+    >
       <Table className='bg-white rounded'>
         <TableHead>
           <TableRow>
@@ -127,6 +133,7 @@ const MyOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
                     onClick={() =>
                       deleteOrder(item._id, item.willDeleteImg || null)
                     }
+                    disabled={loading === item._id}
                     variant='outlined'
                   >
                     Delete
@@ -135,8 +142,15 @@ const MyOrder = ({ value, index, updateOrder, deleteOrder }: Props) => {
                   <Button
                     onClick={() => updateOrder(item._id, "Cenceled")}
                     variant='outlined'
+                    disabled={loading === item._id}
                   >
-                    Cencel
+                    {loading === item._id ? (
+                      <>
+                        loading <Refreshing />
+                      </>
+                    ) : (
+                      "Cencel"
+                    )}
                   </Button>
                 )}
               </TableCell>

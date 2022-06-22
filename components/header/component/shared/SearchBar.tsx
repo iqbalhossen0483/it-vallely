@@ -23,7 +23,7 @@ const SearchBar = () => {
     if (res.ok) {
       setProduct({ showDiv: true, product: data });
     } else {
-      store?.State.setAlert(data.message);
+      store?.State.setAlert({ msg: data.message, type: "error" });
     }
   }
 

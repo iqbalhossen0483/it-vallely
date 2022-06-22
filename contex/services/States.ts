@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { StatesReturnType } from "../contex-type";
+import { Alert, StatesReturnType } from "../contex-type";
 
 function States(): StatesReturnType {
   //all state start
   const [orderInfo, setOrderInfo] = useState<OrderInfo | null>(null);
   const [categories, setCategories] = useState<string[]>([]);
-  const [alert, setAlert] = useState<string | null>(null);
+  const [alert, setAlert] = useState<Alert>({ msg: "", type: "info" });
   const [loading, setLoading] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
   const [error, setError] = useState<boolean>(false);

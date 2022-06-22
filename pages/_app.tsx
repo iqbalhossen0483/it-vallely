@@ -8,7 +8,6 @@ import "../styles/product.css";
 import "../styles/globals.css";
 import "../styles/header.css";
 import "../styles/footer.css";
-import "../styles/alert.css";
 import "../styles/home.css";
 import "../styles/shop.css";
 import "../styles/account.css";
@@ -19,12 +18,12 @@ import MetaTages from "../components/metaTags/MetaTages";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import useStore from "../contex/hooks/useStore";
-import Alert from "../components/alert/Alert";
 import Error from "../components/error/Error";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import UserRoute from "../components/protectedRoute/UserRoute";
 import AdminRoute from "../components/protectedRoute/AdminRoute";
+import AlertProvider from "../components/alert/Alert";
 
 type Props = {
   Component: NextComponentType<NextPageContext, any, {}>;
@@ -58,7 +57,7 @@ function Layout({ Component, pageProps }: Props) {
           )}
           <ScrollTop />
           <Footer />
-          <Alert />
+          <AlertProvider />
         </>
       )}
     </>

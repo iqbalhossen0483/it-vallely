@@ -59,7 +59,10 @@ const Order = () => {
       setDiscount(checkingCopon.discount);
       reset();
     } else {
-      store?.State.setAlert("promo/copon code is invalid");
+      store?.State.setAlert({
+        msg: "promo/copon code is invalid",
+        type: "error",
+      });
       setDiscount(null);
     }
   }

@@ -42,7 +42,10 @@ const CartProduct = ({ setShowCart }: Props) => {
               <CloseIcon
                 onClick={() => {
                   store?.Carts.deleteCart(product._id, product.price);
-                  store?.State.setAlert("Deleted successfull");
+                  store?.State.setAlert({
+                    msg: "Deleted successfull",
+                    type: "success",
+                  });
                 }}
               />
             </div>

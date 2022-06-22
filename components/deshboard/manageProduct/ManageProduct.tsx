@@ -73,7 +73,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
       setInputValue("");
       setProducts(res.data);
     } else if (res.data && !res.data.length) {
-      store?.State.setAlert("No result matched");
+      store?.State.setAlert({ msg: "No result matched", type: "info" });
     }
   }
   function getFilterProduct(key: string, action: "input" | "select") {
@@ -116,7 +116,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
       });
       const data = await res.json();
       if (res.ok) {
-        store?.State.setAlert("Deleted successfull");
+        store?.State.setAlert({ msg: "Deleted successfull", type: "success" });
         const exist = products?.filter((item) => item._id !== id);
         setProducts(exist!);
       } else {

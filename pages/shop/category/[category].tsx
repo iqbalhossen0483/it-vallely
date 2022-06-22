@@ -27,7 +27,7 @@ const Category = () => {
       } else if (res.netProblem) {
         store?.State.setError(res.netProblem);
       } else if (res.error) {
-        store?.State.setAlert(res.error);
+        store?.State.setAlert({ msg: res.error, type: "error" });
       }
       store?.State.setLoading(false);
     })();

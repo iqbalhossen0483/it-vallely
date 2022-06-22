@@ -45,9 +45,6 @@ function LoginRegister({ title }: Props) {
         if (!error) {
           reset();
           setIsVarificationSent(true);
-          setInterval(() => {
-            router.push(store.State.redirect || "/");
-          }, 3000);
         }
       } else {
         setError(result.message!);
@@ -90,7 +87,7 @@ function LoginRegister({ title }: Props) {
       if (!error) {
         setIsVarificationSent(true);
       } else {
-        store.State.setAlert("Somthing went wrong");
+        store.State.setAlert({ msg: "Somthing went wrong", type: "error" });
       }
     }
   }
@@ -153,9 +150,11 @@ function LoginRegister({ title }: Props) {
             </>
           )}
           <p hidden={!error}>
-            {error?.includes("Firebase: ")
-              ? error?.replace(/firebase: /i, "")
-              : error}
+            {error
+              ?.replace(/firebase: /i, "")
+              .replace("Error ", "")
+              .replace("(", "")
+              .replace(")", "")}
           </p>
           <Button
             type='submit'

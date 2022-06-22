@@ -4,7 +4,7 @@ import { UserRecord } from "firebase-admin/lib/auth/user-record";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useEffect, useRef, useState } from "react";
-import AddBoxIcon from "@mui/icons-material/AddBox";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import {
   Button,
   MenuItem,
@@ -22,6 +22,7 @@ import {
 import useStore from "../../../contex/hooks/useStore";
 import Input from "../../shared/utilitize/Input";
 import { useForm } from "react-hook-form";
+import Spinner from "../../shared/Spinner";
 
 interface Props {
   value: number;
@@ -44,6 +45,7 @@ const ManageUser = ({ value, index }: Props) => {
   // fetch data;
   useEffect(() => {
     (async () => {
+      store?.State.setLoading(true);
       const token = await store?.firebase.user?.getIdToken();
       const users = await fetchAPI<UserRecord[]>("/api/user", {
         headers: {
@@ -56,6 +58,7 @@ const ManageUser = ({ value, index }: Props) => {
         setFilterUser(users.data);
         setFilterRole("All");
       } else handleError(users, store?.State!);
+      store?.State.setLoading(false);
     })();
 
     document.addEventListener("click", (e) => {
@@ -86,6 +89,7 @@ const ManageUser = ({ value, index }: Props) => {
 
   //update user role
   async function updateUserRole(uid: string, newRole: UserRoles) {
+    store?.State.setLoading(true);
     const token = await store?.firebase.user?.getIdToken();
     const result = await fetchAPI<{ message: string }>("/api/user", {
       method: "PUT",
@@ -97,10 +101,14 @@ const ManageUser = ({ value, index }: Props) => {
       body: JSON.stringify({ uid, newRole }),
     });
     if (result.data) {
-      store?.State.setAlert("User role has been modified");
+      store?.State.setAlert({
+        msg: "User role has been modified",
+        type: "success",
+      });
     } else handleError(result, store?.State!);
     setUpdate((prev) => !prev);
     setUpdateUpdateuserForm(-1);
+    store?.State.setLoading(false);
   }
 
   //disable and enable user;
@@ -120,14 +128,50 @@ const ManageUser = ({ value, index }: Props) => {
       }
     );
     if (result.data) {
-      store?.State.setAlert(`User has been ${value}`);
+      store?.State.setAlert({ msg: `User has been ${value}`, type: "success" });
     } else handleError(result, store?.State!);
     setUpdate((prev) => !prev);
     store?.State.setLoading(false);
   }
 
   async function addUser(data: AddUser) {
-    console.log(data);
+    store?.State.setLoading(true);
+    const token = await store?.firebase.user?.getIdToken();
+    const result = await fetchAPI<UserRecord>("/api/user", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        user_uid: `${store?.firebase.user?.uid}`,
+        token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    if (result.data?.uid) {
+      store?.State.setAlert({
+        msg: "User added successfully",
+        type: "success",
+      });
+      setUpdate((prev) => !prev);
+      setAddUserform(false);
+    } else handleError(result, store?.State!);
+    store?.State.setLoading(false);
+  }
+
+  async function deleteUser(uid: string) {
+    store?.State.setLoading(true);
+    const token = await store?.firebase.user?.getIdToken();
+    const result = await fetchAPI<{ message: string }>(`/api/user?uid=${uid}`, {
+      method: "DELETE",
+      headers: {
+        user_uid: `${store?.firebase.user?.uid}`,
+        token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
+      },
+    });
+    if (result.data) {
+      store?.State.setAlert({ msg: result.data.message, type: "success" });
+      setUpdate((prev) => !prev);
+    } else handleError(result, store?.State!);
+    store?.State.setLoading(false);
   }
 
   return (
@@ -161,7 +205,7 @@ const ManageUser = ({ value, index }: Props) => {
               </TextField>
               <div className='user-add-btn'>
                 <Button onClick={() => setAddUserform((prev) => !prev)}>
-                  <AddBoxIcon />
+                  <PersonAddAltIcon />
                 </Button>
               </div>
             </TableCell>
@@ -179,7 +223,13 @@ const ManageUser = ({ value, index }: Props) => {
                   <Button onClick={() => handleForm(index)} variant='outlined'>
                     <EditIcon />
                   </Button>
-                  <Button variant='outlined'>
+                  <Button
+                    disabled={store?.State.loading}
+                    onClick={() => {
+                      deleteUser(user.uid);
+                    }}
+                    variant='outlined'
+                  >
                     <DeleteIcon />
                   </Button>
                   <Button
@@ -206,13 +256,22 @@ const ManageUser = ({ value, index }: Props) => {
               </TableCell>
               {index === updateUserForm && (
                 <TableCell className='edit-form'>
-                  <Button onClick={() => updateUserRole(user.uid, "Admin")}>
+                  <Button
+                    disabled={store?.State.loading}
+                    onClick={() => updateUserRole(user.uid, "Admin")}
+                  >
                     Admin
                   </Button>
-                  <Button onClick={() => updateUserRole(user.uid, "Manager")}>
+                  <Button
+                    disabled={store?.State.loading}
+                    onClick={() => updateUserRole(user.uid, "Manager")}
+                  >
                     Manager
                   </Button>
-                  <Button onClick={() => updateUserRole(user.uid, "User")}>
+                  <Button
+                    disabled={store?.State.loading}
+                    onClick={() => updateUserRole(user.uid, "User")}
+                  >
                     User
                   </Button>
                 </TableCell>
@@ -221,6 +280,10 @@ const ManageUser = ({ value, index }: Props) => {
           ))}
         </TableBody>
       </Table>
+
+      <div hidden={!store?.State.loading}>
+        <Spinner />
+      </div>
 
       <form
         onSubmit={handleSubmit(addUser)}
@@ -241,7 +304,12 @@ const ManageUser = ({ value, index }: Props) => {
           type='password'
           label='password'
         />
-        <Button type='submit' variant='contained' className='bg-mui'>
+        <Button
+          disabled={store?.State.loading}
+          type='submit'
+          variant='contained'
+          className='bg-mui'
+        >
           add
         </Button>
       </form>

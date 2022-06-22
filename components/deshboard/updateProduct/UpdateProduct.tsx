@@ -102,7 +102,7 @@ const UpdateProduct = ({ value, index }: Props) => {
     const data = await res.json();
     if (res.ok) {
       if (data.modifiedCount > 0) {
-        store?.State.setAlert("Update successfull");
+        store?.State.setAlert({ msg: "Update successfull", type: "success" });
       } else store?.State.setAlert(data.message || "No updated document found");
     } else {
       store?.State.setAlert(data.message);
@@ -130,7 +130,7 @@ const UpdateProduct = ({ value, index }: Props) => {
           setInputValue("");
           setShowInput(false);
         } else {
-          store?.State.setAlert("Already exist");
+          store?.State.setAlert({ msg: "Already exist", type: "info" });
         }
       }
     }

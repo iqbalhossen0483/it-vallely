@@ -1,8 +1,10 @@
+import { useState } from "react";
 import useStore from "../../contex/hooks/useStore";
 
 type Props = {
   value: number;
   index: number;
+  loading: string;
   updateOrder: (id: string, status: OrderStatus) => void;
   deleteOrder(id: string, willDeleteImg: string[] | null): Promise<void>;
 };
@@ -11,15 +13,17 @@ type Params = ({
   index,
   updateOrder,
   deleteOrder,
+  loading,
 }: Props) => JSX.Element;
 
 const Orders = (OriginalComponent: Params) => {
   return function NewComponent({ value, index }: Props) {
+    const [loading, setLoading] = useState("");
     const store = useStore();
 
     //update order start;;;
     async function updateOrder(id: string, status: OrderStatus) {
-      store?.State.setLoading(true);
+      setLoading(id);
       const confirm = window.confirm(`Are sure to ${status} this order`);
       if (confirm) {
         const token = await store?.firebase.user?.getIdToken();
@@ -36,19 +40,22 @@ const Orders = (OriginalComponent: Params) => {
         const data = await res.json();
         if (res.ok) {
           if (data.modifiedCount) {
-            store?.State.setAlert(`This order has been ${status}`);
+            store?.State.setAlert({
+              msg: `This order has been ${status}`,
+              type: "success",
+            });
             store?.State.setUpdate((prev) => !prev);
           }
         } else {
-          store?.State.setAlert(data.message);
+          store?.State.setAlert({ msg: data.message, type: "error" });
         }
       }
-      store?.State.setLoading(false);
+      setLoading("");
     } //update order end;;
 
     //delete order start;;
     async function deleteOrder(id: string, willDeleteImg: string[] | null) {
-      store?.State.setLoading(true);
+      setLoading(id);
       const token = await store?.firebase.user?.getIdToken();
       const confirm = window.confirm("Are you sure to delete this order");
       if (confirm) {
@@ -63,19 +70,23 @@ const Orders = (OriginalComponent: Params) => {
         });
         const data = await res.json();
         if (res.ok && data.deletedCount > 0) {
-          store?.State.setAlert("Deleted successfull");
+          store?.State.setAlert({
+            msg: "Deleted successfull",
+            type: "success",
+          });
           store?.State.setUpdate((prev) => !prev);
         } else {
           store?.State.setAlert(data.message);
         }
       }
-      store?.State.setLoading(false);
+      setLoading("");
     } //delete order end;;
 
     return (
       <OriginalComponent
         updateOrder={updateOrder}
         deleteOrder={deleteOrder}
+        loading={loading}
         value={value}
         index={index}
       />

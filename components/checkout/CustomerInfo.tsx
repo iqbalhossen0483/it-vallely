@@ -3,7 +3,7 @@ import Input from "../shared/utilitize/Input";
 import { useForm } from "react-hook-form";
 import React, { RefObject, useState } from "react";
 import { useRouter } from "next/router";
-import { Checkbox, FormControlLabel, Paper } from "@mui/material";
+import { Checkbox, FormControlLabel } from "@mui/material";
 import PostOrder from "./services/PostOrder";
 
 type Props = {
@@ -14,34 +14,34 @@ type Props = {
   discount: number | null;
 };
 
-const CustomerInfo = ({
-  customerInfoForm,
-  delivary,
-  paymentMethods,
-  products,
-  discount,
-}: Props) => {
+const CustomerInfo = (Props: Props) => {
+  const { customerInfoForm, delivary, paymentMethods, products, discount } =
+    Props;
+  const [agreeTerms, setAgreeTerms] = useState(false);
   const store = useStore();
+  const router = useRouter();
   const { register, handleSubmit } = useForm<OrderInfo>({
     defaultValues: { email: store?.firebase.user?.email || "" },
   });
-  const [agreeTerms, setAgreeTerms] = useState(false);
-  const router = useRouter();
 
   function onSubmit(peyload: OrderInfo) {
     store?.State.setLoading(true);
     //check user agree with terms & conditions;
     if (!agreeTerms) {
-      store?.State.setAlert(
-        "Please agree with our terms & conditions, Or read about this"
-      );
+      store?.State.setAlert({
+        msg: "Please agree with our terms & conditions, Or read about this",
+        type: "warning",
+      });
       store?.State.setLoading(false);
       return;
     }
 
     //check is mobile number is valid;
     if (peyload.mobile.length < 11 || peyload.mobile.length > 11) {
-      store?.State.setAlert("Phone number is invalid");
+      store?.State.setAlert({
+        msg: "Phone number is invalid",
+        type: "warning",
+      });
       store?.State.setLoading(false);
       return;
     }
