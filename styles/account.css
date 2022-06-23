@@ -120,16 +120,16 @@
 
   /* profile */
   .profile .profile-pic .alt-profile {
-    @apply text-8xl border rounded-full p-2;
+    @apply text-8xl rounded-full;
   }
   .profile .profile-pic img {
     @apply rounded-full;
   }
   .profile-pic {
-    @apply cursor-pointer rounded-full p-2 relative;
+    @apply cursor-pointer rounded-full relative;
   }
   .edit-icon {
-    @apply absolute top-0 left-0  h-full w-full bg-gray-300 flex justify-center
+    @apply absolute top-0 left-0  h-[95%] w-full bg-gray-300 flex justify-center
     items-center rounded-full opacity-0;
   }
   .profile-pic:hover .edit-icon {

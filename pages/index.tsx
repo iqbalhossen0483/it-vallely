@@ -56,10 +56,19 @@ export async function getStaticProps() {
   const productsCollection = db.collection("products");
   const sliderImgCollection = db.collection("sliderImg");
   const bannerImgCollection = db.collection("bannerImg");
-  const products: any = await productsCollection.find().toArray();
   const sliderImg: any = await sliderImgCollection.find().toArray();
   const bannerImg: any = await bannerImgCollection.find().toArray();
-
+  const products: any = await productsCollection
+    .find()
+    .project({
+      _id: 1,
+      name: 1,
+      price: 1,
+      prevPrice: 1,
+      productImg: 1,
+      category: 1,
+    })
+    .toArray();
   return {
     props: {
       products: JSON.parse(JSON.stringify(products)),

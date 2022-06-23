@@ -1,4 +1,7 @@
-import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
+import {
+  fetchAPI,
+  handleError,
+} from "../../../clientServices/shared/sharedFunction";
 import Spinner from "../../../components/shared/utilitize/Spinner";
 import ShopProducts from "../../../components/shared/ShopProducts";
 import useStore from "../../../contex/hooks/useStore";
@@ -24,11 +27,7 @@ const Category = () => {
       );
       if (res.data && res.data.length) {
         setProduct(res.data);
-      } else if (res.netProblem) {
-        store?.State.setError(res.netProblem);
-      } else if (res.error) {
-        store?.State.setAlert({ msg: res.error, type: "error" });
-      }
+      } else handleError(res, store?.State!);
       store?.State.setLoading(false);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps

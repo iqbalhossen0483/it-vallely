@@ -1,5 +1,16 @@
-import { ObjectId } from "mongodb";
 import { serverError } from "../../serverError";
+import { ObjectId } from "mongodb";
+
+const allProductData = {
+  _id: 1,
+  name: 1,
+  price: 1,
+  productImg: 1,
+  productCode: 1,
+  stock: 1,
+  orderPending: 1,
+  category: 1,
+};
 
 export async function getProduct(req, res, products) {
   try {
@@ -35,12 +46,14 @@ export async function getProduct(req, res, products) {
           .aggregate([
             { $match: { category: req.query.category } },
             { $sample: { size: 4 } },
+            { $project: { _id: 1, name: 1, productImg: 1, price: 1 } },
           ])
           .toArray();
         res.status(200).send(randomCategoriesProduct);
       } else {
         const categoryProduct = await products
           .find({ category: RegExp(req.query.category, "i") })
+          .project(allProductData)
           .toArray();
         res.status(200).send(categoryProduct);
       }
@@ -52,21 +65,32 @@ export async function getProduct(req, res, products) {
         value = req.query.value;
       let result;
       if (key === "Product Code") {
-        result = await products.find({ productCode: value }).toArray();
+        result = await products
+          .find({ productCode: value })
+          .project(allProductData)
+          .toArray();
       } else if (key === "Price") {
         result = await products
           .find({ price: { $gt: 0, $lt: parseInt(value) } })
+          .project(allProductData)
           .toArray();
       } else if (key === "Order pending") {
         result = await products
           .find({ orderPending: { $gt: 0, $lt: parseInt(value) } })
+          .project(allProductData)
           .toArray();
       } else if (key === "Stock") {
         result = await products
           .find({ stock: { $gt: 0, $lt: parseInt(value) } })
+          .project(allProductData)
+          .toArray();
+      } else if (key === "category") {
+        result = await products
+          .find({ category: value })
+          .project(allProductData)
           .toArray();
       } else {
-        result = await products.find().toArray();
+        result = await products.find().project(allProductData).toArray();
       }
       if (result) {
         res.status(200).send(result);
@@ -90,7 +114,10 @@ export async function getProduct(req, res, products) {
 
     //send all products;
     else {
-      const allProduct = await products.find().toArray();
+      const allProduct = await products
+        .find()
+        .project(allProductData)
+        .toArray();
       res.status(200).send(allProduct);
     }
   } catch (error) {

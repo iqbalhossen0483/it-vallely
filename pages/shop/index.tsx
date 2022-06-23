@@ -133,12 +133,21 @@ export default Shop;
 export async function getStaticProps() {
   const db = await dbConnection();
   const productsCollection = db.collection("products");
-  const products: any = await productsCollection.find().toArray();
-  const parsedProducts = JSON.parse(JSON.stringify(products));
-
+  const products: any = await productsCollection
+    .find()
+    .project({
+      _id: 1,
+      name: 1,
+      price: 1,
+      prevPrice: 1,
+      productImg: 1,
+      keyFeatures: 1,
+      brand: 1
+    })
+    .toArray();
   return {
     props: {
-      data: parsedProducts,
+      data: JSON.parse(JSON.stringify(products)),
     },
     revalidate: 10,
   };

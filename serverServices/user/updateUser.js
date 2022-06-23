@@ -2,6 +2,8 @@ import { userVarification } from "../firebase-server/userVarification";
 import { serverError } from "../serverError";
 import admin from "firebase-admin";
 import { bodyPerse } from "./bodyPerser";
+import { deleteImage } from "../cloudinary/shared/deleteImage";
+import { profileUpload } from "../cloudinary/upload/profileUpload";
 
 export async function updateUser(req, res) {
   try {
@@ -38,7 +40,21 @@ export async function updateUser(req, res) {
 
     //user profile update;
     if (req.query.avater) {
-      console.log(req.file);
+      if (req.file.size > 100000) {
+        serverError(res, { msg: "Image size too long", status: 301 });
+        return;
+      }
+      const { error, result } = await profileUpload(req.file.path);
+      if (error) return serverError(res);
+      const user = await admin.auth().updateUser(req.headers.user_uid, {
+        photoURL: result.secure_url,
+      });
+      if (user.customClaims?.imgId) {
+        await deleteImage(user.customClaims.imgId);
+      }
+      await admin
+        .auth()
+        .setCustomUserClaims(req.headers.user_uid, { imgId: result.public_id });
     }
     res.status(200).send({ message: "Success" });
   } catch (error) {
