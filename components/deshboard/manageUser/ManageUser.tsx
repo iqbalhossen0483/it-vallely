@@ -1,65 +1,37 @@
-import ToggleOnIcon from "@mui/icons-material/ToggleOn";
-import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useEffect, useRef, useState } from "react";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import {
-  Button,
-  MenuItem,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-} from "@mui/material";
-import {
-  fetchAPI,
-  handleError,
-} from "../../../clientServices/shared/sharedFunction";
+import { Table } from "@mui/material";
 import useStore from "../../../contex/hooks/useStore";
-import Input from "../../shared/utilitize/Input";
 import { useForm } from "react-hook-form";
 import Spinner from "../../shared/Spinner";
+import { initialFn } from "../../../clientServices/manageUser/initialFn";
+import { updateUserRole } from "../../../clientServices/manageUser/updateUserRole";
+import { disableAndEnable } from "../../../clientServices/manageUser/disableAndEnable";
+import { addUser, AddUser } from "../../../clientServices/manageUser/addUser";
+import { deleteUser } from "../../../clientServices/manageUser/deleteUser";
+import TableHeader from "./component/TableHeader";
+import Body from "./component/Body";
+import AddUserForm from "./component/AddUser";
 
 interface Props {
   value: number;
   index: number;
 }
-type AddUser = { name: string; email: string; password: string };
 
 const ManageUser = ({ value, index }: Props) => {
   const [filterUser, setFilterUser] = useState<UserRecord[] | null>(null),
     [users, setUsers] = useState<UserRecord[] | null>(null),
     [updateUserForm, setUpdateUpdateuserForm] = useState(-1),
-    { handleSubmit, register, reset } = useForm<AddUser>(),
     [addUserform, setAddUserform] = useState(false),
     [filterRole, setFilterRole] = useState("All"),
-    roles = ["All", "Admin", "Manager", "User"],
     tableRef = useRef<HTMLTableElement>(null),
     [update, setUpdate] = useState(false),
+    [loading, setLoading] = useState(false),
     store = useStore();
 
   // fetch data;
   useEffect(() => {
-    (async () => {
-      store?.State.setLoading(true);
-      const token = await store?.firebase.user?.getIdToken();
-      const users = await fetchAPI<UserRecord[]>("/api/user", {
-        headers: {
-          user_uid: `${store?.firebase.user?.uid}`,
-          token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
-        },
-      });
-      if (users.data) {
-        setUsers(users.data);
-        setFilterUser(users.data);
-        setFilterRole("All");
-      } else handleError(users, store?.State!);
-      store?.State.setLoading(false);
-    })();
+    initialFn(store, setUsers, setFilterUser, setFilterRole);
 
     document.addEventListener("click", (e) => {
       const isContain = tableRef.current?.contains(e.target as Node);
@@ -88,90 +60,42 @@ const ManageUser = ({ value, index }: Props) => {
   }
 
   //update user role
-  async function updateUserRole(uid: string, newRole: UserRoles) {
-    store?.State.setLoading(true);
-    const token = await store?.firebase.user?.getIdToken();
-    const result = await fetchAPI<{ message: string }>("/api/user", {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-        user_uid: `${store?.firebase.user?.uid}`,
-        token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
-      },
-      body: JSON.stringify({ uid, newRole }),
-    });
-    if (result.data) {
-      store?.State.setAlert({
-        msg: "User role has been modified",
-        type: "success",
-      });
-    } else handleError(result, store?.State!);
+  async function handleupdateUserRole(uid: string, newRole: UserRoles) {
+    setLoading(true);
+    await updateUserRole(uid, newRole, store);
     setUpdate((prev) => !prev);
     setUpdateUpdateuserForm(-1);
-    store?.State.setLoading(false);
+    setLoading(false);
   }
 
   //disable and enable user;
-  async function disableAndEnable(uid: string, value: "enable" | "disable") {
-    store?.State.setLoading(true);
-    const token = await store?.firebase.user?.getIdToken();
-    const result = await fetchAPI<{ message: string }>(
-      `/api/user?${value}=true`,
-      {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-          user_uid: `${store?.firebase.user?.uid}`,
-          token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
-        },
-        body: JSON.stringify({ uid }),
-      }
-    );
-    if (result.data) {
-      store?.State.setAlert({ msg: `User has been ${value}`, type: "success" });
-    } else handleError(result, store?.State!);
+  async function handledisableAndEnable(
+    uid: string,
+    value: "enable" | "disable"
+  ) {
+    setLoading(true);
+    await disableAndEnable(uid, value, store);
     setUpdate((prev) => !prev);
-    store?.State.setLoading(false);
+    setLoading(false);
   }
 
-  async function addUser(data: AddUser) {
-    store?.State.setLoading(true);
-    const token = await store?.firebase.user?.getIdToken();
-    const result = await fetchAPI<UserRecord>("/api/user", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        user_uid: `${store?.firebase.user?.uid}`,
-        token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-    if (result.data?.uid) {
-      store?.State.setAlert({
-        msg: "User added successfully",
-        type: "success",
-      });
+  async function handleaddUser(data: AddUser) {
+    setLoading(true);
+    const result = await addUser(data, store);
+    if (result && result.message) {
       setUpdate((prev) => !prev);
       setAddUserform(false);
-    } else handleError(result, store?.State!);
-    store?.State.setLoading(false);
+    }
+    setLoading(false);
   }
 
-  async function deleteUser(uid: string) {
-    store?.State.setLoading(true);
-    const token = await store?.firebase.user?.getIdToken();
-    const result = await fetchAPI<{ message: string }>(`/api/user?uid=${uid}`, {
-      method: "DELETE",
-      headers: {
-        user_uid: `${store?.firebase.user?.uid}`,
-        token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
-      },
-    });
-    if (result.data) {
-      store?.State.setAlert({ msg: result.data.message, type: "success" });
+  async function handledeleteUser(uid: string) {
+    setLoading(true);
+    const result = await deleteUser(uid, store);
+    if (result && result.msg) {
       setUpdate((prev) => !prev);
-    } else handleError(result, store?.State!);
-    store?.State.setLoading(false);
+    }
+    setLoading(false);
   }
 
   return (
@@ -181,138 +105,31 @@ const ManageUser = ({ value, index }: Props) => {
       className='w-[80%]'
     >
       <Table ref={tableRef}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell align='center'>Email</TableCell>
-            <TableCell>Varified</TableCell>
-            <TableCell align='center' sx={{ position: "relative" }}>
-              <TextField
-                id='standard-select-currency'
-                helperText='filter user by role'
-                value={filterRole}
-                onChange={(e) => {
-                  handleFilterUser(e.target.value);
-                }}
-                variant='standard'
-                select
-              >
-                {roles.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <div className='user-add-btn'>
-                <Button onClick={() => setAddUserform((prev) => !prev)}>
-                  <PersonAddAltIcon />
-                </Button>
-              </div>
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {filterUser?.map((user, index) => (
-            <TableRow hover key={index} sx={{ position: "relative" }}>
-              <TableCell>{user.displayName}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>{user.emailVerified ? "True" : "False"}</TableCell>
-              <TableCell align='center'>
-                <b>{user.customClaims?.role || "User"}</b>
-                <div className='flex gap-1'>
-                  <Button onClick={() => handleForm(index)} variant='outlined'>
-                    <EditIcon />
-                  </Button>
-                  <Button
-                    disabled={store?.State.loading}
-                    onClick={() => {
-                      deleteUser(user.uid);
-                    }}
-                    variant='outlined'
-                  >
-                    <DeleteIcon />
-                  </Button>
-                  <Button
-                    disabled={store?.State.loading}
-                    onClick={() =>
-                      disableAndEnable(
-                        user.uid,
-                        user.disabled ? "enable" : "disable"
-                      )
-                    }
-                    variant='outlined'
-                  >
-                    {user.disabled ? (
-                      <ToggleOffIcon
-                        fontSize='large'
-                        fill='gray'
-                        color='disabled'
-                      />
-                    ) : (
-                      <ToggleOnIcon fontSize='large' />
-                    )}
-                  </Button>
-                </div>
-              </TableCell>
-              {index === updateUserForm && (
-                <TableCell className='edit-form'>
-                  <Button
-                    disabled={store?.State.loading}
-                    onClick={() => updateUserRole(user.uid, "Admin")}
-                  >
-                    Admin
-                  </Button>
-                  <Button
-                    disabled={store?.State.loading}
-                    onClick={() => updateUserRole(user.uid, "Manager")}
-                  >
-                    Manager
-                  </Button>
-                  <Button
-                    disabled={store?.State.loading}
-                    onClick={() => updateUserRole(user.uid, "User")}
-                  >
-                    User
-                  </Button>
-                </TableCell>
-              )}
-            </TableRow>
-          ))}
-        </TableBody>
+        <TableHeader
+          filterRole={filterRole}
+          handleFilterUser={handleFilterUser}
+          setAddUserform={setAddUserform}
+        />
+        <Body
+          filterUser={filterUser}
+          handleForm={handleForm}
+          handledeleteUser={handledeleteUser}
+          handledisableAndEnable={handledisableAndEnable}
+          handleupdateUserRole={handleupdateUserRole}
+          loading={loading}
+          updateUserForm={updateUserForm}
+        />
       </Table>
 
       <div hidden={!store?.State.loading}>
         <Spinner />
       </div>
 
-      <form
-        onSubmit={handleSubmit(addUser)}
-        className={addUserform ? "add-user" : "hidden"}
-      >
-        <Input
-          {...register("name", { required: true })}
-          type='text'
-          label='User name'
-        />
-        <Input
-          {...register("email", { required: true })}
-          type='email'
-          label='User eamil'
-        />
-        <Input
-          {...register("password", { required: true })}
-          type='password'
-          label='password'
-        />
-        <Button
-          disabled={store?.State.loading}
-          type='submit'
-          variant='contained'
-          className='bg-mui'
-        >
-          add
-        </Button>
-      </form>
+      <AddUserForm
+        addUserform={addUserform}
+        handleaddUser={handleaddUser}
+        loading={loading}
+      />
 
       <div
         className={

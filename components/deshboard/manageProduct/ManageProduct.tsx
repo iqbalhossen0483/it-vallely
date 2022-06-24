@@ -19,6 +19,12 @@ import {
   fetchAPI,
   handleError,
 } from "../../../clientServices/shared/sharedFunction";
+import {
+  deleteProduct,
+  Params,
+} from "../../../clientServices/manageProduct/deleteProduct";
+import { filterProduct } from "../../../clientServices/manageProduct/filterProduct";
+import { initialFn } from "../../../clientServices/manageProduct/initialFn";
 
 interface Props {
   value: number;
@@ -27,35 +33,26 @@ interface Props {
 }
 
 const ManageProduct = ({ value, index, setValue }: Props) => {
-  const [products, setProducts] = useState<Product[] | null>(null);
-  const [filterValue, setFilterValue] = useState<string>("All");
-  const [inputValue, setInputValue] = useState("");
-  const heads = [
-    "Images",
-    "Product Name",
-    "Price",
-    "Product Code",
-    "Stock",
-    "Order Pending",
-  ];
-  const filters = ["All", "Price", "Product Code", "Order pending", "Stock"];
-  const store = useStore();
-  const router = useRouter();
+  const filters = ["All", "Price", "Product Code", "Order pending", "Stock"],
+    [products, setProducts] = useState<Product[] | null>(null),
+    [filterValue, setFilterValue] = useState<string>("All"),
+    [categories, setCategories] = useState<string[]>([]),
+    [category, setCategory] = useState("All"),
+    [inputValue, setInputValue] = useState(""),
+    store = useStore(),
+    router = useRouter(),
+    heads = [
+      "Images",
+      "Product Name",
+      "Price",
+      "Product Code",
+      "Stock",
+      "Order Pending",
+    ];
 
   //fetch data;
   useEffect(() => {
-    (async () => {
-      const res = await fetchAPI<Product[]>("/api/product", {
-        headers: {
-          token: `${process.env.NEXT_PUBLIC_APP_TOKEN}`,
-        },
-      });
-      if (res.data) {
-        setProducts(res.data);
-      } else {
-        handleError(res, store?.State!);
-      }
-    })();
+    initialFn(setProducts, setCategories, store?.State!);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -76,57 +73,39 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
       store?.State.setAlert({ msg: "No result matched", type: "info" });
     }
   }
-  function getFilterProduct(key: string, action: "input" | "select") {
-    if (action === "input") {
-      if (key === "Enter") {
-        if (inputValue) {
-          const value =
-            filterValue !== "Product Code"
-              ? parseInt(inputValue) + 1
-              : inputValue;
-          doSearch(filterValue, value.toString());
-        }
-      }
-    } else {
-      if (key === "All") {
-        doSearch(key, inputValue);
-      }
-    }
+  function handleFilterProduct(key: string, action: "input" | "select") {
+    filterProduct(key, action, inputValue, filterValue, doSearch);
   } //filter product and manage end;;
 
   //delete product
-  type IMG = { imgId: string; imgUrl: string };
-  type Params = { id: string; productImg: IMG; galleryImg: IMG[] };
-  async function deleteProduct({ id, productImg, galleryImg }: Params) {
-    const confirm = window.confirm("Are you sure to delete this product");
-    if (confirm) {
-      const token = await store?.firebase.user?.getIdToken();
-      const formData = new FormData();
-      formData.append("id", id);
-      formData.append("productImg", JSON.stringify(productImg));
-      formData.append("galleryImg", JSON.stringify(galleryImg));
-
-      const res = await fetch("/api/product", {
-        method: "DELETE",
-        headers: {
-          user_uid: `${store?.firebase.user?.uid}`,
-          token: `${process.env.NEXT_PUBLIC_APP_TOKEN} ${token}`,
-        },
-        body: formData,
-      });
-      const data = await res.json();
-      if (res.ok) {
-        store?.State.setAlert({ msg: "Deleted successfull", type: "success" });
-        const exist = products?.filter((item) => item._id !== id);
-        setProducts(exist!);
-      } else {
-        store?.State.setAlert(data.message);
-      }
-    }
+  function handledeleteProduct(peyload: Params) {
+    deleteProduct(peyload, store, products, setProducts);
   } //till;
 
   return (
     <div hidden={value !== index}>
+      <div className='flex justify-center'>
+        <TextField
+          sx={{ width: "150px", textAlign: "center" }}
+          id='standard-select-currency'
+          helperText='filter order'
+          value={category}
+          onChange={(e) => {
+            setCategory(e.target.value);
+            if (e.target.value !== "All") {
+              doSearch("category", e.target.value);
+            } else doSearch("All", e.target.value);
+          }}
+          variant='standard'
+          select
+        >
+          {categories.map((item, index) => (
+            <MenuItem value={item} key={index}>
+              {item}
+            </MenuItem>
+          ))}
+        </TextField>
+      </div>
       <Table>
         <TableHead>
           <TableRow>
@@ -142,7 +121,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
                   value={filterValue}
                   onChange={(e) => {
                     setFilterValue(e.target.value);
-                    getFilterProduct(e.target.value, "select");
+                    handleFilterProduct(e.target.value, "select");
                   }}
                   variant='standard'
                   select
@@ -156,7 +135,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
                 {filterValue !== "All" && (
                   <Input
                     onChange={(e) => setInputValue(e.target.value)}
-                    onKeyUpCapture={(e) => getFilterProduct(e.key, "input")}
+                    onKeyUpCapture={(e) => handleFilterProduct(e.key, "input")}
                     disabled={filterValue === "All"}
                     value={inputValue}
                     type='number'
@@ -186,9 +165,11 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
                 </TableCell>
                 <TableCell width={250}>{product.name}</TableCell>
                 <TableCell>{product.price}</TableCell>
-                <TableCell>{product.productCode}</TableCell>
-                <TableCell>{product.stock}</TableCell>
-                <TableCell>{product.orderPending || 0}</TableCell>
+                <TableCell align='center'>{product.productCode}</TableCell>
+                <TableCell align='center'>{product.stock}</TableCell>
+                <TableCell align='center'>
+                  {product.orderPending || 0}
+                </TableCell>
                 <TableCell width={200}>
                   <Button
                     style={{ width: "49%", marginRight: "2%" }}
@@ -205,7 +186,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
                     style={{ width: "49%" }}
                     onClick={(e) => {
                       e.stopPropagation();
-                      deleteProduct({
+                      handledeleteProduct({
                         id: product._id,
                         productImg: product.productImg,
                         galleryImg: product.productImgGallery,
