@@ -12,7 +12,6 @@ export async function deleteProduct(req, res, product) {
     }
     const { error } = await bodyPerse(req, res);
     if (!error) {
-      console.log(req.body);
       req.body.productImg = JSON.parse(req.body.productImg);
       req.body.galleryImg = JSON.parse(req.body.galleryImg);
       const result = await product.deleteOne({ _id: ObjectId(req.body.id) });
@@ -23,7 +22,6 @@ export async function deleteProduct(req, res, product) {
       res.status(200).send(result);
     } else serverError(res);
   } catch (error) {
-    console.log(error);
     serverError(res);
   }
 }

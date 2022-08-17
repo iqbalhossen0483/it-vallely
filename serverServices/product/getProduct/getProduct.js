@@ -10,6 +10,7 @@ const allProductData = {
   stock: 1,
   orderPending: 1,
   category: 1,
+  keyFeatures: 1,
   productImgGallery: 1,
 };
 

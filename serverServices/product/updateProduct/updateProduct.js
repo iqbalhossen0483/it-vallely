@@ -23,6 +23,7 @@ export async function updateProduct(req, res, product, orders) {
       req.body.orderPending = parseInt(req.body.orderPending);
       req.body.price = parseInt(req.body.price);
       req.body.stock = parseInt(req.body.stock);
+      req.body.created_at = new Date();
       const id = req.body._id;
       delete req.body._id;
 

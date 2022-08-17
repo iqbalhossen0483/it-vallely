@@ -67,7 +67,9 @@ export async function getStaticProps() {
       prevPrice: 1,
       productImg: 1,
       category: 1,
+      created_at: 1,
     })
+    .sort({ created_at: -1 })
     .toArray();
   return {
     props: {

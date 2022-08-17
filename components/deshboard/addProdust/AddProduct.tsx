@@ -9,8 +9,6 @@ const AddProduct = ({ value, index }: Props) => {
   const store = useStore();
 
   async function handleSubmit(peyLoad: Product) {
-    const date = new Date().toISOString();
-    peyLoad.created_at = new Date(date);
     const formData = new FormData();
     for (const [key, value] of Object.entries(peyLoad)) {
       if (key !== "pImg" && key !== "gImg" && key !== "specifications") {

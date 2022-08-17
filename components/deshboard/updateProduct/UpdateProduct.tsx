@@ -57,8 +57,6 @@ const UpdateProduct = ({ value, index }: Props) => {
 
   async function OnSubmit(peyLoad: Product) {
     store?.State.setLoading(true);
-    const date = new Date().toISOString();
-    peyLoad.created_at = new Date(date);
     const specifi = makeDataSeperated(peyLoad, productInputs?.specipications!);
     peyLoad.specifications = specifi;
     peyLoad._id = product?._id!;
