@@ -65,8 +65,9 @@ const ManageOrder = (Props: Props) => {
     }
   }
 
+  if (value !== index) return null;
   return (
-    <div className={`${value !== index ? "hidden" : "w-full "}`}>
+    <div className='w-full '>
       <Table>
         <TableHead>
           <TableRow>

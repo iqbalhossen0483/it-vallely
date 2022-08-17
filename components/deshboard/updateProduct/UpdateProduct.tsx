@@ -57,6 +57,8 @@ const UpdateProduct = ({ value, index }: Props) => {
 
   async function OnSubmit(peyLoad: Product) {
     store?.State.setLoading(true);
+    const date = new Date().toISOString();
+    peyLoad.created_at = new Date(date);
     const specifi = makeDataSeperated(peyLoad, productInputs?.specipications!);
     peyLoad.specifications = specifi;
     peyLoad._id = product?._id!;
@@ -103,6 +105,7 @@ const UpdateProduct = ({ value, index }: Props) => {
     if (res.ok) {
       if (data.modifiedCount > 0) {
         store?.State.setAlert({ msg: "Update successfull", type: "success" });
+        store?.State.setUpdate((prev) => !prev);
       } else store?.State.setAlert(data.message || "No updated document found");
     } else {
       store?.State.setAlert(data.message);
@@ -148,8 +151,9 @@ const UpdateProduct = ({ value, index }: Props) => {
     });
   }
 
+  if (value !== index) return null;
   return (
-    <div hidden={value !== index} style={{ width: "70%" }}>
+    <div style={{ width: "70%" }}>
       <form
         onSubmit={handleSubmit(OnSubmit)}
         className='product-input-form-container'

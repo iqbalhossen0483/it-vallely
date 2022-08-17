@@ -98,12 +98,9 @@ const ManageUser = ({ value, index }: Props) => {
     setLoading(false);
   }
 
+  if (value !== index) return null;
   return (
-    <div
-      hidden={value !== index}
-      style={{ position: "relative" }}
-      className='w-[80%]'
-    >
+    <div style={{ position: "relative" }} className='w-[80%]'>
       <Table ref={tableRef}>
         <TableHeader
           filterRole={filterRole}

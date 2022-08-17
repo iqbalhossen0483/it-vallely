@@ -10,6 +10,7 @@ const allProductData = {
   stock: 1,
   orderPending: 1,
   category: 1,
+  productImgGallery: 1,
 };
 
 export async function getProduct(req, res, products) {
@@ -62,40 +63,67 @@ export async function getProduct(req, res, products) {
     //filter product
     else if (req.query.filterProduct) {
       const key = req.query.key,
-        value = req.query.value;
-      let result;
+        value = req.query.value,
+        page = parseInt(req.query.page + "0" || "0");
+
+      let result = {};
       if (key === "Product Code") {
-        result = await products
+        result.count = await products.find({ productCode: value }).count();
+        result.data = await products
           .find({ productCode: value })
           .project(allProductData)
+          .skip(page)
+          .limit(10)
           .toArray();
       } else if (key === "Price") {
-        result = await products
+        result.count = await products
           .find({ price: { $gt: 0, $lt: parseInt(value) } })
+          .count();
+        result.data = await products
+          .find({
+            price: { $gt: 0, $lt: parseInt(value) },
+            category: null,
+          })
           .project(allProductData)
+          .skip(page)
+          .limit(10)
           .toArray();
       } else if (key === "Order pending") {
-        result = await products
+        result.count = await products
+          .find({ orderPending: { $gt: 0, $lt: parseInt(value) } })
+          .count();
+        result.data = await products
           .find({ orderPending: { $gt: 0, $lt: parseInt(value) } })
           .project(allProductData)
+          .skip(page)
+          .limit(10)
           .toArray();
       } else if (key === "Stock") {
-        result = await products
+        result.count = await products
+          .find({ stock: { $gt: 0, $lt: parseInt(value) } })
+          .count();
+        result.data = await products
           .find({ stock: { $gt: 0, $lt: parseInt(value) } })
           .project(allProductData)
+          .skip(page)
+          .limit(10)
           .toArray();
       } else if (key === "category") {
-        result = await products
+        result.count = await products.find({ category: value }).count();
+        result.data = await products
           .find({ category: value })
           .project(allProductData)
+          .skip(page)
+          .limit(10)
           .toArray();
       } else {
-        result = await products.find().project(allProductData).toArray();
+        return sendAllProduct(req, res, products);
       }
-      if (result) {
+      console.log(result);
+      if (result.data.length) {
         res.status(200).send(result);
       } else {
-        serverError(res);
+        serverError(res, { msg: "No result matched", status: 404 });
       }
     } //till
 
@@ -114,12 +142,25 @@ export async function getProduct(req, res, products) {
 
     //send all products;
     else {
-      const allProduct = await products
-        .find()
-        .project(allProductData)
-        .toArray();
-      res.status(200).send(allProduct);
+      sendAllProduct(req, res, products);
     }
+  } catch (error) {
+    serverError(res);
+  }
+}
+
+async function sendAllProduct(req, res, products) {
+  try {
+    const page = parseInt(req.query.page + "0" || "0");
+    const count = await products.find().count();
+    const data = await products
+      .find()
+      .project(allProductData)
+      .sort({ created_at: -1 })
+      .skip(page)
+      .limit(10)
+      .toArray();
+    res.status(200).send({ count, data });
   } catch (error) {
     serverError(res);
   }

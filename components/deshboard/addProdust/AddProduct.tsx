@@ -1,4 +1,4 @@
-import ProductInputForm from "../../shared/ProductInputForm";
+import ProductInputForm from "./component/ProductInputForm";
 import useStore from "../../../contex/hooks/useStore";
 interface Props {
   value: number;
@@ -9,6 +9,8 @@ const AddProduct = ({ value, index }: Props) => {
   const store = useStore();
 
   async function handleSubmit(peyLoad: Product) {
+    const date = new Date().toISOString();
+    peyLoad.created_at = new Date(date);
     const formData = new FormData();
     for (const [key, value] of Object.entries(peyLoad)) {
       if (key !== "pImg" && key !== "gImg" && key !== "specifications") {
@@ -46,8 +48,10 @@ const AddProduct = ({ value, index }: Props) => {
       return { error: true };
     }
   }
+
+  if (value !== index) return null;
   return (
-    <div hidden={value !== index}>
+    <div className='w-[80%] min-h-[500px]'>
       <ProductInputForm onSubmit={handleSubmit} />
     </div>
   );

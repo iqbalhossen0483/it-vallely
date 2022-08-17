@@ -1,3 +1,4 @@
+import { ProductAPI } from "../../components/deshboard/manageProduct/ManageProduct";
 import { StoreReturnType } from "../../contex/store/Store";
 
 type IMG = { imgId: string; imgUrl: string };
@@ -6,8 +7,8 @@ export type Params = { id: string; productImg: IMG; galleryImg: IMG[] };
 export async function deleteProduct(
   peyload: Params,
   store: StoreReturnType | null,
-  products: Product[] | null,
-  setProducts: React.Dispatch<React.SetStateAction<Product[] | null>>
+  products: ProductAPI,
+  setProducts: React.Dispatch<React.SetStateAction<ProductAPI>>
 ) {
   const confirm = window.confirm("Are you sure to delete this product");
   if (confirm) {
@@ -29,8 +30,10 @@ export async function deleteProduct(
     const data = await res.json();
     if (res.ok) {
       store?.State.setAlert({ msg: "Deleted successfull", type: "success" });
-      const exist = products?.filter((item) => item._id !== id);
-      setProducts(exist!);
+      const exist = products.data?.filter((item) => item._id !== id);
+      setProducts((prev) => {
+        return { count: prev.count, data: exist! };
+      });
     } else {
       store?.State.setAlert(data.message);
     }

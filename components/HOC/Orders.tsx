@@ -14,7 +14,7 @@ type Params = ({
   updateOrder,
   deleteOrder,
   loading,
-}: Props) => JSX.Element;
+}: Props) => JSX.Element | null;
 
 const Orders = (OriginalComponent: Params) => {
   return function NewComponent({ value, index }: Props) {

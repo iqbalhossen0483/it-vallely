@@ -8,6 +8,7 @@ import Image from "next/image";
 import {
   Button,
   MenuItem,
+  Pagination,
   Table,
   TableBody,
   TableCell,
@@ -25,6 +26,7 @@ import {
 } from "../../../clientServices/manageProduct/deleteProduct";
 import { filterProduct } from "../../../clientServices/manageProduct/filterProduct";
 import { initialFn } from "../../../clientServices/manageProduct/initialFn";
+import { count } from "console";
 
 interface Props {
   value: number;
@@ -32,13 +34,19 @@ interface Props {
   setValue: React.Dispatch<React.SetStateAction<number>>;
 }
 
+export type ProductAPI = { count: number | null; data: Product[] | null };
+
 const ManageProduct = ({ value, index, setValue }: Props) => {
   const filters = ["All", "Price", "Product Code", "Order pending", "Stock"],
-    [products, setProducts] = useState<Product[] | null>(null),
+    [products, setProducts] = useState<ProductAPI>({ count: null, data: null }),
     [filterValue, setFilterValue] = useState<string>("All"),
     [categories, setCategories] = useState<string[]>([]),
     [category, setCategory] = useState("All"),
     [inputValue, setInputValue] = useState(""),
+    [searchProduct, setSearchProduct] = useState<{
+      key: string;
+      value: string;
+    } | null>(null),
     store = useStore(),
     router = useRouter(),
     heads = [
@@ -52,24 +60,30 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
 
   //fetch data;
   useEffect(() => {
-    initialFn(setProducts, setCategories, store?.State!);
+    initialFn(setProducts, setCategories, store?.State!, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [store?.State.update]);
 
   //filter product and manage start;
-  async function doSearch(key: string, value: string) {
-    const res = await fetchAPI<Product[]>(
-      `/api/product?key=${key}&value=${value}&filterProduct=true`,
+  async function doSearch(key: string, value: string, page?: number) {
+    if (key !== "All") {
+      setSearchProduct({ key, value });
+    } else setSearchProduct(null);
+
+    const res = await fetchAPI<{ count: number; data: Product[] }>(
+      `/api/product?key=${key}&value=${value}&page=${
+        page || 0
+      }&filterProduct=true`,
       {
         headers: {
           token: `${process.env.NEXT_PUBLIC_APP_TOKEN}`,
         },
       }
     );
-    if (res.data && res.data.length) {
+    if (res.data && res.data.data.length) {
       setInputValue("");
-      setProducts(res.data);
-    } else if (res.data && !res.data.length) {
+      setProducts({ count: res.data?.count, data: res.data?.data! });
+    } else if (res.data && !res.data.data.length) {
       store?.State.setAlert({ msg: "No result matched", type: "info" });
     }
   }
@@ -82,8 +96,17 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
     deleteProduct(peyload, store, products, setProducts);
   } //till;
 
+  function handlePagination(number: number) {
+    if (searchProduct) {
+      doSearch(searchProduct.key, searchProduct.value, number);
+    } else {
+      initialFn(setProducts, setCategories, store?.State!, number);
+    }
+  }
+
+  if (value !== index) return null;
   return (
-    <div hidden={value !== index}>
+    <div>
       <div className='flex justify-center'>
         <TextField
           sx={{ width: "150px", textAlign: "center" }}
@@ -148,7 +171,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
         </TableHead>
         <TableBody>
           {products &&
-            products?.map((product) => (
+            products.data?.map((product) => (
               <TableRow
                 onClick={() => router.push(`/shop/${product._id}`)}
                 sx={{ cursor: "pointer" }}
@@ -201,6 +224,13 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
             ))}
         </TableBody>
       </Table>
+      <div className=' mt-5 flex justify-center'>
+        <Pagination
+          onChange={(e, page) => handlePagination(page - 1)}
+          count={Math.ceil(products.count ? products.count / 10 : 1)}
+          color='primary'
+        />
+      </div>
     </div>
   );
 };
