@@ -1,5 +1,5 @@
 import SideMenuInDrawer from "../../components/shop/SideMenuInDrawer";
-import { dbConnection } from "../../serverServices/services/dbConnection";
+import { dbConnection } from "../../serverServices/mongodb/dbConnection";
 import ShopProducts from "../../components/shared/ShopProducts";
 import SideMenuBar from "../../components/shop/SideMenuBar";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
@@ -8,9 +8,10 @@ import { useEffect, useState } from "react";
 
 type Props = {
   data: Product[];
+  error?: boolean;
 };
 
-const Shop = ({ data }: Props) => {
+const Shop = ({ data, error }: Props) => {
   const [minMaxValue, setMinMaxValue] = useState<number[]>([0, 0]);
   const [filterBrand, setFilterBrand] = useState<string[]>([]);
   const [products, setProducts] = useState<Product[] | []>([]);
@@ -82,6 +83,14 @@ const Shop = ({ data }: Props) => {
     }
   }
 
+  if (error) {
+    return (
+      <div>
+        <p>Something went wrong</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className='shop-container'>
@@ -131,26 +140,35 @@ const Shop = ({ data }: Props) => {
 export default Shop;
 
 export async function getStaticProps() {
-  const db = await dbConnection();
-  const productsCollection = db.collection("products");
-  const products: any = await productsCollection
-    .find()
-    .project({
-      _id: 1,
-      name: 1,
-      price: 1,
-      prevPrice: 1,
-      productImg: 1,
-      keyFeatures: 1,
-      brand: 1,
-      created_at: 1,
-    })
-    .sort({ created_at: -1 })
-    .toArray();
-  return {
-    props: {
-      data: JSON.parse(JSON.stringify(products)),
-    },
-    revalidate: 10,
-  };
+  const { database } = await dbConnection();
+  if (!database) {
+    return {
+      props: {
+        error: true,
+      },
+      revalidate: 10,
+    };
+  } else {
+    const productsCollection = database.collection("products");
+    const products: any = await productsCollection
+      .find()
+      .project({
+        _id: 1,
+        name: 1,
+        price: 1,
+        prevPrice: 1,
+        productImg: 1,
+        keyFeatures: 1,
+        brand: 1,
+        created_at: 1,
+      })
+      .sort({ created_at: -1 })
+      .toArray();
+    return {
+      props: {
+        data: JSON.parse(JSON.stringify(products)),
+      },
+      revalidate: 10,
+    };
+  }
 }

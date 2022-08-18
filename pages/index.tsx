@@ -1,4 +1,4 @@
-import { dbConnection } from "../serverServices/services/dbConnection";
+import { dbConnection } from "../serverServices/mongodb/dbConnection";
 import ShopProducts from "../components/shared/ShopProducts";
 import BannerSlider from "../components/home/BannerSlider";
 import Cart from "../components/shared/utilitize/Cart";
@@ -11,9 +11,10 @@ type Props = {
   products: Product[];
   sliderImg: SliderImg[];
   bannerImg: BannerImg[];
+  error?: boolean;
 };
 
-const Home = ({ products, sliderImg, bannerImg }: Props) => {
+const Home = ({ products, sliderImg, bannerImg, error }: Props) => {
   const store = useStore();
   useEffect(() => {
     const categories: string[] = [];
@@ -25,6 +26,14 @@ const Home = ({ products, sliderImg, bannerImg }: Props) => {
     store?.State.setCategories(categories);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products]);
+
+  if (error) {
+    return (
+      <div>
+        <p>Something went wrong</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -52,31 +61,41 @@ const Home = ({ products, sliderImg, bannerImg }: Props) => {
 export default Home;
 
 export async function getStaticProps() {
-  const db = await dbConnection();
-  const productsCollection = db.collection("products");
-  const sliderImgCollection = db.collection("sliderImg");
-  const bannerImgCollection = db.collection("bannerImg");
-  const sliderImg: any = await sliderImgCollection.find().toArray();
-  const bannerImg: any = await bannerImgCollection.find().toArray();
-  const products: any = await productsCollection
-    .find()
-    .project({
-      _id: 1,
-      name: 1,
-      price: 1,
-      prevPrice: 1,
-      productImg: 1,
-      category: 1,
-      created_at: 1,
-    })
-    .sort({ created_at: -1 })
-    .toArray();
-  return {
-    props: {
-      products: JSON.parse(JSON.stringify(products)),
-      sliderImg: JSON.parse(JSON.stringify(sliderImg)),
-      bannerImg: JSON.parse(JSON.stringify(bannerImg)),
-    },
-    revalidate: 10,
-  };
+  const { database } = await dbConnection();
+  if (!database) {
+    return {
+      props: {
+        error: true,
+      },
+      revalidate: 10,
+    };
+  } else {
+    const productsCollection = database.collection("products");
+    const sliderImgCollection = database.collection("sliders");
+    const bannerImgCollection = database.collection("banners");
+    const sliderImg: any = await sliderImgCollection.find().toArray();
+    const bannerImg: any = await bannerImgCollection.find().toArray();
+    const products: any = await productsCollection
+      .find()
+      .project({
+        _id: 1,
+        name: 1,
+        price: 1,
+        prevPrice: 1,
+        productImg: 1,
+        category: 1,
+        created_at: 1,
+      })
+      .sort({ created_at: -1 })
+      .toArray();
+
+    return {
+      props: {
+        products: JSON.parse(JSON.stringify(products)),
+        sliderImg: JSON.parse(JSON.stringify(sliderImg)),
+        bannerImg: JSON.parse(JSON.stringify(bannerImg)),
+      },
+      revalidate: 10,
+    };
+  }
 }

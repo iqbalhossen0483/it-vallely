@@ -20,10 +20,11 @@ export async function getProduct(req, res, products) {
       !req.headers.token ||
       req.headers.token !== process.env.NEXT_PUBLIC_APP_TOKEN
     ) {
-      return res.status(401).send({ message: "user authentication failed" });
+      return res.status(401).send({ message: "unauthorized" });
     }
+    //send id products
     if (req.query.id) {
-      //send id products
+      // send multipleId products;
       if (req.query.multipleId) {
         const allId = [];
         req.query.id.split("|").forEach((id) => {
@@ -33,7 +34,9 @@ export async function getProduct(req, res, products) {
           .find({ _id: { $in: allId } })
           .toArray();
         res.status(200).send(multipleIdProduct);
-      } else {
+      }
+      // send single product;
+      else {
         const singleProduct = await products.findOne({
           _id: ObjectId(req.query.id),
         });
@@ -55,6 +58,7 @@ export async function getProduct(req, res, products) {
       } else {
         const categoryProduct = await products
           .find({ category: RegExp(req.query.category, "i") })
+          .sort({ created_at: -1 })
           .project(allProductData)
           .toArray();
         res.status(200).send(categoryProduct);

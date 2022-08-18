@@ -19,8 +19,8 @@ function Cart(): CartReturnType {
       const cartProducts: Cart[] = JSON.parse(cart);
       if (cartProducts.length) {
         let productId: string = "";
-
         let price = 0;
+
         for (const item of cartProducts) {
           if (!productId) {
             productId = `${item.productId}`;
@@ -38,6 +38,7 @@ function Cart(): CartReturnType {
               },
             }
           );
+
           if (res.data) {
             const products: OrderedProducts[] = [];
             for (const item of res.data) {

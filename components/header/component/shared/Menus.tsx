@@ -14,7 +14,11 @@ const Menus = () => {
     <>
       <div className='menus'>
         {menus.map((menu) => (
-          <Button onClick={() => Router.push(menu.href)} key={menu.menu_name}>
+          <Button
+            disableRipple
+            onClick={() => Router.push(menu.href)}
+            key={menu.menu_name}
+          >
             {menu.menu_name}
           </Button>
         ))}
