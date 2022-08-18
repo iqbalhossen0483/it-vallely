@@ -7,12 +7,9 @@ type Props = {
   setFilterBrand: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
-const BrandMenu = ({
-  filterBrandProducts,
-  brands,
-  filterBrand,
-  setFilterBrand,
-}: Props) => {
+const BrandMenu = (props: Props) => {
+  const { filterBrandProducts, brands, filterBrand, setFilterBrand } = props;
+
   function handleBrand(brand: string) {
     if (filterBrand.includes(brand)) {
       const exist = filterBrand.filter((item) => item !== brand);

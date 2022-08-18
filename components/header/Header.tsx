@@ -1,20 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Phone from "./component/phone/Phone";
 import Window from "./component/window/Window";
 
 const Header = () => {
-  const [BOM, setBOM] = useState<(Window & typeof globalThis) | null>(
-    null
-  );
-
-  useEffect(() => {
-    setBOM(window);
-  }, []);
-
+  const [showCart, setShowCart] = useState<boolean>(false);
   return (
     <header className='header-wrapper'>
-      {BOM && BOM.innerWidth > 480 && <Window />}
-      <Phone />
+      <Window setShowCart={setShowCart} showCart={showCart} />
+      <Phone setShowCart={setShowCart} showCart={showCart} />
     </header>
   );
 };

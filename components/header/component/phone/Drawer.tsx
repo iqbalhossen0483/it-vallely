@@ -50,7 +50,11 @@ const Drawer: FC<Props> = ({ open, setDrawer }) => {
       <div className='drawer'>
         {menus.map((menu) => (
           <Fragment key={menu.name}>
-            <Button key={menu.name} onClick={() => handleClose(menu.name)}>
+            <Button
+              key={menu.name}
+              sx={{ margin: "5px 0" }}
+              onClick={() => handleClose(menu.name)}
+            >
               <menu.icon />
               <Link href={menu.href}>
                 <a>{menu.name}</a>
@@ -60,8 +64,15 @@ const Drawer: FC<Props> = ({ open, setDrawer }) => {
             </Button>
             {menu.subMeus && (
               <Collapse in={openSubMenu} timeout={30} unmountOnExit>
-                {menu.subMeus?.map((item) => (
-                  <Button key={item} onClick={() => handleClose(item)}>
+                {menu.subMeus?.map((item: string) => (
+                  <Button
+                    sx={{ marginLeft: 4 }}
+                    key={item}
+                    onClick={() => {
+                      handleClose(item);
+                      router.push(`/shop/category/${item}`);
+                    }}
+                  >
                     {item}
                   </Button>
                 ))}

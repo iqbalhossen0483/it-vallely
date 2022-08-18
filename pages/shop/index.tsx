@@ -24,7 +24,7 @@ const Shop = ({ data, error }: Props) => {
     const brands: string[] = [];
     for (const product of data) {
       if (!brands.includes(product.brand)) {
-        brands.push(product.brand);
+        if (product.brand) brands.push(product.brand);
       }
     }
     setBrands(brands);

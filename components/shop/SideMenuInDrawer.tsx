@@ -15,18 +15,20 @@ interface Props {
   setFilterBrand: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const SideMenuInDrawer: FC<Props> = ({
-  open,
-  setDrawer,
-  minMaxValue,
-  value,
-  setValue,
-  filterProducts,
-  brands,
-  filterBrandProducts,
-  filterBrand,
-  setFilterBrand,
-}) => {
+const SideMenuInDrawer: FC<Props> = (props) => {
+  const {
+    open,
+    setDrawer,
+    minMaxValue,
+    value,
+    setValue,
+    filterProducts,
+    brands,
+    filterBrandProducts,
+    filterBrand,
+    setFilterBrand,
+  } = props;
+
   return (
     <SwipeableDrawer
       open={open}

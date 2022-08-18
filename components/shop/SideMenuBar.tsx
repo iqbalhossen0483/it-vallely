@@ -13,16 +13,18 @@ type Props = {
   setFilterBrand: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
-const SideMenuBar = ({
-  minMaxValue,
-  value,
-  setValue,
-  filterProducts,
-  filterBrandProducts,
-  brands,
-  filterBrand,
-  setFilterBrand,
-}: Props) => {
+const SideMenuBar = (props: Props) => {
+  const {
+    minMaxValue,
+    value,
+    setValue,
+    filterProducts,
+    filterBrandProducts,
+    brands,
+    filterBrand,
+    setFilterBrand,
+  } = props;
+
   return (
     <>
       <FilterProduct

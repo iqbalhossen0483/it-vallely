@@ -1,11 +1,10 @@
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
 import useStore from "../../../../../contex/hooks/useStore";
-import CartProduct from "../../shared/CartProduct";
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
+type Props = { setShowCart: Dispatch<SetStateAction<boolean>> };
 
-const CallCart = () => {
-  const [showCart, setShowCart] = useState<boolean>(false);
+const CallCart = ({ setShowCart }: Props) => {
   const store = useStore();
   const price = store?.Carts.cartProduct.price;
 
@@ -20,14 +19,17 @@ const CallCart = () => {
       </div>
       <div className='header-cart'>
         <div className='icon-wrapper'>
-          <ShoppingCartOutlinedIcon onMouseEnter={() => setShowCart(true)} />
+          <ShoppingCartOutlinedIcon
+            onMouseEnter={() => {
+              if (setShowCart) setShowCart(true);
+            }}
+          />
           <span className='count'>{store?.Carts.cartProduct.quantity}</span>
         </div>
         <div>
           <p>Shopping Cart:</p>
           <p className='amount'>৳{price === 0 ? `${price}.00` : price}</p>
         </div>
-        {showCart && <CartProduct setShowCart={setShowCart} />}
       </div>
     </>
   );

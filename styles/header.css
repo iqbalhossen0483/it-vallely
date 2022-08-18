@@ -89,7 +89,7 @@
   */
 
   .header-cart {
-    @apply flex gap-2 items-center relative;
+    @apply flex gap-4 items-center relative;
   }
   .header-call {
     @apply hidden md:flex gap-2 items-center;
@@ -103,7 +103,7 @@
     @apply font-semibold;
   }
   .header-cart {
-    @apply md:border-l md:border-gray-300 md:pl-16;
+    @apply md:border-l md:border-gray-300 md:pl-2 lg:pl-16;
   }
   .header-cart > .icon-wrapper {
     @apply relative;
@@ -113,8 +113,8 @@
     h-7 w-7 rounded-full flex justify-center items-center;
   }
   .cart-product-container {
-    @apply absolute top-full mt-2 -left-7 md:-left-3 z-50 bg-white shadow-lg px-4 py-5
-    w-[120%] md:w-[107%] text-center;
+    @apply absolute top-[60%] mt-2 right-1 lg:right-6 md:right-3 z-50 bg-white shadow-lg px-4 py-5
+    text-center w-64;
   }
   .cart-product-container .product-wrapper {
     @apply flex gap-3 py-2 border-b;
@@ -146,7 +146,7 @@
    --------phone component start----------
   */
   .phone-wrapper {
-    @apply md:hidden;
+    @apply relative;
   }
   .phone-wrapper .middle {
     @apply grid grid-cols-2 gap-4 px-3;
@@ -165,10 +165,7 @@
     @apply py-5;
   }
   .drawer button {
-    @apply block px-4 py-1 my-4 w-full text-left space-x-3;
-  }
-  .drawer button svg {
-    @apply text-lg;
+    @apply block px-4 py-1 w-full text-left space-x-3;
   }
 }
 
@@ -192,9 +189,9 @@
 }
 @keyframes CartProduct {
   0% {
-    top: 80%;
+    top: 50%;
   }
   100% {
-    top: 100%;
+    top: 60%;
   }
 }

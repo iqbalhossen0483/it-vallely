@@ -2,8 +2,8 @@
 
 @layer components {
   footer {
-    @apply grid-cols-3 gap-5 px-5 bg-mui text-gray-100 py-5 space-y-10 md:space-y-0 
-    md:grid;
+    @apply grid-cols-3 gap-5 px-5 bg-mui text-gray-100 py-5 space-y-10 lg:space-y-0 
+    lg:grid;
   }
   footer h3 {
     @apply text-center tracking-widest;

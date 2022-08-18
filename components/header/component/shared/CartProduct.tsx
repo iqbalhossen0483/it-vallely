@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useRef } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import useStore from "../../../../contex/hooks/useStore";
 import CloseIcon from "@mui/icons-material/Close";
 import { useRouter } from "next/router";
@@ -13,14 +13,17 @@ const CartProduct = ({ setShowCart }: Props) => {
   const store = useStore();
   const router = useRouter();
 
-  document.addEventListener("click", (e) => {
-    if (cartElement.current) {
-      const isClick = cartElement.current.contains(e.target as Node | null);
-      if (!isClick) {
-        setShowCart(false);
+  useEffect(() => {
+    document.addEventListener("click", (e) => {
+      if (cartElement.current) {
+        const isClick = cartElement.current.contains(e.target as Node | null);
+        if (!isClick) {
+          setShowCart(false);
+        }
       }
-    }
-  });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div ref={cartElement} className='cart-product-container'>

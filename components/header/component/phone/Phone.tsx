@@ -2,13 +2,19 @@ import { getScrollHeight } from "../../../../clientServices/shared/sharedFunctio
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import CallCart from "../window/conponent/Call&Cart";
 import TopInfo from "../window/conponent/TopInfo";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import LogoName from "../shared/Logo&Name";
 import SearchBar from "../shared/SearchBar";
 import { Button } from "@mui/material";
 import Drawer from "./Drawer";
+import CartProduct from "../shared/CartProduct";
 
-const Phone = () => {
+type Props = {
+  showCart: boolean;
+  setShowCart: Dispatch<SetStateAction<boolean>>;
+};
+
+const Phone = ({ showCart, setShowCart }: Props) => {
   const [stricky, setStricky] = useState<boolean>(false);
   const [drawer, setDrawer] = useState<boolean>(false);
 
@@ -18,13 +24,14 @@ const Phone = () => {
       setStricky(isOverScroll);
     });
   }, []);
+
   return (
-    <>
+    <div className='md:hidden'>
       <div className='phone-wrapper'>
         <TopInfo />
         <div className='middle'>
           <SearchBar />
-          <CallCart />
+          <CallCart setShowCart={setShowCart} />
         </div>
         <div className={`${stricky && "stricky-header"}`}>
           <div className='content'>
@@ -36,8 +43,9 @@ const Phone = () => {
         </div>
 
         <Drawer open={drawer} setDrawer={setDrawer} />
+        {showCart && <CartProduct setShowCart={setShowCart} />}
       </div>
-    </>
+    </div>
   );
 };
 
