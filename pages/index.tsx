@@ -77,6 +77,7 @@ export async function getStaticProps() {
     const bannerImg: any = await bannerImgCollection.find().toArray();
     const products: any = await productsCollection
       .find()
+      .sort({ created_at: -1 })
       .project({
         _id: 1,
         name: 1,
@@ -84,9 +85,8 @@ export async function getStaticProps() {
         prevPrice: 1,
         productImg: 1,
         category: 1,
-        created_at: 1,
       })
-      .sort({ created_at: -1 })
+
       .toArray();
 
     return {
