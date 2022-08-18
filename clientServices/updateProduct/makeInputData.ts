@@ -49,11 +49,15 @@ export function MakeInputDataForUpdateProduct(
       { label: "category", type: "text", defaltValue: data.category },
       { label: "productCode", type: "text", defaltValue: data.productCode },
       { label: "brand", type: "text", defaltValue: data.brand },
-      { label: "tags", type: "text", defaltValue: `${data.tags.join(" | ")}` },
+      {
+        label: "tags",
+        type: "text",
+        defaltValue: data && data.tags ? data.tags.join(" | ") : "",
+      },
       {
         label: "keyFeatures",
         type: "text",
-        defaltValue: `${data.keyFeatures.join(" | ")}`,
+        defaltValue: `${data.keyFeatures?.join(" | ")}`,
       },
     ],
   });

@@ -14,6 +14,7 @@ import {
   MakeInputDataForUpdateProduct,
   ProductInputs,
 } from "../../../clientServices/updateProduct/makeInputData";
+import Spinner from "../../shared/utilitize/Spinner";
 
 interface Props {
   value: number;
@@ -29,12 +30,14 @@ const UpdateProduct = ({ value, index }: Props) => {
   const [showInput, setShowInput] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const { handleSubmit, reset, register } = useForm<Product>();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const store = useStore();
 
   useEffect(() => {
     (async () => {
       if (router.query.id) {
+        setLoading(true);
         const res = await fetchAPI<Product>(
           `/api/product?id=${router.query.id}`,
           {
@@ -50,6 +53,7 @@ const UpdateProduct = ({ value, index }: Props) => {
         } else {
           handleError(res, store?.State!);
         }
+        setLoading(false);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -150,6 +154,7 @@ const UpdateProduct = ({ value, index }: Props) => {
   }
 
   if (value !== index) return null;
+  if (loading) return <Spinner />;
   return (
     <div style={{ width: "70%" }}>
       <form
