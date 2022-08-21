@@ -6,6 +6,7 @@ import Categories from "../components/home/Categories";
 import Banner from "../components/home/Banner";
 import useStore from "../contex/hooks/useStore";
 import { useEffect } from "react";
+import { updateUserRole } from "../clientServices/manageUser/updateUserRole";
 
 type Props = {
   products: Product[];

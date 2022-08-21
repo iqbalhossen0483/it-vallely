@@ -133,7 +133,7 @@ const ManageUser = ({ value, index }: Props) => {
           filterUser && filterUser?.length ? "hidden" : "empty-message"
         }
       >
-        <p>There is no user on this Role</p>
+        <p>There is no user</p>
       </div>
     </div>
   );

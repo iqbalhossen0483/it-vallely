@@ -22,7 +22,7 @@ export async function addUser(req: NextApiRequest, res: NextApiResponse) {
       emailVerified: true,
     });
     res.send(result);
-  } catch {
-    serverError(res);
+  } catch (err: any) {
+    serverError(res, { msg: err.message, status: err.status });
   }
 }

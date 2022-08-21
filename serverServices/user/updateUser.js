@@ -1,9 +1,9 @@
 import { userVarification } from "../firebase-server/userVarification";
-import { serverError } from "../serverError";
-import admin from "firebase-admin";
-import { bodyPerse } from "./bodyPerser";
-import { deleteImage } from "../cloudinary/shared/deleteImage";
 import { profileUpload } from "../cloudinary/upload/profileUpload";
+import { deleteImage } from "../cloudinary/shared/deleteImage";
+import { serverError } from "../serverError";
+import { bodyPerse } from "./bodyPerser";
+import admin from "firebase-admin";
 
 export async function updateUser(req, res) {
   try {
