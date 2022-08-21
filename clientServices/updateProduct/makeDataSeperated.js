@@ -6,7 +6,8 @@ export function makeDataSeperated(peyload, specifications) {
         let obj = { header: item.label };
         const itemArray = peyload[item.label]
           .replaceAll(" | ", ": ")
-          .split(": ");
+          .split(": ")
+          .map((item) => item.trim());
         let i = 0;
         while (i < itemArray.length) {
           obj[itemArray[i]] = itemArray[i + 1];

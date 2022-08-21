@@ -17,8 +17,10 @@ export async function updateProduct(req, res, product, orders) {
       if (req.body.specifications) {
         req.body.specifications = JSON.parse(req.body.specifications);
       }
-      req.body.keyFeatures = req.body.keyFeatures.split(" | ");
-      req.body.tags = req.body.tags.split(" | ");
+      req.body.keyFeatures = req.body.keyFeatures
+        .split(" | ")
+        .map((item) => item.trim());
+      req.body.tags = req.body.tags.split(" | ").map((item) => item.trim());
       req.body.prevPrice = parseInt(req.body.prevPrice);
       req.body.orderPending = parseInt(req.body.orderPending);
       req.body.price = parseInt(req.body.price);

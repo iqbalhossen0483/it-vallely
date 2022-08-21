@@ -24,8 +24,10 @@ export async function addProduct(req, res, products) {
         productCode: req.body.productCode,
       });
       if (!isExist) {
-        req.body.keyFeatures = req.body.keyFeatures.split(" | ");
-        req.body.tags = req.body.tags.split(" | ");
+        req.body.keyFeatures = req.body.keyFeatures
+          .split(" | ")
+          .map((item) => item.trim());
+        req.body.tags = req.body.tags.split(" | ").map((item) => item.trim());
         if (req.body.specifications) {
           req.body.specifications = JSON.parse(req.body.specifications);
         }
