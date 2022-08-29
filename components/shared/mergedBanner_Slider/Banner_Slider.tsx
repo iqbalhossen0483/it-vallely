@@ -69,7 +69,7 @@ const Banner_Slider = ({ data, children, submitFn, deleteFn }: Props) => {
           </div>
           <Button
             disabled={store?.State.loading}
-            variant='contained'
+            variant='outlined'
             type='submit'
           >
             Add

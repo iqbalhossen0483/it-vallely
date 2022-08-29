@@ -6,7 +6,6 @@ import Categories from "../components/home/Categories";
 import Banner from "../components/home/Banner";
 import useStore from "../contex/hooks/useStore";
 import { useEffect } from "react";
-import { updateUserRole } from "../clientServices/manageUser/updateUserRole";
 
 type Props = {
   products: Product[];
@@ -27,6 +26,7 @@ const Home = ({ products, sliderImg, bannerImg, error }: Props) => {
     store?.State.setCategories(categories);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products]);
+  console.log(products[2].specifications);
 
   if (error) {
     return (
@@ -87,7 +87,6 @@ export async function getStaticProps() {
         productImg: 1,
         category: 1,
       })
-
       .toArray();
 
     return {

@@ -13,12 +13,7 @@ import TableHeader from "./component/TableHeader";
 import Body from "./component/Body";
 import AddUserForm from "./component/AddUser";
 
-interface Props {
-  value: number;
-  index: number;
-}
-
-const ManageUser = ({ value, index }: Props) => {
+const ManageUser = () => {
   const [filterUser, setFilterUser] = useState<UserRecord[] | null>(null),
     [users, setUsers] = useState<UserRecord[] | null>(null),
     [updateUserForm, setUpdateUpdateuserForm] = useState(-1),
@@ -98,7 +93,6 @@ const ManageUser = ({ value, index }: Props) => {
     setLoading(false);
   }
 
-  if (value !== index) return null;
   return (
     <div style={{ position: "relative" }} className='w-[80%]'>
       <Table ref={tableRef}>
@@ -118,23 +112,17 @@ const ManageUser = ({ value, index }: Props) => {
         />
       </Table>
 
-      <div hidden={!store?.State.loading}>
-        <Spinner />
-      </div>
-
       <AddUserForm
         addUserform={addUserform}
         handleaddUser={handleaddUser}
         loading={loading}
       />
 
-      <div
-        className={
-          filterUser && filterUser?.length ? "hidden" : "empty-message"
-        }
-      >
-        <p>There is no user</p>
-      </div>
+      {filterUser && !filterUser?.length && (
+        <div className='empty-message'>
+          <p>There is no user</p>
+        </div>
+      )}
     </div>
   );
 };

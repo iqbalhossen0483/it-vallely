@@ -16,12 +16,7 @@ import {
 } from "../../../clientServices/updateProduct/makeInputData";
 import Spinner from "../../shared/utilitize/Spinner";
 
-interface Props {
-  value: number;
-  index: number;
-}
-
-const UpdateProduct = ({ value, index }: Props) => {
+const UpdateProduct = () => {
   const [productInputs, setProductInputs] = useState<ProductInputs>({
     specipications: [],
     others: [],
@@ -153,7 +148,6 @@ const UpdateProduct = ({ value, index }: Props) => {
     });
   }
 
-  if (value !== index) return null;
   if (loading) return <Spinner />;
   return (
     <div style={{ width: "70%" }}>

@@ -150,7 +150,7 @@ export async function getProduct(req, res, products) {
       sendAllProduct(req, res, products);
     }
   } catch (error) {
-    serverError(res);
+    serverError(res, { msg: error.message, status: error.status });
   }
 }
 

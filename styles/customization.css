@@ -9,14 +9,14 @@
     @apply border border-mui rounded text-center h-96 overflow-auto;
   }
   .slider-customize-container .header {
-    @apply bg-[#00000067] px-5 py-2 sticky top-0 rounded-t text-mui grid 
+    @apply bg-mui px-5 py-2 sticky top-0 rounded-t text-white grid 
     grid-cols-2 items-center z-10;
   }
   .slider-customize-container .header p {
     @apply text-[1.4vw] font-semibold;
   }
   .slider-customize-container .header button {
-    @apply w-fit flex justify-self-end;
+    @apply w-fit flex justify-self-end text-white border-white;
   }
   .slider-customize-container .header .slider-customize-form {
     @apply absolute top-full left-0 bg-white shadow-lg py-3 space-y-2 px-5;

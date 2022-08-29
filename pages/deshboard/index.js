@@ -3,26 +3,14 @@ import SideMenus from "../../components/deshboard/SideMenus";
 import Deshboard from "../../components/deshboard/Deshboard";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { useRouter } from "next/router";
-const Customization = lazy(() =>
-  import("../../components/deshboard/customizations/Customization")
-);
-const UpdateProduct = lazy(() =>
-  import("../../components/deshboard/updateProduct/UpdateProduct")
-);
-const ManageProduct = lazy(() =>
-  import("../../components/deshboard/manageProduct/ManageProduct")
-);
-const ManageOrder = lazy(() =>
-  import("../../components/deshboard/manageOrder/ManageOrder")
-);
+import AddProduct from "../../components/deshboard/addProdust/AddProduct";
+import ManageProduct from "../../components/deshboard/manageProduct/ManageProduct";
+import ManageOrder from "../../components/deshboard/manageOrder/ManageOrder";
+import ManageUser from "../../components/deshboard/manageUser/ManageUser";
+import Customization from "../../components/deshboard/customizations/Customization";
+import UpdateProduct from "../../components/deshboard/updateProduct/UpdateProduct";
 const SideMenuInDrawer = lazy(() =>
   import("../../components/deshboard/SideMenuInDrawer")
-);
-const AddProduct = lazy(() =>
-  import("../../components/deshboard/addProdust/AddProduct")
-);
-const ManageUser = lazy(() =>
-  import("../../components/deshboard/manageUser/ManageUser")
 );
 
 const DeshboardLayout = () => {
@@ -38,16 +26,6 @@ const DeshboardLayout = () => {
     "Manage Users",
     "Customization",
     "",
-  ];
-
-  const components = [
-    Deshboard,
-    AddProduct,
-    ManageProduct,
-    ManageOrder,
-    ManageUser,
-    Customization,
-    UpdateProduct,
   ];
 
   useEffect(() => {
@@ -68,14 +46,13 @@ const DeshboardLayout = () => {
           <SideMenus value={value} setValue={setValue} menus={sideMenus} />
         </div>
         <main>
-          {components.map((Component, index) => (
-            <Component
-              key={index}
-              setValue={setValue}
-              index={index}
-              value={value}
-            />
-          ))}
+          {value === 0 && <Deshboard />}
+          {value === 1 && <AddProduct />}
+          {value === 2 && <ManageProduct setValue={setValue} />}
+          {value === 3 && <ManageOrder />}
+          {value === 4 && <ManageUser />}
+          {value === 5 && <Customization />}
+          {value === 6 && <UpdateProduct />}
         </main>
         <SideMenuInDrawer
           open={drawer}

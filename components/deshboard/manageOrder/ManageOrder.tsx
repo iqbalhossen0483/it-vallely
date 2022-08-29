@@ -15,16 +15,15 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
+import Spinner from "../../shared/utilitize/Spinner";
 
 interface Props {
-  value: number;
-  index: number;
   loading: string;
   updateOrder(id: string, status: OrderStatus): void;
   deleteOrder(id: string, willDeleteImg: string[] | null): Promise<void>;
 }
 const ManageOrder = (Props: Props) => {
-  const { value, index, updateOrder, deleteOrder, loading } = Props,
+  const { updateOrder, deleteOrder, loading } = Props,
     headData = ["Customer Info", "Product Info", "Delivary Info"],
     status = ["Pending", "Approved", "Cenceled", "Delivered"],
     [orders, setOrders] = useState<OrderInfo[] | null>(null),
@@ -65,7 +64,6 @@ const ManageOrder = (Props: Props) => {
     }
   }
 
-  if (value !== index) return null;
   return (
     <div className='w-full '>
       <Table>
@@ -97,9 +95,9 @@ const ManageOrder = (Props: Props) => {
             </TableCell>
           </TableRow>
         </TableHead>
-        {orders && (
-          <TableBody>
-            {orders.map((order) => (
+        <TableBody>
+          {orders ? (
+            orders.map((order) => (
               <TableRow key={order._id} hover>
                 <TableCell>
                   Name:{" "}
@@ -178,15 +176,21 @@ const ManageOrder = (Props: Props) => {
                   </Button>
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        )}
+            ))
+          ) : (
+            <tr>
+              <td>
+                <p>Loading...</p>
+              </td>
+            </tr>
+          )}
+        </TableBody>
       </Table>
-      <div
-        className={`${orders && orders?.length ? "hidden" : "empty-message"}`}
-      >
-        <p>There is no order</p>
-      </div>
+      {orders && !orders?.length && (
+        <div className='empty-message'>
+          <p>There is no order</p>
+        </div>
+      )}
     </div>
   );
 };

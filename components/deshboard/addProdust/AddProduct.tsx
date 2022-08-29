@@ -1,11 +1,7 @@
 import ProductInputForm from "./component/ProductInputForm";
 import useStore from "../../../contex/hooks/useStore";
-interface Props {
-  value: number;
-  index: number;
-}
 
-const AddProduct = ({ value, index }: Props) => {
+const AddProduct = () => {
   const store = useStore();
 
   async function handleSubmit(peyLoad: Product) {
@@ -47,7 +43,6 @@ const AddProduct = ({ value, index }: Props) => {
     }
   }
 
-  if (value !== index) return null;
   return (
     <div className='w-[80%] min-h-[500px]'>
       <ProductInputForm onSubmit={handleSubmit} />

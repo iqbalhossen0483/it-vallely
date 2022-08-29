@@ -9,8 +9,6 @@ type Props = {
   deleteOrder(id: string, willDeleteImg: string[] | null): Promise<void>;
 };
 type Params = ({
-  value,
-  index,
   updateOrder,
   deleteOrder,
   loading,

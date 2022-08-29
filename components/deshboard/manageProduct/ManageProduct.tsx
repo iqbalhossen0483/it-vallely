@@ -16,27 +16,21 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import {
-  fetchAPI,
-  handleError,
-} from "../../../clientServices/shared/sharedFunction";
+import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
 import {
   deleteProduct,
   Params,
 } from "../../../clientServices/manageProduct/deleteProduct";
 import { filterProduct } from "../../../clientServices/manageProduct/filterProduct";
 import { initialFn } from "../../../clientServices/manageProduct/initialFn";
-import { count } from "console";
 
 interface Props {
-  value: number;
-  index: number;
   setValue: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export type ProductAPI = { count: number | null; data: Product[] | null };
 
-const ManageProduct = ({ value, index, setValue }: Props) => {
+const ManageProduct = ({ setValue }: Props) => {
   const filters = ["All", "Price", "Product Code", "Order pending", "Stock"],
     [products, setProducts] = useState<ProductAPI>({ count: null, data: null }),
     [filterValue, setFilterValue] = useState<string>("All"),
@@ -104,7 +98,6 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
     }
   }
 
-  if (value !== index) return null;
   return (
     <div>
       <div className='flex justify-center'>
@@ -170,7 +163,7 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {products &&
+          {products.data && products.data?.length ? (
             products.data?.map((product) => (
               <TableRow
                 onClick={() => router.push(`/shop/${product._id}`)}
@@ -221,7 +214,14 @@ const ManageProduct = ({ value, index, setValue }: Props) => {
                   </Button>
                 </TableCell>
               </TableRow>
-            ))}
+            ))
+          ) : (
+            <tr>
+              <td>
+                <p>Loading...</p>
+              </td>
+            </tr>
+          )}
         </TableBody>
       </Table>
       <div className=' mt-5 flex justify-center'>
