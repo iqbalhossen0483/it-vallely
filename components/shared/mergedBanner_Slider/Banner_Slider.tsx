@@ -13,13 +13,15 @@ type Props = {
   children: ReactNode;
   submitFn: (slider: T) => Promise<void>;
   deleteFn: (db_id: string, img_id: string) => Promise<void>;
+  title: string;
 };
 
-const Banner_Slider = ({ data, children, submitFn, deleteFn }: Props) => {
+const Banner_Slider = (props: Props) => {
   const [showDeleteBtn, setShowDeleteBtn] = useState(-1);
   const sliderForm = useRef<HTMLFormElement>(null);
   const [showForm, setShowForm] = useState(false);
   const { handleSubmit, register, reset } = useForm<T>();
+  const { data, children, submitFn, deleteFn, title } = props;
   const store = useStore();
 
   async function onSubmit(data: T) {
@@ -48,32 +50,41 @@ const Banner_Slider = ({ data, children, submitFn, deleteFn }: Props) => {
         <Button onMouseEnter={() => setShowForm(true)} variant='outlined'>
           <AddIcon />
         </Button>
+
         <form
           onSubmit={handleSubmit(onSubmit)}
           ref={sliderForm}
           hidden={!showForm}
           className='slider-customize-form'
         >
-          <Input
-            fullWidth
-            {...register("file", { required: true })}
-            type='file'
-          />
-          <div className='relative'>
-            <Input
-              fullWidth
-              {...register("link", { required: true })}
-              label='URL'
-            />
-            <InsertLinkIcon />
-          </div>
-          <Button
-            disabled={store?.State.loading}
-            variant='outlined'
-            type='submit'
-          >
-            Add
-          </Button>
+          {title === "banner" && data.length > 1 ? (
+            <div>
+              <p className='text-gray-800'>2 Banner images are already added</p>
+            </div>
+          ) : (
+            <>
+              <Input
+                fullWidth
+                {...register("file", { required: true })}
+                type='file'
+              />
+              <div className='relative'>
+                <Input
+                  fullWidth
+                  {...register("link", { required: true })}
+                  label='URL'
+                />
+                <InsertLinkIcon />
+              </div>
+              <Button
+                disabled={store?.State.loading}
+                variant='outlined'
+                type='submit'
+              >
+                Add
+              </Button>
+            </>
+          )}
         </form>
       </div>
 

@@ -10,10 +10,15 @@ function SliderCustomize() {
   const store = useStore();
 
   useEffect(() => {
+    const oldData = sessionStorage.getItem("slider");
+    if (oldData) {
+      setSliderImages(JSON.parse(oldData));
+    }
     (async () => {
       const res = await fetchAPI<SliderImg[]>("/api/slider");
       if (res.data) {
         setSliderImages(res.data);
+        sessionStorage.setItem("slider", JSON.stringify(res.data));
       } else if (res.error) {
         store?.State.setAlert({ msg: "There was an error", type: "error" });
       } else {
@@ -77,6 +82,7 @@ function SliderCustomize() {
 
   return (
     <Banner_Slider
+      title='slider'
       data={sliderImages}
       submitFn={onSubmit}
       deleteFn={deleteSliderImage}

@@ -22,6 +22,7 @@ export async function initialFn(
       }
     });
     setCategories(categories);
+    sessionStorage.setItem("products", JSON.stringify(res.data));
   } else {
     handleError(res, state!);
   }

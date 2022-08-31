@@ -20,6 +20,7 @@ export async function initialFn(
     setUsers(users.data);
     setFilterUser(users.data);
     setFilterRole("All");
+    sessionStorage.setItem("users", JSON.stringify(users.data));
   } else handleError(users, store?.State!);
   store?.State.setLoading(false);
 }

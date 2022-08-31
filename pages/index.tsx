@@ -26,7 +26,6 @@ const Home = ({ products, sliderImg, bannerImg, error }: Props) => {
     store?.State.setCategories(categories);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products]);
-  console.log(products[2].specifications);
 
   if (error) {
     return (

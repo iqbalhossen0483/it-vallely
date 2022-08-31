@@ -26,6 +26,10 @@ const ManageUser = () => {
 
   // fetch data;
   useEffect(() => {
+    const oldData = sessionStorage.getItem("users");
+    if (oldData) {
+      setUsers(JSON.parse(oldData));
+    }
     initialFn(store, setUsers, setFilterUser, setFilterRole);
 
     document.addEventListener("click", (e) => {

@@ -32,6 +32,10 @@ const ManageOrder = (Props: Props) => {
     store = useStore();
 
   useEffect(() => {
+    const oldData = sessionStorage.getItem("orders");
+    if (oldData) {
+      setOrders(JSON.parse(oldData));
+    }
     (async () => {
       const token = await store?.firebase.user?.getIdToken();
       const res = await fetchAPI<OrderInfo[]>("/api/order", {
@@ -43,6 +47,7 @@ const ManageOrder = (Props: Props) => {
       if (res.data) {
         setOrders(res.data);
         setFilterOrder("All");
+        sessionStorage.setItem("orders", JSON.stringify(res.data));
       } else {
         handleError(res, store?.State!);
       }

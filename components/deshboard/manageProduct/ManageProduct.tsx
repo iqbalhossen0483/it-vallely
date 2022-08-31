@@ -54,6 +54,10 @@ const ManageProduct = ({ setValue }: Props) => {
 
   //fetch data;
   useEffect(() => {
+    const oldData = sessionStorage.getItem("products");
+    if (oldData) {
+      setProducts(JSON.parse(oldData));
+    }
     initialFn(setProducts, setCategories, store?.State!, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store?.State.update]);
@@ -224,13 +228,15 @@ const ManageProduct = ({ setValue }: Props) => {
           )}
         </TableBody>
       </Table>
-      <div className=' mt-5 flex justify-center'>
-        <Pagination
-          onChange={(e, page) => handlePagination(page - 1)}
-          count={Math.ceil(products.count ? products.count / 10 : 1)}
-          color='primary'
-        />
-      </div>
+      {products.count && (
+        <div className=' mt-5 flex justify-center'>
+          <Pagination
+            onChange={(e, page) => handlePagination(page - 1)}
+            count={Math.ceil(products.count ? products.count / 10 : 1)}
+            color='primary'
+          />
+        </div>
+      )}
     </div>
   );
 };

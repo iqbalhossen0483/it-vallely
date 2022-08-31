@@ -13,10 +13,15 @@ function BannerCustomization() {
   const store = useStore();
 
   useEffect(() => {
+    const oldData = sessionStorage.getItem("banner");
+    if (oldData) {
+      setBannerImages(JSON.parse(oldData));
+    }
     (async () => {
       const res = await fetchAPI<BannerImg[]>("/api/banner");
       if (res.data) {
         setBannerImages(res.data);
+        sessionStorage.setItem("banner", JSON.stringify(res.data));
       } else {
         handleError(res, store?.State!);
       }
@@ -77,6 +82,7 @@ function BannerCustomization() {
 
   return (
     <Banner_Slider
+      title='banner'
       data={bannerImages}
       submitFn={onSubmit}
       deleteFn={deleteSliderImage}
