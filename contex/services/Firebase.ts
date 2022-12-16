@@ -35,6 +35,7 @@ function Firebase(): FirebaseReturn {
           if (res.ok) {
             const { role }: { role: UserRoles } = await res.json();
             setUserRole(role);
+            console.log(role);
           }
         } catch (err) {
           setUserRole("User");

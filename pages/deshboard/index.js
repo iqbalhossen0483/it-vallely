@@ -1,6 +1,6 @@
 import React, { lazy, useEffect, useState } from "react";
 import SideMenus from "../../components/deshboard/SideMenus";
-import Deshboard from "../../components/deshboard/Deshboard";
+import Deshboard from "../../components/deshboard/Deshboard/Deshboard";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { useRouter } from "next/router";
 import AddProduct from "../../components/deshboard/addProdust/AddProduct";

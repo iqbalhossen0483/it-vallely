@@ -14,6 +14,19 @@
   }
 
   /*------------------- 
+  main desshboard page
+  -------------------- */
+  .dashboard-items-container {
+    @apply border shadow-md rounded;
+  }
+  .dashboard-items-container h3 {
+    @apply border-b bg-mui text-white px-5 py-2 rounded-t;
+  }
+  .dashboard-items-container div {
+    @apply p-2 flex justify-between gap-4;
+  }
+
+  /*------------------- 
   product-input-form-container
   -------------------- */
   .product-input-form-container {

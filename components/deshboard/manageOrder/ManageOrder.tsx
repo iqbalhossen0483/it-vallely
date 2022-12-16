@@ -15,7 +15,6 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import Spinner from "../../shared/utilitize/Spinner";
 
 interface Props {
   loading: string;
