@@ -1,7 +1,9 @@
+import { firebase_server_init } from "../../serverServices/firebase-server/firebase_server_init";
 import { userVarification } from "../firebase-server/userVarification";
 import { NextApiRequest, NextApiResponse } from "next";
 import { serverError } from "../serverError";
 import admin from "firebase-admin";
+firebase_server_init();
 
 export async function getUser(req: NextApiRequest, res: NextApiResponse) {
   try {
