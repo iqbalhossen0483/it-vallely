@@ -7,6 +7,7 @@ import admin from "firebase-admin";
 export async function getUser(req: NextApiRequest, res: NextApiResponse) {
   try {
     firebase_server_init();
+
     if (req.query.uid) {
       const user = await admin.auth().getUser(req.query.uid as string);
       res.status(200).send({ role: user.customClaims?.role || "User" });
@@ -19,6 +20,6 @@ export async function getUser(req: NextApiRequest, res: NextApiResponse) {
     const userlist = await admin.auth().listUsers();
     res.status(200).send(userlist.users);
   } catch (err: any) {
-    serverError(res, { msg: err.message });
+    serverError(res, { msg: err.message + "app" + admin.app.length });
   }
 }
