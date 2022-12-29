@@ -3,10 +3,10 @@ import { userVarification } from "../firebase-server/userVarification";
 import { NextApiRequest, NextApiResponse } from "next";
 import { serverError } from "../serverError";
 import admin from "firebase-admin";
-firebase_server_init();
 
 export async function getUser(req: NextApiRequest, res: NextApiResponse) {
   try {
+    firebase_server_init();
     if (req.query.uid) {
       const user = await admin.auth().getUser(req.query.uid as string);
       res.status(200).send({ role: user.customClaims?.role || "User" });
