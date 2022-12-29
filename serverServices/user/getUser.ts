@@ -6,7 +6,6 @@ import admin from "firebase-admin";
 export async function getUser(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.query.uid) {
-      admin.initializeApp();
       const user = await admin.auth().getUser(req.query.uid as string);
       res.status(200).send({ role: user.customClaims?.role || "User" });
       return;
