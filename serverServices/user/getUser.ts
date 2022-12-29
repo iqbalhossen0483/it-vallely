@@ -12,14 +12,11 @@ export async function getUser(req: NextApiRequest, res: NextApiResponse) {
     }
 
     const { error } = await userVarification(req);
-    if (error) {
-      serverError(res, { msg: "user authentication failed", status: 401 });
-      return;
-    }
-    
+    if (error) throw { msg: "user authentication failed", status: 401 };
+
     const userlist = await admin.auth().listUsers();
     res.status(200).send(userlist.users);
-  } catch (err) {
-    serverError(res);
+  } catch (err: any) {
+    serverError(res, { msg: err.message });
   }
 }
