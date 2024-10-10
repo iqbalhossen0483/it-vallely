@@ -25,6 +25,7 @@ export default ProductDetailsLeyout;
 export async function getStaticPaths() {
   const { database } = await dbConnection();
   const productsCollection = database?.collection("products");
+  if (!productsCollection) return;
   const allProduct = await productsCollection.find().toArray();
   const paths = allProduct.map((item) => {
     return {
@@ -43,6 +44,7 @@ export async function getStaticProps(contex) {
   const { params } = contex;
   const { database } = await dbConnection();
   const productsCollection = database?.collection("products");
+  if (!productsCollection) return;
   const singleProduct = await productsCollection.findOne({
     _id: new ObjectId(params.id),
   });
