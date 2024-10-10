@@ -1,5 +1,4 @@
 import Image from "next/image";
-import React from "react";
 import Slider from "react-slick";
 
 const BannerSlider = ({ images }: { images: SliderImg[] | null }) => {
@@ -20,7 +19,6 @@ const BannerSlider = ({ images }: { images: SliderImg[] | null }) => {
               <Image
                 width={1000}
                 height={450}
-                layout='responsive'
                 priority={true}
                 src={item.imgUrl}
                 alt=''

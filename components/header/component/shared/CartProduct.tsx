@@ -1,10 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
-import useStore from "../../../../contex/hooks/useStore";
 import CloseIcon from "@mui/icons-material/Close";
-import { useRouter } from "next/router";
 import { Button } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import useStore from "../../../../contex/hooks/useStore";
 
 type Props = { setShowCart: Dispatch<SetStateAction<boolean>> };
 
@@ -40,7 +40,7 @@ const CartProduct = ({ setShowCart }: Props) => {
                 alt=''
               />
               <Link href={`/shop/${product._id}`}>
-                <a>{product.name.slice(0, 28)}...</a>
+                {product.name.slice(0, 28)}...
               </Link>
               <CloseIcon
                 onClick={() => {

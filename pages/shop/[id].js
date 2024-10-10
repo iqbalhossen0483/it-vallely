@@ -1,8 +1,8 @@
-import ProductDeatails from "../../components/productDetails/ProductDeatails";
-import { dbConnection } from "../../serverServices/mongodb/dbConnection";
 import { ObjectId } from "mongodb";
 import { useRouter } from "next/router";
+import ProductDeatails from "../../components/productDetails/ProductDeatails";
 import Spinner from "../../components/shared/Spinner";
+import { dbConnection } from "../../serverServices/mongodb/dbConnection";
 
 const ProductDetailsLeyout = ({ data, error }) => {
   const router = useRouter();
@@ -44,7 +44,7 @@ export async function getStaticProps(contex) {
   const { database } = await dbConnection();
   const productsCollection = database?.collection("products");
   const singleProduct = await productsCollection.findOne({
-    _id: ObjectId(params.id),
+    _id: new ObjectId(params.id),
   });
 
   if (!singleProduct?._id) {

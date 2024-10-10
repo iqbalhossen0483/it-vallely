@@ -1,10 +1,10 @@
 import CircleIcon from "@mui/icons-material/Circle";
-import useStore from "../../contex/hooks/useStore";
 import { Button, ListItem } from "@mui/material";
-import { useRouter } from "next/router";
-import React, { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { FC } from "react";
+import useStore from "../../contex/hooks/useStore";
 
 type Props = { products: Product[] | null };
 
@@ -44,9 +44,7 @@ const ShopProducts: FC<Props> = ({ products }) => {
               alt=''
             />
             <div className='name'>
-              <Link href={`/shop/${product._id}`}>
-                <a>{product.name}</a>
-              </Link>
+              <Link href={`/shop/${product._id}`}>{product.name}</Link>
             </div>
             <div className='price'>
               <p className='curren'>

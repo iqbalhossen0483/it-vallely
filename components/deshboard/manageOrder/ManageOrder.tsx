@@ -1,10 +1,3 @@
-import useStore from "../../../contex/hooks/useStore";
-import React, { useEffect, useState } from "react";
-import Orders from "../../HOC/Orders";
-import {
-  fetchAPI,
-  handleError,
-} from "../../../clientServices/shared/sharedFunction";
 import {
   Button,
   MenuItem,
@@ -15,6 +8,13 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import {
+  fetchAPI,
+  handleError,
+} from "../../../clientServices/shared/sharedFunction";
+import useStore from "../../../contex/hooks/useStore";
+import Orders from "../../HOC/Orders";
 
 interface Props {
   loading: string;
@@ -116,7 +116,7 @@ const ManageOrder = (Props: Props) => {
                   Total Product: {order.products?.length}
                   <br />
                   {order.products?.map((product, index) => (
-                    <span key={index}>
+                    <div key={index}>
                       Code:{" "}
                       <b className='text-primary'>{product.productCode}</b>{" "}
                       <br />
@@ -129,7 +129,7 @@ const ManageOrder = (Props: Props) => {
                             <br /> <br />
                           </>
                         )}
-                    </span>
+                    </div>
                   ))}
                 </TableCell>
                 <TableCell>

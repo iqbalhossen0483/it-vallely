@@ -1,10 +1,10 @@
 import AddLocationAltOutlinedIcon from "@mui/icons-material/AddLocationAltOutlined";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import useStore from "../../../../../contex/hooks/useStore";
 import LogoutIcon from "@mui/icons-material/Logout";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import Image from "next/image";
 import Link from "next/link";
+import useStore from "../../../../../contex/hooks/useStore";
 
 const TopInfo = () => {
   const store = useStore();
@@ -22,16 +22,10 @@ const TopInfo = () => {
       <p>Welcome to It vallely!</p>
       <div className='right'>
         <p className='hidden md:block'>
-          <AddLocationAltOutlinedIcon />{" "}
-          <Link href='/contact'>
-            <a>Contacts</a>
-          </Link>
+          <AddLocationAltOutlinedIcon /> <Link href='/contact'>Contacts</Link>
         </p>
         <p className='hidden md:block'>
-          <HelpOutlineOutlinedIcon />{" "}
-          <Link href='/contact'>
-            <a>Need Help</a>
-          </Link>
+          <HelpOutlineOutlinedIcon /> <Link href='/contact'>Need Help</Link>
         </p>
         <div className='flex items-center gap-1'>
           {store?.firebase.user?.photoURL ? (
@@ -46,7 +40,7 @@ const TopInfo = () => {
             <PersonOutlineOutlinedIcon />
           )}
           <Link href={store?.firebase.user ? "/account" : "/login"}>
-            <a>{store?.firebase.user?.displayName || "Account"}</a>
+            {store?.firebase.user?.displayName || "Account"}
           </Link>
           {store?.firebase.user && (
             <LogoutIcon

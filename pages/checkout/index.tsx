@@ -1,14 +1,14 @@
+import { Button } from "@mui/material";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { fetchAPI } from "../../clientServices/shared/sharedFunction";
 import CustomerInfo from "../../components/checkout/CustomerInfo";
 import DelivaryInfo from "../../components/checkout/DelivaryInfo";
-import PaymentInfo from "../../components/checkout/PaymentInfo";
-import { fetchAPI } from "../../clientServices/shared/sharedFunction";
 import OrderReview from "../../components/checkout/OrderReview";
+import PaymentInfo from "../../components/checkout/PaymentInfo";
 import Input from "../../components/shared/utilitize/Input";
-import React, { useEffect, useRef, useState } from "react";
 import useStore from "../../contex/hooks/useStore";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
-import { Button } from "@mui/material";
 
 const Order = () => {
   const { register, handleSubmit, reset } = useForm<{ copon: string }>();

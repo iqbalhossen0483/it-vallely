@@ -1,5 +1,6 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { fetchAPI } from "../../../clientServices/shared/sharedFunction";
 
 type Props = {
@@ -7,7 +8,7 @@ type Props = {
   setData: (prev: Product) => void;
 };
 
-const RelatedProduct = ({ category, setData }: Props) => {
+const RelatedProduct = ({ category }: Props) => {
   const [products, setProducts] = useState<Product[] | null>(null);
 
   useEffect(() => {
@@ -26,13 +27,6 @@ const RelatedProduct = ({ category, setData }: Props) => {
     })();
   }, [category]);
 
-  async function handleRandomProduct(id: string) {
-    const product = await fetchAPI<Product>(`/api/product?id=${id}`);
-    if (product.data) {
-      setData(product.data);
-    }
-  }
-
   return (
     <div className='related-product-container'>
       <h3>Related Product</h3>
@@ -42,8 +36,8 @@ const RelatedProduct = ({ category, setData }: Props) => {
             <Image height={80} width={80} src={item.productImg.imgUrl} alt='' />
           </div>
           <div className='col-span-2'>
-            <p onClick={() => handleRandomProduct(item._id)} className='name'>
-              {item.name}
+            <p className='name'>
+              <Link href={`/shop/${item._id}`}>{item.name}</Link>
             </p>
             <p className='price'>{item.price}৳</p>
           </div>

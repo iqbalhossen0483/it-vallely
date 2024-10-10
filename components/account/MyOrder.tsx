@@ -1,13 +1,3 @@
-import Refreshing from "../shared/utilitize/Refreshing";
-import useStore from "../../contex/hooks/useStore";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import Orders from "../HOC/Orders";
-import Image from "next/image";
-import {
-  fetchAPI,
-  handleError,
-} from "../../clientServices/shared/sharedFunction";
 import {
   Button,
   Table,
@@ -16,6 +6,16 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import {
+  fetchAPI,
+  handleError,
+} from "../../clientServices/shared/sharedFunction";
+import useStore from "../../contex/hooks/useStore";
+import Orders from "../HOC/Orders";
+import Refreshing from "../shared/utilitize/Refreshing";
 
 interface Props {
   value: number;
@@ -91,13 +91,13 @@ const MyOrder = (Props: Props) => {
                 <p>
                   <b>Product code:</b>{" "}
                   {item.products?.map((i) => (
-                    <span key={i._id}>{i.productCode}, </span>
+                    <span key={i._id}>{i.productCode + " ,"}</span>
                   ))}
                 </p>
                 <p>
                   <b>Name:</b>{" "}
                   {item.products?.map((i) => (
-                    <span
+                    <p
                       key={i._id}
                       className='link'
                       onClick={() => router.push(`/shop/${i._id}`)}
@@ -105,8 +105,7 @@ const MyOrder = (Props: Props) => {
                       {i.name.length > 50
                         ? i.name.slice(0, 50) + "..."
                         : i.name}
-                      <br />
-                    </span>
+                    </p>
                   ))}
                 </p>
               </TableCell>

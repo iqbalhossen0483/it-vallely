@@ -1,7 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
 
 const Banner = ({ images }: { images: BannerImg[] }) => {
   const router = useRouter();
@@ -13,7 +11,6 @@ const Banner = ({ images }: { images: BannerImg[] }) => {
             width={200}
             height={100}
             priority={true}
-            layout='responsive'
             src={banner.imgUrl}
             alt='banner image'
           />

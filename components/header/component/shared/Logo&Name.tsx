@@ -6,8 +6,8 @@ const LogoName = () => {
   return (
     <div className='logo-and-name'>
       <Image
-        width={"48px"}
-        height={"48px"}
+        width={48}
+        height={48}
         priority={true}
         className='logo'
         src='https://i.ibb.co/ZYgSW6L/IMG-20220218-WA0000-removebg-preview.png'

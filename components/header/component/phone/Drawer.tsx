@@ -1,13 +1,13 @@
-import ContactPageIcon from "@mui/icons-material/ContactPage";
-import { Button, Collapse, SwipeableDrawer } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { FC, Fragment, useState } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
+import ContactPageIcon from "@mui/icons-material/ContactPage";
 import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
-import ViewListIcon from "@mui/icons-material/ViewList";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ViewListIcon from "@mui/icons-material/ViewList";
+import { Button, Collapse, SwipeableDrawer } from "@mui/material";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { FC, Fragment, useState } from "react";
 import useStore from "../../../../contex/hooks/useStore";
 
 interface Props {
@@ -56,9 +56,7 @@ const Drawer: FC<Props> = ({ open, setDrawer }) => {
               onClick={() => handleClose(menu.name)}
             >
               <menu.icon />
-              <Link href={menu.href}>
-                <a>{menu.name}</a>
-              </Link>
+              <Link href={menu.href}>{menu.name}</Link>
               {menu.subMeus && !openSubMenu && <ExpandMore />}
               {menu.subMeus && openSubMenu && <ExpandLess />}
             </Button>

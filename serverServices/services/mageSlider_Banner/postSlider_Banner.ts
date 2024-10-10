@@ -15,37 +15,27 @@ export async function postSlider_Banner(
   try {
     const varication = await userVarification(req);
     if (varication.error) {
-      return res.status(401).send({ message: "user authentication failed" });
+      throw { message: "user authentication failed" };
     }
 
     //multer for body persing;
     const { error, file } = await singleFileBodyParser(req, res, "file");
-    if (!error) {
-      // img upload
-      const { error, result } = await imageUpload(
-        file.path,
-        `it-vallely/${imgFolder}`,
-        200,
-        300
-      );
-      if (!error) {
-        req.body.imgUrl = result.secure_url;
-        req.body.imgId = result.public_id;
-        dbCollection.insertOne(req.body, async (err, result) => {
-          if (!err) {
-            return res.status(200).send(result);
-          } else {
-            await deleteImage(req.body.imgId);
-            return serverError(res);
-          }
-        });
-      } else {
-        return serverError(res);
-      }
-    } else {
-      return serverError(res);
-    }
+    if (error) throw { message: "Internal error" };
+    // img upload
+    const image = await imageUpload(
+      file.path,
+      `it-vallely/${imgFolder}`,
+      200,
+      300
+    );
+    if (image.error) throw { message: "Internal error" };
+
+    req.body.imgUrl = image.result.secure_url;
+    req.body.imgId = image.result.public_id;
+    const dbres = await dbCollection.insertOne(req.body);
+    res.status(200).send(dbres);
   } catch (error) {
+    deleteImage(req.body.imgId);
     serverError(res);
   }
 }
