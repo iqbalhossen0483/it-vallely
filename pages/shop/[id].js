@@ -23,41 +23,50 @@ export default ProductDetailsLeyout;
 
 //next js functions;
 export async function getStaticPaths() {
-  const { database } = await dbConnection();
-  const productsCollection = database?.collection("products");
-  if (!productsCollection) return;
-  const allProduct = await productsCollection.find().toArray();
-  const paths = allProduct.map((item) => {
+  try {
+    const { database } = await dbConnection();
+    const productsCollection = database?.collection("products");
+    if (!productsCollection) throw { message: "No products collection" };
+    const allProduct = await productsCollection.find().toArray();
+    const paths = allProduct.map((item) => {
+      return {
+        params: {
+          id: item._id.toString(),
+        },
+      };
+    });
     return {
-      params: {
-        id: item._id.toString(),
-      },
+      paths,
+      fallback: true,
     };
-  });
-  return {
-    paths,
-    fallback: true,
-  };
+  } catch (error) {
+    return {
+      paths: [],
+      fallback: true,
+    };
+  }
 }
 
 export async function getStaticProps(contex) {
-  const { params } = contex;
-  const { database } = await dbConnection();
-  const productsCollection = database?.collection("products");
-  if (!productsCollection) return;
-  const singleProduct = await productsCollection.findOne({
-    _id: new ObjectId(params.id),
-  });
+  try {
+    const { params } = contex;
+    const { database } = await dbConnection();
+    const productsCollection = database?.collection("products");
+    if (!productsCollection) throw { message: "No products collection" };
+    const singleProduct = await productsCollection.findOne({
+      _id: new ObjectId(params.id),
+    });
 
-  if (!singleProduct?._id) {
+    if (!singleProduct?._id) throw { message: "No product" };
+    return {
+      props: {
+        data: JSON.parse(JSON.stringify(singleProduct)),
+      },
+      revalidate: 10,
+    };
+  } catch (error) {
     return {
       notFound: true,
     };
   }
-  return {
-    props: {
-      data: JSON.parse(JSON.stringify(singleProduct)),
-    },
-    revalidate: 10,
-  };
 }
