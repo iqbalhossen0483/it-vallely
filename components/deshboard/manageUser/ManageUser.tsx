@@ -1,17 +1,15 @@
-import { UserRecord } from "firebase-admin/lib/auth/user-record";
-import React, { useEffect, useRef, useState } from "react";
 import { Table } from "@mui/material";
-import useStore from "../../../contex/hooks/useStore";
-import { useForm } from "react-hook-form";
-import Spinner from "../../shared/Spinner";
-import { initialFn } from "../../../clientServices/manageUser/initialFn";
-import { updateUserRole } from "../../../clientServices/manageUser/updateUserRole";
-import { disableAndEnable } from "../../../clientServices/manageUser/disableAndEnable";
+import { UserRecord } from "firebase-admin/lib/auth/user-record";
+import { useEffect, useRef, useState } from "react";
 import { addUser, AddUser } from "../../../clientServices/manageUser/addUser";
 import { deleteUser } from "../../../clientServices/manageUser/deleteUser";
-import TableHeader from "./component/TableHeader";
-import Body from "./component/Body";
+import { disableAndEnable } from "../../../clientServices/manageUser/disableAndEnable";
+import { initialFn } from "../../../clientServices/manageUser/initialFn";
+import { updateUserRole } from "../../../clientServices/manageUser/updateUserRole";
+import useStore from "../../../contex/hooks/useStore";
 import AddUserForm from "./component/AddUser";
+import Body from "./component/Body";
+import TableHeader from "./component/TableHeader";
 
 const ManageUser = () => {
   const [filterUser, setFilterUser] = useState<UserRecord[] | null>(null),
@@ -53,7 +51,7 @@ const ManageUser = () => {
     const filtered = users?.filter((user) =>
       user.customClaims?.role
         ? user.customClaims.role === role
-        : "User" === role
+        : "user" === role
     );
     setFilterUser(filtered || null);
   }

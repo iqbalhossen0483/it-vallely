@@ -48,5 +48,5 @@ interface FirebaseReturn {
   resetPassword: (email: string) => Promise<{ error: boolean }>;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
-  userRole: UserRoles | null;
+  userRole: UserRoles;
 }

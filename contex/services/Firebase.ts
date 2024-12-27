@@ -1,25 +1,25 @@
 import { initializeApp } from "firebase/app";
-import firebaseConfig from "../firebase/firebase.confiq";
 import {
   GoogleAuthProvider,
-  getAuth,
-  signInWithPopup,
   User,
   createUserWithEmailAndPassword,
-  updateProfile,
-  signInWithEmailAndPassword,
+  getAuth,
   onAuthStateChanged,
-  signOut,
   sendEmailVerification,
   sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
 } from "firebase/auth";
-import { FirebaseReturn } from "../contex-type";
 import { useEffect, useState } from "react";
+import { FirebaseReturn } from "../contex-type";
+import firebaseConfig from "../firebase/firebase.confiq";
 
 initializeApp(firebaseConfig);
 
 function Firebase(): FirebaseReturn {
-  const [userRole, setUserRole] = useState<UserRoles>("User");
+  const [userRole, setUserRole] = useState<UserRoles>("user");
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User | null>(null);
   const googleprovider = new GoogleAuthProvider();
@@ -37,7 +37,7 @@ function Firebase(): FirebaseReturn {
             setUserRole(role);
           }
         } catch (err) {
-          setUserRole("User");
+          setUserRole("user");
         }
       }
       setLoading(false);

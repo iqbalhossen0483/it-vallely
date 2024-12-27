@@ -1,11 +1,10 @@
-import { TableBody, TableRow, TableCell, Button } from "@mui/material";
-import { UserRecord } from "firebase-admin/lib/auth/user-record";
-import ToggleOffIcon from "@mui/icons-material/ToggleOff";
-import useStore from "../../../../contex/hooks/useStore";
-import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import React from "react";
+import ToggleOffIcon from "@mui/icons-material/ToggleOff";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+import { Button, TableBody, TableCell, TableRow } from "@mui/material";
+import { UserRecord } from "firebase-admin/lib/auth/user-record";
+import useStore from "../../../../contex/hooks/useStore";
 
 interface Props {
   filterUser: UserRecord[] | null;
@@ -42,7 +41,7 @@ const Body = (props: Props) => {
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.emailVerified ? "True" : "False"}</TableCell>
               <TableCell align='center'>
-                <b>{user.customClaims?.role || "User"}</b>
+                <b>{user.role || "user"}</b>
                 <div className='flex gap-1'>
                   <Button onClick={() => handleForm(index)} variant='outlined'>
                     <EditIcon />
@@ -82,19 +81,19 @@ const Body = (props: Props) => {
                 <TableCell className='edit-form'>
                   <Button
                     disabled={store?.State.loading}
-                    onClick={() => handleupdateUserRole(user.uid, "Admin")}
+                    onClick={() => handleupdateUserRole(user.uid, "admin")}
                   >
                     Admin
                   </Button>
                   <Button
                     disabled={store?.State.loading}
-                    onClick={() => handleupdateUserRole(user.uid, "Manager")}
+                    onClick={() => handleupdateUserRole(user.uid, "manager")}
                   >
                     Manager
                   </Button>
                   <Button
                     disabled={store?.State.loading}
-                    onClick={() => handleupdateUserRole(user.uid, "User")}
+                    onClick={() => handleupdateUserRole(user.uid, "user")}
                   >
                     User
                   </Button>

@@ -1,12 +1,15 @@
-import { userVarification } from "../firebase-server/userVarification";
-import { profileUpload } from "../cloudinary/upload/profileUpload";
 import { deleteImage } from "../cloudinary/shared/deleteImage";
+import { profileUpload } from "../cloudinary/upload/profileUpload";
+import { firebase_server_init } from "../firebase-server/firebase_server_init";
+import { userVarification } from "../firebase-server/userVarification";
 import { serverError } from "../serverError";
 import { bodyPerse } from "./bodyPerser";
-import admin from "firebase-admin";
 
 export async function updateUser(req, res) {
   try {
+    const admin = firebase_server_init();
+    const db = admin.firestore();
+
     //multer for body persing;
     const multer = await bodyPerse(req, res);
     if (multer.error) return serverError(res);
@@ -19,23 +22,26 @@ export async function updateUser(req, res) {
     }
     //user's account enable;
     if (req.query.enable) {
-      await admin.auth().updateUser(req.body.uid, {
+      const userDocRef = db.collection("users").doc(req.body.uid);
+      await userDocRef.update({
         disabled: false,
       });
     }
 
     //user's account disabled
     if (req.query.disable) {
-      await admin.auth().updateUser(req.body.uid, {
+      const userDocRef = db.collection("users").doc(req.body.uid);
+      await userDocRef.update({
         disabled: true,
       });
     }
 
     //make a user's role update;
     if (req.body.newRole) {
-      await admin
-        .auth()
-        .setCustomUserClaims(req.body.uid, { role: req.body.newRole });
+      const userDocRef = db.collection("users").doc(req.body.uid);
+      await userDocRef.update({
+        role: req.body.newRole,
+      });
     }
 
     //user profile update;

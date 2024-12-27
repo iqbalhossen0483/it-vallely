@@ -69,4 +69,4 @@ type OrderInfo = {
 
 type OrderStatus = "Pending" | "Approved" | "Cenceled" | "Delivered";
 
-type UserRoles = "User" | "Admin" | "Manager";
+type UserRoles = "user" | "admin" | "manager";

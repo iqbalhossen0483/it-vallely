@@ -10,7 +10,7 @@ const AdminRoute = ({ children }: { children: React.ReactNode }) => {
     if (!store?.firebase.user && !store?.firebase.loading) {
       router.push("/login");
     } else if (
-      store?.firebase.userRole === "User" &&
+      store?.firebase.userRole === "user" &&
       !store?.firebase.loading
     ) {
       router.push("/");
@@ -19,7 +19,7 @@ const AdminRoute = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      {store?.firebase.userRole && store?.firebase.userRole !== "User" ? (
+      {store?.firebase.userRole && store?.firebase.userRole !== "user" ? (
         children
       ) : (
         <Spinner />
