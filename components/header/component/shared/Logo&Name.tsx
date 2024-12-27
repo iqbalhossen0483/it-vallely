@@ -10,7 +10,7 @@ const LogoName = () => {
         height={48}
         priority={true}
         className='logo'
-        src='https://i.ibb.co/ZYgSW6L/IMG-20220218-WA0000-removebg-preview.png'
+        src='/logo.webp'
         alt=''
       />
       <div onClick={() => route.push("/")} className='site-name'>

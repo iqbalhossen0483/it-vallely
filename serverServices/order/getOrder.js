@@ -4,6 +4,7 @@ import { serverError } from "../serverError";
 export async function getOrder(req, res, orders) {
   try {
     const { error } = await userVarification(req);
+
     if (error) {
       res.status(401).send({ message: "user authentication failed" });
     } else {

@@ -19,7 +19,7 @@ export async function postOrder(req, res, orders, products) {
       //update corosponding product order;
       for (const product of req.body.products) {
         await products.updateOne(
-          { _id: ObjectId(product._id) },
+          { _id: new ObjectId(product._id) },
           { $set: { orderPending: product.quantity } }
         );
       }

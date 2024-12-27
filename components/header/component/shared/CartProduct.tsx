@@ -39,10 +39,12 @@ const CartProduct = ({ setShowCart }: Props) => {
                 src={product.productImg.imgUrl}
                 alt=''
               />
-              <Link href={`/shop/${product._id}`}>
-                {product.name.slice(0, 28)}...
-              </Link>
-              <CloseIcon
+              <div>
+                <Link className='two-line-text' href={`/shop/${product._id}`}>
+                  {product.name}
+                </Link>
+              </div>
+              <button
                 onClick={() => {
                   store?.Carts.deleteCart(product._id, product.price);
                   store?.State.setAlert({
@@ -50,7 +52,9 @@ const CartProduct = ({ setShowCart }: Props) => {
                     type: "success",
                   });
                 }}
-              />
+              >
+                <CloseIcon />
+              </button>
             </div>
           ))}
           <Button

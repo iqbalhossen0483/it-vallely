@@ -1,5 +1,5 @@
-import { serverError } from "../../serverError";
 import { ObjectId } from "mongodb";
+import { serverError } from "../../serverError";
 
 const allProductData = {
   _id: 1,
@@ -28,7 +28,7 @@ export async function getProduct(req, res, products) {
       if (req.query.multipleId) {
         const allId = [];
         req.query.id.split("|").forEach((id) => {
-          allId.push(ObjectId(id));
+          allId.push(new ObjectId(id));
         });
         const multipleIdProduct = await products
           .find({ _id: { $in: allId } })
@@ -38,7 +38,7 @@ export async function getProduct(req, res, products) {
       // send single product;
       else {
         const singleProduct = await products.findOne({
-          _id: ObjectId(req.query.id),
+          _id: new ObjectId(req.query.id),
         });
         res.status(200).send(singleProduct);
       }

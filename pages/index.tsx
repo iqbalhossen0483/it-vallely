@@ -1,11 +1,11 @@
-import { dbConnection } from "../serverServices/mongodb/dbConnection";
-import ShopProducts from "../components/shared/ShopProducts";
-import BannerSlider from "../components/home/BannerSlider";
-import Cart from "../components/shared/utilitize/Cart";
-import Categories from "../components/home/Categories";
-import Banner from "../components/home/Banner";
-import useStore from "../contex/hooks/useStore";
 import { useEffect } from "react";
+import Banner from "../components/home/Banner";
+import BannerSlider from "../components/home/BannerSlider";
+import Categories from "../components/home/Categories";
+import ShopProducts from "../components/shared/ShopProducts";
+import Cart from "../components/shared/utilitize/Cart";
+import useStore from "../contex/hooks/useStore";
+import { dbConnection } from "../serverServices/mongodb/dbConnection";
 
 type Props = {
   products: Product[];

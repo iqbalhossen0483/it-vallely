@@ -31,7 +31,17 @@
   .link {
     @apply cursor-pointer hover:text-mui;
   }
+  .two-line-text {
+    @apply text-left;
+  }
 }
 * {
   font-family: "Roboto", sans-serif;
+}
+.two-line-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -1,8 +1,7 @@
 import Image from "next/image";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Banner = ({ images }: { images: BannerImg[] }) => {
-  const router = useRouter();
   return (
     <div className='banner'>
       {images.map((banner, index) => (
@@ -14,12 +13,12 @@ const Banner = ({ images }: { images: BannerImg[] }) => {
             src={banner.imgUrl}
             alt='banner image'
           />
-          <div
-            onClick={() => router.push(banner.link)}
+          <Link
+            href={`${process.env.NEXT_PUBLIC_SERVER_URL}${banner.link}`}
             className='hightight-btn'
           >
-            <p>Shop Now</p>
-          </div>
+            Shop Now
+          </Link>
         </div>
       ))}
     </div>

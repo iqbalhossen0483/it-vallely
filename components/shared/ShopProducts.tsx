@@ -13,6 +13,7 @@ const ShopProducts: FC<Props> = ({ products }) => {
   const router = useRouter();
 
   function handlecartProduct(id: string, price: number) {
+    console.log({ id, price });
     const isAdded = store?.Carts.Add(id, price);
     if (isAdded.message === "success") {
       store?.Carts.setCartProduct((prev) => {

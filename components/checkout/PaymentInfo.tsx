@@ -27,12 +27,7 @@ const PaymentInfo = ({ setPaymentMethod }: Props) => {
         ))}
       </RadioGroup>
       <p className='font-semibold'>We accept:</p>
-      <Image
-        height={20}
-        width={350}
-        src='https://i.ibb.co/1JjPXRx/card-logo.png'
-        alt=''
-      />
+      <Image height={20} width={350} src='/card-logo.webp' alt='' />
     </div>
   );
 };
