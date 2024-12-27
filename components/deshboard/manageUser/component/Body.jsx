@@ -3,23 +3,22 @@ import EditIcon from "@mui/icons-material/Edit";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import { Button, TableBody, TableCell, TableRow } from "@mui/material";
-import { UserRecord } from "firebase-admin/lib/auth/user-record";
 import useStore from "../../../../contex/hooks/useStore";
 
-interface Props {
-  filterUser: UserRecord[] | null;
-  handleForm(index: number): void;
-  handledeleteUser(uid: string): Promise<void>;
-  handledisableAndEnable(
-    uid: string,
-    value: "enable" | "disable"
-  ): Promise<void>;
-  loading: boolean;
-  updateUserForm: number;
-  handleupdateUserRole(uid: string, newRole: UserRoles): Promise<void>;
-}
+// interface Props {
+//   filterUser: UserRecord[] | null;
+//   handleForm(index: number): void;
+//   handledeleteUser(uid: string): Promise<void>;
+//   handledisableAndEnable(
+//     uid: string,
+//     value: "enable" | "disable"
+//   ): Promise<void>;
+//   loading: boolean;
+//   updateUserForm: number;
+//   handleupdateUserRole(uid: string, newRole: UserRoles): Promise<void>;
+// }
 
-const Body = (props: Props) => {
+const Body = (props) => {
   const {
     filterUser,
     handleForm,
