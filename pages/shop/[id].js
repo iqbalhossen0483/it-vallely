@@ -16,6 +16,7 @@ const ProductDetailsLeyout = ({ data, error }) => {
       </div>
     );
   }
+
   return <ProductDeatails data={data} />;
 };
 

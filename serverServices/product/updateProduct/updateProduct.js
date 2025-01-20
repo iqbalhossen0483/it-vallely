@@ -1,9 +1,9 @@
-import { bodyPerse } from "../addProduct/services/bodyPerser";
-import { serverError } from "../../serverError";
 import { ObjectId } from "mongodb";
-import { imageUpload } from "../../cloudinary/shared/imageUpload";
 import { deleteImage } from "../../cloudinary/shared/deleteImage";
+import { imageUpload } from "../../cloudinary/shared/imageUpload";
 import { userVarification } from "../../firebase-server/userVarification";
+import { serverError } from "../../serverError";
+import { bodyPerse } from "../addProduct/services/bodyPerser";
 
 export async function updateProduct(req, res, product, orders) {
   try {
@@ -40,7 +40,7 @@ export async function updateProduct(req, res, product, orders) {
         if (isAnyOrder.length) {
           await isAnyOrder.forEach((order) => {
             orders.updateOne(
-              { _id: ObjectId(order._id) },
+              { _id: new ObjectId(order._id) },
               { $push: { willDeleteImg: req.body.productImg.imgId } }
             );
           });
@@ -83,7 +83,7 @@ export async function updateProduct(req, res, product, orders) {
         req.body.productImgGallery = productImgGallery;
       }
       const result = await product.updateOne(
-        { _id: ObjectId(id) },
+        { _id: new ObjectId(id) },
         { $set: req.body }
       );
       res.send(result);

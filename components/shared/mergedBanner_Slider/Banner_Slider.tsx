@@ -1,11 +1,11 @@
-import React, { ReactNode, useEffect, useRef, useState } from "react";
-import InsertLinkIcon from "@mui/icons-material/InsertLink";
-import useStore from "../../../contex/hooks/useStore";
 import AddIcon from "@mui/icons-material/Add";
-import { useForm } from "react-hook-form";
-import Input from "../utilitize/Input";
+import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import { Button } from "@mui/material";
 import Image from "next/image";
+import { ReactNode, useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import useStore from "../../../contex/hooks/useStore";
+import Input from "../utilitize/Input";
 
 type T = SliderImg | BannerImg;
 type Props = {
@@ -57,9 +57,9 @@ const Banner_Slider = (props: Props) => {
           hidden={!showForm}
           className='slider-customize-form'
         >
-          {title === "banner" && data.length > 1 ? (
+          {title === "banner" && data.length > 3 ? (
             <div>
-              <p className='text-gray-800'>2 Banner images are already added</p>
+              <p className='text-gray-800'>4 Banner images are already added</p>
             </div>
           ) : (
             <>

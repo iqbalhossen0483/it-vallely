@@ -18,7 +18,8 @@ const BannerSlider = ({ images }: { images: SliderImg[] | null }) => {
             <div key={item._id}>
               <Image
                 width={1000}
-                height={450}
+                height={400}
+                className='object-contain'
                 priority={true}
                 src={item.imgUrl}
                 alt=''

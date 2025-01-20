@@ -19,7 +19,7 @@ export async function updateOrder(req, res, order) {
         return;
       }
       const result = await order.updateOne(
-        { _id: ObjectId(req.body.id) },
+        { _id: new ObjectId(req.body.id) },
         { $set: { status: req.body.status } }
       );
       res.send(result);
